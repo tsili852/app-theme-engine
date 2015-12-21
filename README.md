@@ -134,6 +134,10 @@ public class MyFragment extends Fragment {
 }
 ```
 
+#### Task Description (Recents)
+
+You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will be themed to your primary color automatically.
+
 #### Overflow Menu Widgets
 
 If you have checkboxes or radio buttons in your Toolbar's overflow menu, you can tint them to your accent 
