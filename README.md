@@ -138,6 +138,20 @@ public class MyFragment extends Fragment {
 
 You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will be themed to your primary color automatically.
 
+But, *if you want different Activities to have different task description colors*, e.g. in an app that 
+uses different colors on every screen, you can implement `ATETaskDescriptionCustomizer`.
+
+```java
+public class MyActivity extends AppCompatActivity implements ATETaskDescriptionCustomizer {
+    
+    @ColorInt
+    @Override
+    public int getTaskDescriptionColor() {
+        return Color.RED; // return whatever you want here
+    }
+}
+```
+
 #### Overflow Menu Widgets
 
 If you have checkboxes or radio buttons in your Toolbar's overflow menu, you can tint them to your accent 

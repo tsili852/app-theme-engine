@@ -271,11 +271,14 @@ public final class ATE {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void applyTaskDescription(@NonNull Activity activity) {
+        final int color = activity instanceof ATETaskDescriptionCustomizer ?
+                ((ATETaskDescriptionCustomizer) activity).getTaskDescriptionColor() :
+                Config.primaryColor(activity);
         // Sets color of entry in the system recents page
         ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(
                 (String) activity.getTitle(),
                 ((BitmapDrawable) activity.getApplicationInfo().loadIcon(activity.getPackageManager())).getBitmap(),
-                Config.primaryColor(activity));
+                color);
         activity.setTaskDescription(td);
     }
 
