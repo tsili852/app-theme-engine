@@ -163,6 +163,7 @@ public final class ATE extends ATEBase {
         Log.d("ATE", String.format("Theme engine applied in %dms (%d seconds).", diff, diff / 1000));
     }
 
+    @Deprecated
     public static Config config(@NonNull Context context) {
         return config(context, null);
     }
@@ -171,6 +172,7 @@ public final class ATE extends ATEBase {
         return new Config(context, key);
     }
 
+    @Deprecated
     public static boolean didValuesChange(@NonNull Context context, long updateTime) {
         return didValuesChange(context, updateTime, null);
     }
@@ -179,6 +181,7 @@ public final class ATE extends ATEBase {
         return ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime;
     }
 
+    @Deprecated
     public static void preApply(@NonNull Activity activity) {
         preApply(activity, null);
     }
@@ -202,6 +205,7 @@ public final class ATE extends ATEBase {
         }
     }
 
+    @Deprecated
     public static void apply(@NonNull View view) {
         apply(view, null);
     }
@@ -212,6 +216,7 @@ public final class ATE extends ATEBase {
         apply(view.getContext(), view, key);
     }
 
+    @Deprecated
     public static void apply(@NonNull Context context, @NonNull View view) {
         apply(context, view, null);
     }
@@ -223,6 +228,7 @@ public final class ATE extends ATEBase {
             apply(context, (ViewGroup) view, key);
     }
 
+    @Deprecated
     public static void apply(@NonNull Activity activity) {
         apply(activity, (String) null);
     }
@@ -255,6 +261,7 @@ public final class ATE extends ATEBase {
         didPreApply = null;
     }
 
+    @Deprecated
     public static void apply(@NonNull android.support.v4.app.Fragment fragment) {
         apply(fragment, null);
     }
@@ -269,6 +276,7 @@ public final class ATE extends ATEBase {
             apply(fragment.getActivity(), key);
     }
 
+    @Deprecated
     public static void apply(@NonNull android.app.Fragment fragment) {
         apply(fragment, null);
     }
@@ -296,6 +304,7 @@ public final class ATE extends ATEBase {
         activity.setTaskDescription(td);
     }
 
+    @Deprecated
     public static void applyMenu(final @NonNull Toolbar mToolbar) {
         applyMenu(mToolbar, null);
     }
