@@ -36,7 +36,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
-        final Config config = ATE.config(this, null);
+        final Config config = ATE.config(this, getATEKey());
         switch (dialog.getTitle()) {
             case R.string.primary_color:
                 config.primaryColor(selectedColor);
