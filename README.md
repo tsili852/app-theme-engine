@@ -18,7 +18,7 @@ Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/
     2. [Keys](https://github.com/afollestad/app-theme-engine#keys)
     3. [Default Configuration](https://github.com/afollestad/app-theme-engine#default-configuration)
     4. [Value Retrieval](https://github.com/afollestad/app-theme-engine#value-retrieval)
-    5. [ATEStatusBarCustomizer](https://github.com/afollestad/app-theme-engine#atestatusbarcustomizer)
+    5. [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
 3. [Applying](https://github.com/afollestad/app-theme-engine#applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
@@ -83,17 +83,18 @@ Here are a few configuration methods that can be used:
 
 ```java
 ATE.config(this, null) // context, optional key
+    .coloredActionBar(true)
     .primaryColor(color)
+    .autoGeneratePrimaryDark(true) // when true, primaryColorDark is auto generated from primaryColor
     .primaryColorDark(color)
     .accentColor(color)
-    .statusBarColor(color) // by default, is equal to whatever primaryColorDark is set to
+    .coloredStatusBar(true)
+    .statusBarColor(color) // by default, is equal to primaryColorDark unless coloredStatusBar is false
+    .coloredNavigationBar(false)
+    .navigationBarColor(color) // by default, is equal to primaryColor unless coloredNavigationBar is false
     .textColorPrimary(color)
     .textColorSecondary(color)
-    .coloredStatusBar(true)
-    .coloredActionBar(true)
-    .coloredNavigationBar(false)
-    .autoGeneratePrimaryDark(true) // primaryColorDark will be auto generated every time primaryColor is set
-    .navigationViewThemed(true)
+    .navigationViewThemed(true) // enables or disables the next 4 values
     .navigationViewSelectedIcon(color)
     .navigationViewSelectedText(color)
     .navigationViewNormalIcon(color)
@@ -110,7 +111,8 @@ in order to pass a value in the format `R.color.resourceValue` or `R.attr.attrib
 The second parameter of `ATE.config(Context, String)` was null above, because it's optional. You can instead 
 pass a String of any value as a key. This will allow you to keep separate configurations, which can be applied 
 to different Activities, Fragments, Views, at will. Passing null specifies to use the default. You could have 
-two Activities which store their own separate theme values independently.
+two Activities which store their own separate theme values independently, or you could have two configurations 
+for a light and dark theme.
 
 The [Applying](https://github.com/afollestad/app-theme-engine#applying) section will go over this a bit more.
 
@@ -120,7 +122,7 @@ If you want to setup a default configuration the first time your app is run, you
 
 ```java
 if (!ATE.config(this, null).isConfigured()) {
-    // Setup default options
+    // Setup default options for the default (null) key
 }
 ```
 
@@ -136,19 +138,34 @@ int primaryColor = Config.primaryColor(this, null);
 
 And yet again, the second parameter is an optional key.
 
-#### ATEStatusBarCustomizer
+#### Customizers
 
-If you want individual Activities to have different status bar colors, e.g. in an app that extracts
-colors from an image using Palette to get theme colors, you can either use Config keys **OR** implement 
-`ATEStatusBarCustomizer` in the Activities which require it.
+Customizers are interfaces your Activities can implement to specify theme values without saving them 
+in your Configuration (if you don't want to use separate keys for different screens).
 
 ```java
-public class MyActivity extends AppCompatActivity implements ATEStatusBarCustomizer {
+public class MyActivity extends AppCompatActivity 
+        implements ATEStatusBarCustomizer, ATETaskDescriptionCustomizer, ATENavigationBarCustomizer {
     
     @ColorInt
     @Override
     public int getStatusBarColor() {
-        return Color.RED; // return whatever you want here
+        // Normally the status bar is a darker version of the primary theme color
+        return Color.RED;
+    }
+    
+    @ColorInt
+    @Override
+    public int getTaskDescriptionColor() {
+        // Task description is the color of your Activity's entry in Android's recents screen
+        return Color.BLUE;
+    }
+    
+    @ColorInt
+    @Override
+    public int getNavigationBarColor() {
+        // Navigation bar is usually either black, or equal to the primary theme colro
+        return Color.GREEN;
     }
 }
 ```
@@ -222,8 +239,10 @@ public class MyActivity extends AppCompatActivity {
         // Apply theming to status bar, nav bar, and task description (recents)
         ATE.preApply(this, null);
         super.onCreate(savedInstanceState);
+        
         // Always call BEFORE apply()
         setContentView(R.layout.my_layout);
+        
         // Store the time the engine was initially applied, so the Activity can restart when coming back after changes
         updateTime = System.currentTimeMillis();
         // Apply colors to other views in the Activity
@@ -263,23 +282,11 @@ And again, replace occurrences of `null` above with a key if you need separate c
 
 #### Task Description (Recents)
 
-You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will be themed to your primary color automatically.
+You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will 
+be themed to your primary color automatically.
 
-But, *if you want different Activities to have different task description colors*, e.g. in an app that 
-uses different colors on every screen, you can either use Config keys **OR** implement `ATETaskDescriptionCustomizer`.
-
-```java
-public class MyActivity extends AppCompatActivity implements ATETaskDescriptionCustomizer {
-    
-    ...
-    
-    @ColorInt
-    @Override
-    public int getTaskDescriptionColor() {
-        return Color.RED; // return whatever you want here
-    }
-}
-```
+There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
+ section.
 
 #### Overflow Menu Widgets
 
