@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.customizers.ATETaskDescriptionCustomizer;
 import com.afollestad.appthemeengine.util.TintHelper;
 
 import java.lang.reflect.Field;
@@ -177,7 +178,7 @@ public final class ATE extends ATEBase {
                 window.setStatusBarColor(Config.statusBarColor(activity, key));
             else window.setStatusBarColor(Color.BLACK);
             if (Config.coloredNavigationBar(activity, key))
-                window.setNavigationBarColor(Config.primaryColor(activity, key));
+                window.setNavigationBarColor(Config.navigationBarColor(activity, key));
             else window.setNavigationBarColor(Color.BLACK);
             applyTaskDescription(activity, key);
         }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
@@ -14,6 +15,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.afollestad.appthemeengine.customizers.ATENavigationBarCustomizer;
+import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
 import com.afollestad.appthemeengine.util.Util;
 
 /**
@@ -30,6 +33,7 @@ public final class Config implements ConfigInterface {
     private final static String KEY_PRIMARY_COLOR_DARK = "primary_color_dark";
     private final static String KEY_ACCENT_COLOR = "accent_color";
     private final static String KEY_STATUS_BAR_COLOR = "status_bar_color";
+    private final static String KEY_NAVIGATION_BAR_COLOR = "navigation_bar_color";
 
     private final static String KEY_TEXT_COLOR_PRIMARY = "text_color_primary";
     private final static String KEY_TEXT_COLOR_SECONDARY = "text_color_secondary";
@@ -126,6 +130,22 @@ public final class Config implements ConfigInterface {
     @Override
     public Config statusBarColorAttr(@AttrRes int colorAttr) {
         return statusBarColor(Util.resolveColor(mContext, colorAttr));
+    }
+
+    @Override
+    public Config navigationBarColor(@ColorInt int color) {
+        mEditor.putInt(KEY_NAVIGATION_BAR_COLOR, color);
+        return this;
+    }
+
+    @Override
+    public Config navigationBarColorRes(@ColorRes int colorRes) {
+        return navigationBarColor(ContextCompat.getColor(mContext, colorRes));
+    }
+
+    @Override
+    public Config navigationBarColorAttr(@AttrRes int colorAttr) {
+        return navigationBarColor(Util.resolveColor(mContext, colorAttr));
     }
 
     @Override
@@ -320,7 +340,21 @@ public final class Config implements ConfigInterface {
     public static int statusBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATEStatusBarCustomizer)
             return ((ATEStatusBarCustomizer) context).getStatusBarColor();
-        return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
+        int fallback = primaryColorDark(context, key);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            fallback = Util.resolveColor(context, android.R.attr.statusBarColor, fallback);
+        return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, fallback);
+    }
+
+    @CheckResult
+    @ColorInt
+    public static int navigationBarColor(@NonNull Context context, @Nullable String key) {
+        if (context instanceof ATENavigationBarCustomizer)
+            return ((ATENavigationBarCustomizer) context).getNavigationBarColor();
+        int fallback = primaryColor(context, key);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            fallback = Util.resolveColor(context, android.R.attr.navigationBarColor, fallback);
+        return prefs(context, key).getInt(KEY_NAVIGATION_BAR_COLOR, fallback);
     }
 
     @CheckResult

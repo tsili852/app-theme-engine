@@ -39,13 +39,19 @@ interface ConfigInterface {
 
     Config accentColorAttr(@AttrRes int colorAttr);
 
-    // Status bar color
+    // Status/nav bar color
 
     Config statusBarColor(@ColorInt int color);
 
     Config statusBarColorRes(@ColorRes int colorRes);
 
     Config statusBarColorAttr(@AttrRes int colorAttr);
+
+    Config navigationBarColor(@ColorInt int color);
+
+    Config navigationBarColorRes(@ColorRes int colorRes);
+
+    Config navigationBarColorAttr(@AttrRes int colorAttr);
 
     // Primary text color
 

@@ -1,4 +1,4 @@
-package com.afollestad.appthemeengine;
+package com.afollestad.appthemeengine.customizers;
 
 import android.support.annotation.ColorInt;
 
