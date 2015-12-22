@@ -235,6 +235,11 @@ public class MyActivity extends ATEActivity {
 }
 ```
 
+The value returned here is used in many other areas too. For an example, there are two versions of almost every method. 
+One that accepts a config key, one that doesn't. `ATE.config(Context, String)` is a good example. If you were to use 
+ `ATE.config(Context)` and pass the above `Activity` as the `Context`, it would automatically use the return value 
+ of `getATEKey()` as the second parameter even though it wasn't directly specified.
+
 #### Custom Activities and Fragments
 
 If you don't use `ATEActivity`, there's a few things you have to do:
@@ -246,7 +251,8 @@ public class MyActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // Apply theming to status bar, nav bar, and task description (recents)
+        // Apply theming to status bar, nav bar, and task description (recents).
+        // Second parameter is optional config key.
         ATE.preApply(this, null);
         super.onCreate(savedInstanceState);
         
@@ -255,7 +261,8 @@ public class MyActivity extends AppCompatActivity {
         
         // Store the time the engine was initially applied, so the Activity can restart when coming back after changes
         updateTime = System.currentTimeMillis();
-        // Apply colors to other views in the Activity
+        // Apply colors to other views in the Activity.
+        // Second parameter is optional config key.
         ATE.apply(this, null);
     }
     
@@ -263,7 +270,8 @@ public class MyActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // If values were applied/committed (from Config) since the Activity was created, recreate it now
-        if (ATE.didValuesChange(this, null, updateTime))
+        // Third parameter is optional config key.
+        if (ATE.didValuesChange(this, updateTime, null))
             recreate();
     }
 }

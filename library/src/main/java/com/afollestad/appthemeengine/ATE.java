@@ -163,12 +163,24 @@ public final class ATE extends ATEBase {
         Log.d("ATE", String.format("Theme engine applied in %dms (%d seconds).", diff, diff / 1000));
     }
 
+    public static Config config(@NonNull Context context) {
+        return config(context, null);
+    }
+
     public static Config config(@NonNull Context context, @Nullable String key) {
         return new Config(context, key);
     }
 
-    public static boolean didValuesChange(@NonNull Context context, @Nullable String key, long updateTime) {
+    public static boolean didValuesChange(@NonNull Context context, long updateTime) {
+        return didValuesChange(context, updateTime, null);
+    }
+
+    public static boolean didValuesChange(@NonNull Context context, long updateTime, @Nullable String key) {
         return ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime;
+    }
+
+    public static void preApply(@NonNull Activity activity) {
+        preApply(activity, null);
     }
 
     public static void preApply(@NonNull Activity activity, @Nullable String key) {
@@ -190,10 +202,18 @@ public final class ATE extends ATEBase {
         }
     }
 
+    public static void apply(@NonNull View view) {
+        apply(view, null);
+    }
+
     public static void apply(@NonNull View view, @Nullable String key) {
         if (view.getContext() == null)
             throw new IllegalStateException("View has no Context, use apply(Context, View, String) instead.");
         apply(view.getContext(), view, key);
+    }
+
+    public static void apply(@NonNull Context context, @NonNull View view) {
+        apply(context, view, null);
     }
 
     public static void apply(@NonNull Context context, @NonNull View view, @Nullable String key) {
@@ -201,6 +221,10 @@ public final class ATE extends ATEBase {
             processTag(context, view, key);
         if (view instanceof ViewGroup)
             apply(context, (ViewGroup) view, key);
+    }
+
+    public static void apply(@NonNull Activity activity) {
+        apply(activity, (String) null);
     }
 
     public static void apply(@NonNull Activity activity, @Nullable String key) {
@@ -231,6 +255,10 @@ public final class ATE extends ATEBase {
         didPreApply = null;
     }
 
+    public static void apply(@NonNull android.support.v4.app.Fragment fragment) {
+        apply(fragment, null);
+    }
+
     public static void apply(@NonNull android.support.v4.app.Fragment fragment, @Nullable String key) {
         if (fragment.getActivity() == null)
             throw new IllegalStateException("Fragment is not attached to an Activity yet.");
@@ -239,6 +267,10 @@ public final class ATE extends ATEBase {
         apply(fragment.getActivity(), (ViewGroup) fragment.getView(), key);
         if (fragment.getActivity() instanceof AppCompatActivity)
             apply(fragment.getActivity(), key);
+    }
+
+    public static void apply(@NonNull android.app.Fragment fragment) {
+        apply(fragment, null);
     }
 
     public static void apply(@NonNull android.app.Fragment fragment, @Nullable String key) {
@@ -262,6 +294,10 @@ public final class ATE extends ATEBase {
                 ((BitmapDrawable) activity.getApplicationInfo().loadIcon(activity.getPackageManager())).getBitmap(),
                 color);
         activity.setTaskDescription(td);
+    }
+
+    public static void applyMenu(final @NonNull Toolbar mToolbar) {
+        applyMenu(mToolbar, null);
     }
 
     public static void applyMenu(final @NonNull Toolbar mToolbar, final @Nullable String key) {
