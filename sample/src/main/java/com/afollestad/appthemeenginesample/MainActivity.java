@@ -33,16 +33,16 @@ public class MainActivity extends ATEActivity {
         if (!ATE.config(this, "light_theme").isConfigured()) {
             ATE.config(this, "light_theme")
                     .activityTheme(R.style.AppTheme)
-                    .primaryColorRes(R.color.colorPrimary)
-                    .accentColorRes(R.color.colorAccent)
+                    .primaryColorRes(R.color.colorPrimaryLightDefault)
+                    .accentColorRes(R.color.colorAccentLightDefault)
                     .coloredNavigationBar(true)
                     .commit();
         }
         if (!ATE.config(this, "dark_theme").isConfigured()) {
             ATE.config(this, "dark_theme")
                     .activityTheme(R.style.AppThemeDark)
-                    .primaryColorRes(R.color.colorPrimary)
-                    .accentColorRes(R.color.colorAccent)
+                    .primaryColorRes(R.color.colorPrimaryDarkDefault)
+                    .accentColorRes(R.color.colorAccentDarkDefault)
                     .coloredNavigationBar(true)
                     .commit();
         }
