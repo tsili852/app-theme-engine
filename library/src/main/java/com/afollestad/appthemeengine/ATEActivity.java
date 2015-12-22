@@ -51,7 +51,7 @@ public class ATEActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (ATE.didValuesChange(this, getATEKey(), updateTime))
+        if (ATE.didValuesChange(this, updateTime, getATEKey()))
             recreate();
     }
 }
