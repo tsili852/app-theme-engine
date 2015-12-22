@@ -5,7 +5,7 @@
         android:defaultValue="false"
         android:key="dark_theme"
         android:layout="@layout/preference_custom"
-        android:persistent="false"
+        android:persistent="true"
         android:summary="@string/dark_theme_summary"
         android:title="@string/dark_theme"
         android:widgetLayout="@layout/preference_dynamiccheckbox" />

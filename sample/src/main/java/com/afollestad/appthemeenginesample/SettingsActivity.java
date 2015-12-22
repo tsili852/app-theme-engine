@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -21,6 +23,13 @@ import com.afollestad.materialdialogs.color.ColorChooserDialog;
  */
 @SuppressLint("NewApi")
 public class SettingsActivity extends ATEActivity implements ColorChooserDialog.ColorCallback {
+
+    @Nullable
+    @Override
+    protected String getATEKey() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
+                "dark_theme" : "light_theme";
+    }
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
@@ -101,10 +110,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("dark_theme").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    boolean useDark = (boolean) newValue;
-                    ATE.config(getActivity(), null)
-                            .activityTheme(useDark ? R.style.AppThemeDark : R.style.AppTheme)
-                            .apply(getActivity());
+                    getActivity().recreate();
                     return true;
                 }
             });

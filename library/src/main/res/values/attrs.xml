@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ATECheckBox">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEEditText">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEPrimaryTextView">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEProgressBar">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATERadioButton">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESecondaryTextView">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESeekBar">
+        <attr name="ateKey" format="string" />
+    </declare-styleable>
+
+</resources>

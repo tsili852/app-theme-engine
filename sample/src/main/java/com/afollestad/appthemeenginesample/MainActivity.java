@@ -1,8 +1,9 @@
 package com.afollestad.appthemeenginesample;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,17 +19,34 @@ public class MainActivity extends ATEActivity {
     private Toolbar mToolbar;
     private DrawerLayout mDrawer;
 
+    @Nullable
+    @Override
+    protected String getATEKey() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
+                "dark_theme" : "light_theme";
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!ATE.config(this, null).isConfigured()) {
-            // Default config
-            ATE.config(this, null)
+        // Default config
+        if (!ATE.config(this, "light_theme").isConfigured()) {
+            ATE.config(this, "light_theme")
+                    .activityTheme(R.style.AppTheme)
                     .primaryColorRes(R.color.colorPrimary)
                     .accentColorRes(R.color.colorAccent)
                     .coloredNavigationBar(true)
                     .commit();
         }
+        if (!ATE.config(this, "dark_theme").isConfigured()) {
+            ATE.config(this, "dark_theme")
+                    .activityTheme(R.style.AppThemeDark)
+                    .primaryColorRes(R.color.colorPrimary)
+                    .accentColorRes(R.color.colorAccent)
+                    .coloredNavigationBar(true)
+                    .commit();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

@@ -61,7 +61,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.2.1') {
+	compile('com.github.afollestad:app-theme-engine:0.2.1@aar') {
 		transitive = true
 	}
 }
@@ -501,3 +501,19 @@ Seven views come stock with this library:
 
 All that they really do is set their own tag to one of the tag values in the previous section,
 and then apply theming to themselves using the individual view `apply()` method.
+
+---
+
+If you use Config keys in your app, you may want to apply theme to these pre-made views:
+
+```xml
+<com.afollestad.appthemeengine.ATECheckBox
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:ateKey="your-config-key-here" />
+```
+
+All that you need to do is specify a value for `app:ateKey`.
+
+You can even use theme attributes in your Activity themes and reference them for this value (which is 
+done in the sample project since different keys are used for a light and dark theme).
