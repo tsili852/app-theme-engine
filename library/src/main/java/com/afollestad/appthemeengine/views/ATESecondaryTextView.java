@@ -40,16 +40,11 @@ public class ATESecondaryTextView extends TextView {
         setTag("text_secondary");
         String key = null;
         if (attrs != null) {
-            TypedArray a = null;
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESecondaryTextView, 0, 0);
             try {
-                a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESecondaryTextView, 0, 0);
-                try {
-                    key = a.getString(R.styleable.ATESecondaryTextView_ateKey_secondaryTextView);
-                } finally {
-                    a.recycle();
-                }
+                key = a.getString(R.styleable.ATESecondaryTextView_ateKey_secondaryTextView);
             } finally {
-                if (a != null) a.recycle();
+                a.recycle();
             }
         }
         ATE.apply(context, this, key);

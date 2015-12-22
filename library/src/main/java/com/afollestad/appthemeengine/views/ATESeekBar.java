@@ -40,16 +40,11 @@ public class ATESeekBar extends SeekBar {
         setTag("tint_accent_color");
         String key = null;
         if (attrs != null) {
-            TypedArray a = null;
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESeekBar, 0, 0);
             try {
-                a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESeekBar, 0, 0);
-                try {
-                    key = a.getString(R.styleable.ATESeekBar_ateKey_seekBar);
-                } finally {
-                    a.recycle();
-                }
+                key = a.getString(R.styleable.ATESeekBar_ateKey_seekBar);
             } finally {
-                if (a != null) a.recycle();
+                a.recycle();
             }
         }
         ATE.apply(context, this, key);

@@ -40,16 +40,11 @@ public class ATERadioButton extends RadioButton {
         setTag("tint_accent_color");
         String key = null;
         if (attrs != null) {
-            TypedArray a = null;
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATERadioButton, 0, 0);
             try {
-                a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATERadioButton, 0, 0);
-                try {
-                    key = a.getString(R.styleable.ATERadioButton_ateKey_radioButton);
-                } finally {
-                    a.recycle();
-                }
+                key = a.getString(R.styleable.ATERadioButton_ateKey_radioButton);
             } finally {
-                if (a != null) a.recycle();
+                a.recycle();
             }
         }
         ATE.apply(context, this, key);

@@ -40,16 +40,11 @@ public class ATEEditText extends EditText {
         setTag("tint_accent_color");
         String key = null;
         if (attrs != null) {
-            TypedArray a = null;
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEEditText, 0, 0);
             try {
-                a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEEditText, 0, 0);
-                try {
-                    key = a.getString(R.styleable.ATEEditText_ateKey_editText);
-                } finally {
-                    a.recycle();
-                }
+                key = a.getString(R.styleable.ATEEditText_ateKey_editText);
             } finally {
-                if (a != null) a.recycle();
+                a.recycle();
             }
         }
         ATE.apply(context, this, key);

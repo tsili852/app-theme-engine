@@ -40,16 +40,11 @@ public class ATEPrimaryTextView extends TextView {
         setTag("text_primary");
         String key = null;
         if (attrs != null) {
-            TypedArray a = null;
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEPrimaryTextView, 0, 0);
             try {
-                a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEPrimaryTextView, 0, 0);
-                try {
-                    key = a.getString(R.styleable.ATEPrimaryTextView_ateKey_primaryTextView);
-                } finally {
-                    a.recycle();
-                }
+                key = a.getString(R.styleable.ATEPrimaryTextView_ateKey_primaryTextView);
             } finally {
-                if (a != null) a.recycle();
+                a.recycle();
             }
         }
         ATE.apply(context, this, key);
