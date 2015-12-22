@@ -225,7 +225,7 @@ public final class ATE extends ATEBase {
     }
 
     public static void apply(@NonNull Context context, @NonNull View view, @Nullable String key) {
-        if (view.getTag() != null)
+        if (view.getTag() != null && view.getTag() instanceof String)
             processTag(context, view, key);
         if (view instanceof ViewGroup)
             apply(context, (ViewGroup) view, key);
