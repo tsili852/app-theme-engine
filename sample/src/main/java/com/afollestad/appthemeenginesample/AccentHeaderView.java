@@ -2,10 +2,10 @@ package com.afollestad.appthemeenginesample;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.FrameLayout;
 
 import com.afollestad.appthemeengine.ATE;
@@ -42,11 +42,8 @@ public class AccentHeaderView extends FrameLayout {
     }
 
     public static String resolveString(Context context, @AttrRes int attr) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
-        try {
-            return a.getString(0);
-        } finally {
-            a.recycle();
-        }
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return (String) typedValue.coerceToString();
     }
 }
