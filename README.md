@@ -6,6 +6,13 @@ and [Impression](https://github.com/afollestad/impression).
 
 Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/raw/master/sample/Sample.apk) to check it out! 
 
+# When To NOT Use This Library
+
+If your app has two themes, a light theme and a dark theme, DON'T use this library. Static themes are faster.
+
+This library is intended for apps that allow users to change them values at runtime. If you have static themes, 
+you can use different colors, drawables, dimens, etc. throughout your app for each theme using theme attributes (`attrs.xml`).
+
 ---
 
 # Table of Contents
@@ -24,7 +31,7 @@ Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
     3. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
     4. [Overflow Menu Widgets](https://github.com/afollestad/app-theme-engine#overflow-menu-widgets)
-    5. [Lists](https://github.com/afollestad/app-theme-engine#lists)
+    5. [Lists and Individual Views](https://github.com/afollestad/app-theme-engine#lists-and-individual-views)
     6. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
@@ -61,7 +68,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.2.1@aar') {
+	compile('com.github.afollestad:app-theme-engine:0.3.0@aar') {
 		transitive = true
 	}
 }
@@ -83,7 +90,7 @@ Here are a few configuration methods that can be used:
 
 ```java
 ATE.config(this, null) // context, optional key
-    .activityTheme(R.style.my_theme) // 0 to disable, sets a default theme for all Activities
+    .activityTheme(R.style.my_theme) // 0 to disable, sets a default theme for all Activities which use this config key
     .coloredActionBar(true)
     .primaryColor(color)
     .autoGeneratePrimaryDark(true) // when true, primaryColorDark is auto generated from primaryColor
@@ -151,6 +158,7 @@ public class MyActivity extends AppCompatActivity
     @StyleRes
     @Override
     public int getActivityTheme() {
+        // Self explanatory. Can be used to override activityTheme() config value if set.
         return R.style.my_activity_theme;
     }
     
@@ -343,9 +351,19 @@ public class MyActivity extends ATEActivity {
 
 You could override `onMenuOpened(int, Menu)` from any other type of `Activity` too, not just `ATEActivity`.
 
-#### Lists
+#### Lists and Individual Views
 
-When working with lists, you have to apply the theme engine to individual views through your adapter.
+You theme individual views like this:
+
+```java
+ATE.apply(view, null)
+```
+
+The second parameter is an optional Config key.
+
+---
+
+When working with lists, you have to apply the theme engine to each individual view in your adapter.
 
 For *RecyclerViews*:
 

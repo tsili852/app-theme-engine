@@ -98,7 +98,7 @@ public class MainActivity extends ATEActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        ATE.applyMenu(mToolbar, null);
+        ATE.applyMenu(mToolbar, getATEKey());
         return super.onMenuOpened(featureId, menu);
     }
 }

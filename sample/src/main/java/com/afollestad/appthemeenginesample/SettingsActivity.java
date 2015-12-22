@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
@@ -61,10 +63,14 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-
             mAteKey = ((SettingsActivity) getActivity()).getATEKey();
+        }
 
-            ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            final ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
             primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK);
             primaryColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -76,7 +82,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
-            ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
+            final ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
             accentColorPref.setColor(Config.accentColor(getActivity(), mAteKey), Color.BLACK);
             accentColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -88,7 +94,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
-            ATEColorPreference textColorPrimaryPref = (ATEColorPreference) findPreference("text_primary");
+            final ATEColorPreference textColorPrimaryPref = (ATEColorPreference) findPreference("text_primary");
             textColorPrimaryPref.setColor(Config.textColorPrimary(getActivity(), mAteKey), Color.BLACK);
             textColorPrimaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -100,7 +106,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
-            ATEColorPreference textColorSecondaryPref = (ATEColorPreference) findPreference("text_secondary");
+            final ATEColorPreference textColorSecondaryPref = (ATEColorPreference) findPreference("text_secondary");
             textColorSecondaryPref.setColor(Config.textColorSecondary(getActivity(), mAteKey), Color.BLACK);
             textColorSecondaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
