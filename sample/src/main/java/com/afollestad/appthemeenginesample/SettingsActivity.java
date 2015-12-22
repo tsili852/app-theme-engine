@@ -98,6 +98,17 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
+            findPreference("dark_theme").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    boolean useDark = (boolean) newValue;
+                    ATE.config(getActivity(), null)
+                            .activityTheme(useDark ? R.style.AppThemeDark : R.style.AppTheme)
+                            .apply(getActivity());
+                    return true;
+                }
+            });
+
             findPreference("colored_status_bar").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {

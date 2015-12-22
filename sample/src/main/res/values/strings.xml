@@ -42,5 +42,7 @@
     ]]></string>
     <string name="dismiss">Dismiss</string>
     <string name="radiobutton_clickme">Radio button (click me)</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_summary">Apply a dark theme throughout the app</string>
 
 </resources>
