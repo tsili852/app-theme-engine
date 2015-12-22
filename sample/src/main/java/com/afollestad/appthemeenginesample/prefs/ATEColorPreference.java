@@ -16,6 +16,7 @@ public class ATEColorPreference extends Preference {
     private View mView;
     private int color;
     private int border;
+    private String ateKey;
 
     public ATEColorPreference(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -34,13 +35,14 @@ public class ATEColorPreference extends Preference {
     protected void onBindView(View view) {
         super.onBindView(view);
         mView = view;
-        ATE.apply(view, null);
+        ATE.apply(view, ateKey);
         invalidateColor();
     }
 
-    public void setColor(int color, int border) {
+    public void setColor(int color, int border, String ateKey) {
         this.color = color;
         this.border = border;
+        this.ateKey = ateKey;
         invalidateColor();
     }
 

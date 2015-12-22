@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.AttrRes;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
@@ -388,10 +387,7 @@ public final class Config extends ConfigBase {
     public static int navigationBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATENavigationBarCustomizer)
             return ((ATENavigationBarCustomizer) context).getNavigationBarColor();
-        int fallback = primaryColor(context, key);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            fallback = Util.resolveColor(context, android.R.attr.navigationBarColor, fallback);
-        return prefs(context, key).getInt(KEY_NAVIGATION_BAR_COLOR, fallback);
+        return prefs(context, key).getInt(KEY_NAVIGATION_BAR_COLOR, primaryColor(context, key));
     }
 
     @Deprecated

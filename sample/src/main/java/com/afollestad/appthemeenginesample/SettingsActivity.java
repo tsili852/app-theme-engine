@@ -54,54 +54,58 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
 
     public static class SettingsFragment extends PreferenceFragment {
 
+        private String mAteKey;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
+            mAteKey = ((SettingsActivity) getActivity()).getATEKey();
+
             ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
-            primaryColorPref.setColor(Config.primaryColor(getActivity(), null), Color.BLACK);
+            primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK, mAteKey);
             primaryColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     new ColorChooserDialog.Builder((SettingsActivity) getActivity(), R.string.primary_color)
-                            .preselect(Config.primaryColor(getActivity(), null))
+                            .preselect(Config.primaryColor(getActivity(), mAteKey))
                             .show();
                     return true;
                 }
             });
 
             ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
-            accentColorPref.setColor(Config.accentColor(getActivity(), null), Color.BLACK);
+            accentColorPref.setColor(Config.accentColor(getActivity(), mAteKey), Color.BLACK, mAteKey);
             accentColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     new ColorChooserDialog.Builder((SettingsActivity) getActivity(), R.string.accent_color)
-                            .preselect(Config.accentColor(getActivity(), null))
+                            .preselect(Config.accentColor(getActivity(), mAteKey))
                             .show();
                     return true;
                 }
             });
 
             ATEColorPreference textColorPrimaryPref = (ATEColorPreference) findPreference("text_primary");
-            textColorPrimaryPref.setColor(Config.textColorPrimary(getActivity(), null), Color.BLACK);
+            textColorPrimaryPref.setColor(Config.textColorPrimary(getActivity(), mAteKey), Color.BLACK, mAteKey);
             textColorPrimaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     new ColorChooserDialog.Builder((SettingsActivity) getActivity(), R.string.primary_text_color)
-                            .preselect(Config.textColorPrimary(getActivity(), null))
+                            .preselect(Config.textColorPrimary(getActivity(), mAteKey))
                             .show();
                     return true;
                 }
             });
 
             ATEColorPreference textColorSecondaryPref = (ATEColorPreference) findPreference("text_secondary");
-            textColorSecondaryPref.setColor(Config.textColorSecondary(getActivity(), null), Color.BLACK);
+            textColorSecondaryPref.setColor(Config.textColorSecondary(getActivity(), mAteKey), Color.BLACK, mAteKey);
             textColorSecondaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     new ColorChooserDialog.Builder((SettingsActivity) getActivity(), R.string.secondary_text_color)
-                            .preselect(Config.textColorSecondary(getActivity(), null))
+                            .preselect(Config.textColorSecondary(getActivity(), mAteKey))
                             .show();
                     return true;
                 }
@@ -110,6 +114,8 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("dark_theme").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    // This preference value gets shared in the default PreferenceManager,
+                    // and it's used in getATEKey() of both the Activities.
                     getActivity().recreate();
                     return true;
                 }
@@ -118,7 +124,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("colored_status_bar").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    ATE.config(getActivity(), null)
+                    ATE.config(getActivity(), mAteKey)
                             .coloredStatusBar((Boolean) newValue)
                             .apply(getActivity());
                     return true;
@@ -128,7 +134,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("colored_nav_bar").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    ATE.config(getActivity(), null)
+                    ATE.config(getActivity(), mAteKey)
                             .coloredNavigationBar((Boolean) newValue)
                             .apply(getActivity());
                     return true;
