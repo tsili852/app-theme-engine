@@ -25,12 +25,13 @@ public class AccentAboutDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Activity context = getActivity();
-        final int accentColor = Config.accentColor(context, null);
+        final String ateKey = Util.resolveString(context, R.attr.ate_key);
+        final int accentColor = Config.accentColor(context, ateKey);
         return new MaterialDialog.Builder(context)
                 .title(R.string.about)
                 .positiveText(R.string.dismiss)
-                .titleColor(Config.primaryColor(context, null))
-                .contentColor(Config.textColorSecondary(context, null))
+                .titleColor(Config.primaryColor(context, ateKey))
+                .contentColor(Config.textColorSecondary(context, ateKey))
                 .linkColor(accentColor)
                 .buttonRippleColor(accentColor)
                 .positiveColor(accentColor)

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
 import com.afollestad.appthemeengine.Config;
+import com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference;
 import com.afollestad.appthemeenginesample.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
@@ -64,7 +65,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             mAteKey = ((SettingsActivity) getActivity()).getATEKey();
 
             ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
-            primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK, mAteKey);
+            primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK);
             primaryColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -76,7 +77,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             });
 
             ATEColorPreference accentColorPref = (ATEColorPreference) findPreference("accent_color");
-            accentColorPref.setColor(Config.accentColor(getActivity(), mAteKey), Color.BLACK, mAteKey);
+            accentColorPref.setColor(Config.accentColor(getActivity(), mAteKey), Color.BLACK);
             accentColorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -88,7 +89,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             });
 
             ATEColorPreference textColorPrimaryPref = (ATEColorPreference) findPreference("text_primary");
-            textColorPrimaryPref.setColor(Config.textColorPrimary(getActivity(), mAteKey), Color.BLACK, mAteKey);
+            textColorPrimaryPref.setColor(Config.textColorPrimary(getActivity(), mAteKey), Color.BLACK);
             textColorPrimaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -100,7 +101,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             });
 
             ATEColorPreference textColorSecondaryPref = (ATEColorPreference) findPreference("text_secondary");
-            textColorSecondaryPref.setColor(Config.textColorSecondary(getActivity(), mAteKey), Color.BLACK, mAteKey);
+            textColorSecondaryPref.setColor(Config.textColorSecondary(getActivity(), mAteKey), Color.BLACK);
             textColorSecondaryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -121,7 +122,9 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
-            findPreference("colored_status_bar").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            final ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
+            statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
+            statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     ATE.config(getActivity(), mAteKey)
@@ -131,7 +134,9 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 }
             });
 
-            findPreference("colored_nav_bar").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            final ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
+            navBarPref.setChecked(Config.coloredNavigationBar(getActivity(), mAteKey));
+            navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     ATE.config(getActivity(), mAteKey)

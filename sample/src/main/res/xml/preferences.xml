@@ -8,7 +8,7 @@
         android:persistent="true"
         android:summary="@string/dark_theme_summary"
         android:title="@string/dark_theme"
-        android:widgetLayout="@layout/preference_dynamiccheckbox" />
+        android:widgetLayout="@layout/preference_checkbox" />
 
     <com.afollestad.appthemeenginesample.prefs.ATEColorPreference
         android:key="primary_color"
@@ -41,7 +41,7 @@
         android:persistent="false"
         android:summary="@string/colored_status_bar_summary"
         android:title="@string/colored_status_bar"
-        android:widgetLayout="@layout/preference_dynamiccheckbox" />
+        android:widgetLayout="@layout/preference_checkbox" />
 
     <com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference
         android:defaultValue="true"
@@ -50,6 +50,6 @@
         android:persistent="false"
         android:summary="@string/colored_nav_bar_summary"
         android:title="@string/colored_nav_bar"
-        android:widgetLayout="@layout/preference_dynamiccheckbox" />
+        android:widgetLayout="@layout/preference_checkbox" />
 
 </PreferenceScreen>

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeenginesample.R;
+import com.afollestad.appthemeenginesample.Util;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -29,6 +30,6 @@ public class ATECheckBoxPreference extends CheckBoxPreference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        ATE.apply(view, null);
+        ATE.apply(view, Util.resolveString(view.getContext(), R.attr.ate_key));
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeenginesample.R;
+import com.afollestad.appthemeenginesample.Util;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -16,7 +17,6 @@ public class ATEColorPreference extends Preference {
     private View mView;
     private int color;
     private int border;
-    private String ateKey;
 
     public ATEColorPreference(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -35,14 +35,13 @@ public class ATEColorPreference extends Preference {
     protected void onBindView(View view) {
         super.onBindView(view);
         mView = view;
-        ATE.apply(view, ateKey);
+        ATE.apply(view, Util.resolveString(view.getContext(), R.attr.ate_key));
         invalidateColor();
     }
 
-    public void setColor(int color, int border, String ateKey) {
+    public void setColor(int color, int border) {
         this.color = color;
         this.border = border;
-        this.ateKey = ateKey;
         invalidateColor();
     }
 
