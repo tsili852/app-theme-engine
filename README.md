@@ -13,24 +13,25 @@ Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/
 1. [Gradle Dependency](https://github.com/afollestad/app-theme-engine#gradle-dependency)
     1. [Repository](https://github.com/afollestad/app-theme-engine#repository)
     2. [Dependency](https://github.com/afollestad/app-theme-engine#dependency)
-2. [Applying](https://github.com/afollestad/app-theme-engine#applying)
+2. [Config](https://github.com/afollestad/app-theme-engine#config)
+    1. [Modifiers](https://github.com/afollestad/app-theme-engine#modifiers)
+    2. [Keys](https://github.com/afollestad/app-theme-engine#keys)
+    3. [Default Configuration](https://github.com/afollestad/app-theme-engine#default-configuration)
+    4. [Value Retrieval](https://github.com/afollestad/app-theme-engine#value-retrieval)
+    5. [ATEStatusBarCustomizer](https://github.com/afollestad/app-theme-engine#atestatusbarcustomizer)
+3. [Applying](https://github.com/afollestad/app-theme-engine#applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
     3. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
     4. [Overflow Menu Widgets](https://github.com/afollestad/app-theme-engine#overflow-menu-widgets)
     5. [Lists](https://github.com/afollestad/app-theme-engine#lists)
     6. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
-2. [Config](https://github.com/afollestad/app-theme-engine#config)
-    1. [Modifiers](https://github.com/afollestad/app-theme-engine#modifiers)
-    2. [Default Configuration](https://github.com/afollestad/app-theme-engine#default-configuration)
-    3. [Value Retrieval](https://github.com/afollestad/app-theme-engine#value-retrieval)
-    4. [ATEStatusBarCustomizer](https://github.com/afollestad/app-theme-engine#atestatusbarcustomizer)
-3. [Tags](https://github.com/afollestad/app-theme-engine#tags)
+4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
     2. [Text Colors](https://github.com/afollestad/app-theme-engine#text-colors)
     3. [Text Link Colors](https://github.com/afollestad/app-theme-engine#text-link-colors)
     3. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
-4. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
+5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
 
 ---
 
@@ -68,14 +69,101 @@ dependencies {
 
 ---
 
+# Config
+
+By default, Android app themes are static. They cannot be changed dynamically after an APK is built. This 
+library allows you to dynamically change theme colors at runtime.
+
+All configuration options are persisted using SharedPreferences, meaning once you set them, you don't have 
+to set them again unless you want the value to be changed from what it was previously.
+
+#### Modifiers
+
+Here are a few configuration methods that can be used:
+
+```java
+ATE.config(this, null) // context, optional key
+    .primaryColor(color)
+    .primaryColorDark(color)
+    .accentColor(color)
+    .statusBarColor(color) // by default, is equal to whatever primaryColorDark is set to
+    .textColorPrimary(color)
+    .textColorSecondary(color)
+    .coloredStatusBar(true)
+    .coloredActionBar(true)
+    .coloredNavigationBar(false)
+    .autoGeneratePrimaryDark(true) // primaryColorDark will be auto generated every time primaryColor is set
+    .navigationViewThemed(true)
+    .navigationViewSelectedIcon(color)
+    .navigationViewSelectedText(color)
+    .navigationViewNormalIcon(color)
+    .navigationViewNormalText(color)
+    .apply(this); // activity, fragment, or view
+```
+
+There's also color resource and color attribute variations of the color modifiers. For an example: 
+rather than using `primaryColor(int)`, you could use `primaryColorRes(int)` or `primaryColorAttr(int)` 
+in order to pass a value in the format `R.color.resourceValue` or `R.attr.attributeValue`.
+
+#### Keys
+
+The second parameter of `ATE.config(Context, String)` was null above, because it's optional. You can instead 
+pass a String of any value as a key. This will allow you to keep separate configurations, which can be applied 
+to different Activities, Fragments, Views, at will. Passing null specifies to use the default. You could have 
+two Activities which store their own separate theme values independently.
+
+The [Applying](https://github.com/afollestad/app-theme-engine#applying) section will go over this a bit more.
+
+#### Default Configuration
+
+If you want to setup a default configuration the first time your app is run, you can use code like this:
+
+```java
+if (!ATE.config(this, null).isConfigured()) {
+    // Setup default options
+}
+```
+
+Again, the second parameter is an optional key.
+
+#### Value Retrieval
+
+Using the `Config` class, you can retrieve your theme values (if you need to for any reason). For an example:
+
+```java
+int primaryColor = Config.primaryColor(this, null);
+```
+
+And yet again, the second parameter is an optional key.
+
+#### ATEStatusBarCustomizer
+
+If you want individual Activities to have different status bar colors, e.g. in an app that extracts
+colors from an image using Palette to get theme colors, you can either use Config keys **OR** implement 
+`ATEStatusBarCustomizer` in the Activities which require it.
+
+```java
+public class MyActivity extends AppCompatActivity implements ATEStatusBarCustomizer {
+    
+    @ColorInt
+    @Override
+    public int getStatusBarColor() {
+        return Color.RED; // return whatever you want here
+    }
+}
+```
+
+---
+
 # Applying
 
-Before we go into details of how you can configure theme colors, you need to know how the theme engine is applied.
+Once you have configurations set, you can apply the theme engine to Activities, Fragments, and even 
+individual views.
 
 #### ATEActivity
 
 As seen in the sample project, you can have all Activities in your app extends `ATEActivity`. This will do
-all the heavy lifting for you, all that you have to worry about is theme configuration.
+all the heavy lifting for you.
 
 ```java
 public class MyActivity extends ATEActivity {
@@ -84,14 +172,41 @@ public class MyActivity extends ATEActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // setContentView() triggers the theme engine
+        // setContentView() triggers the theme engine initially
         setContentView(R.layout.my_layout);
     }
 }
 ```
 
-If you were to change theme colors from a visible `ATEActivity`, the changes are reflected automatically
-if you use the `apply()` methods discussed in the next two sections.
+If you were to leave the Activity, change theme values (e.g. in a Settings screen), and come back,
+the Activity would automatically recreate itself.
+
+You can also change theme values in real time within the Activity using the `ATE.apply()` or `Config#apply()` methods.
+
+---
+
+The [Config](https://github.com/afollestad/app-theme-engine#config) section emphasized the fact that you can
+use keys to separate different theme configurations. `ATEActivity` has an optional override method called 
+`getATEKey()` which can be used to specify a configuration to use in individual activities.
+
+```java
+public class MyActivity extends ATEActivity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // setContentView() triggers the theme engine initially
+        setContentView(R.layout.my_layout);
+    }
+    
+    @Nullable
+    @Override
+    protected String getATEKey() {
+        return getClass().getName();
+    }
+}
+```
 
 #### Custom Activities and Fragments
 
@@ -104,45 +219,59 @@ public class MyActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ATE.preApply(this); // apply primary color to status bar, nav bar, and task description (recents)
+        // Apply theming to status bar, nav bar, and task description (recents)
+        ATE.preApply(this, null);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_layout); // call BEFORE apply()
+        // Always call BEFORE apply()
+        setContentView(R.layout.my_layout);
+        // Store the time the engine was initially applied, so the Activity can restart when coming back after changes
         updateTime = System.currentTimeMillis();
-        ATE.apply(this);    // apply colors to other views in the Activity
+        // Apply colors to other views in the Activity
+        ATE.apply(this, null);
     }
     
     @Override
     protected void onResume() {
         super.onResume();
         // If values were applied/committed (from Config) since the Activity was created, recreate it now
-        if (ATE.didValuesChange(this, updateTime))
+        if (ATE.didValuesChange(this, null, updateTime))
             recreate();
     }
 }
 ```
+
+---
 
 You can also apply theming to views in a Fragment:
 
 ```java
 public class MyFragment extends Fragment {
 
+    ...
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ATE.apply(this);
+        ATE.apply(this, null);
     }
 }
 ```
+
+---
+
+And again, replace occurrences of `null` above with a key if you need separate configurations.
 
 #### Task Description (Recents)
 
 You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will be themed to your primary color automatically.
 
 But, *if you want different Activities to have different task description colors*, e.g. in an app that 
-uses different colors on every screen, you can implement `ATETaskDescriptionCustomizer`.
+uses different colors on every screen, you can either use Config keys **OR** implement `ATETaskDescriptionCustomizer`.
 
 ```java
 public class MyActivity extends AppCompatActivity implements ATETaskDescriptionCustomizer {
+    
+    ...
     
     @ColorInt
     @Override
@@ -179,8 +308,9 @@ public class MyActivity extends ATEActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        // When the overflow menu opens, a tint is applied to the widget views inside
-        ATE.applyMenu(mToolbar);
+        // When the overflow menu opens, a tint is applied to the widget views inside.
+        // Second parameter is optional key.
+        ATE.applyMenu(mToolbar, null);
         return super.onMenuOpened(featureId, menu);
     }
 }
@@ -221,8 +351,9 @@ public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolde
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            // It's recommended you only apply the theme the first time the holder is created
-            ATE.apply(itemView.getContext(), itemView);
+            // It's recommended you only apply the theme the first time the holder is created.
+            // Second parameter is optional key.
+            ATE.apply(itemView, null);
         }
     }
 }
@@ -253,8 +384,9 @@ public static class MyAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
-            // Only apply the first time the view is created
-            ATE.apply(convertView.getContext(), convertView);
+            // Only apply the first time the view is created.
+            // Second parameter is optional key.
+            ATE.apply(convertView, null);
         }
         return convertView;
     }
@@ -274,79 +406,6 @@ or plain `ListView`/`RecyclerView`, you have to do what's discussed in the previ
 
 ---
 
-# Config
-
-By default, Android app themes are static. They cannot be changed dynamically after an APK is built. This 
-library allows you to dynamically change theme colors at runtime.
-
-All configuration options are persisted using SharedPreferences, meaning once you set them, you don't have 
-to set them again unless you want the value to be changed from what it was previously.
-
-#### Modifiers
-
-Here are a few configuration methods that can be used:
-
-```java
-ATE.config(this) // context
-    .primaryColor(color)
-    .primaryColorDark(color)
-    .accentColor(color)
-    .statusBarColor(color) // by default, is equal to whatever primaryColorDark is set to
-    .textColorPrimary(color)
-    .textColorSecondary(color)
-    .coloredStatusBar(true)
-    .coloredActionBar(true)
-    .coloredNavigationBar(false)
-    .autoGeneratePrimaryDark(true)
-    .navigationViewThemed(true)
-    .navigationViewSelectedIcon(color)
-    .navigationViewSelectedText(color)
-    .navigationViewNormalIcon(color)
-    .navigationViewNormalText(color)
-    .apply(this); // activity, fragment, or view
-```
-
-There's also color resource and color attribute variations of the color modifiers. For an example: 
-rather than using `primaryColor(int)`, you could use `primaryColorRes(int)` or `primaryColorAttr(int)` 
-in order to pass a value in the format `R.color.resourceValue` or `R.attr.attributeValue`.
-
-#### Default Configuration
-
-If you want to setup a default configuration the first time your app is run, you can use code like this:
-
-```java
-if (!ATE.config(this).isConfigured()) {
-    // Setup default options
-}
-```
-
-#### Value Retrieval
-
-Using the `Config` class, you can retrieve your theme values (if you need to for any reason). For an example:
-
-```java
-int primaryColor = Config.primaryColor(this);
-```
-
-#### ATEStatusBarCustomizer
-
-If you want individual Activities to have different status bar colors, e.g. in an app that extracts
-colors from an image using Palette to get theme colors, you can implement `ATEStatusBarCustomizer` 
-in the Activities which require it.
-
-```java
-public class MyActivity extends AppCompatActivity implements ATEStatusBarCustomizer {
-    
-    @ColorInt
-    @Override
-    public int getStatusBarColor() {
-        return Color.RED; // return whatever you want here
-    }
-}
-```
-
----
-
 # Tags
 
 If you haven't used tags before, they can be applied to views directly from your XML layouts:
@@ -355,8 +414,7 @@ If you haven't used tags before, they can be applied to views directly from your
 <View
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:tag="tag-value-here"
-    />
+    android:tag="tag-value-here" />
 ```
 
 The theme engine allows you to apply theme colors to any view using tags. **You can even use multiple tags, separated by commas**:
@@ -365,8 +423,7 @@ The theme engine allows you to apply theme colors to any view using tags. **You 
 <View
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:tag="tag-one,tag-two,tag-three"
-    />
+    android:tag="tag-one,tag-two,tag-three" />
 ```
 
 Here's a list of available tag values:

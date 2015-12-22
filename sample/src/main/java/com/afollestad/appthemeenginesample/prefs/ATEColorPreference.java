@@ -34,7 +34,7 @@ public class ATEColorPreference extends Preference {
     protected void onBindView(View view) {
         super.onBindView(view);
         mView = view;
-        ATE.apply(view.getContext(), view);
+        ATE.apply(view, null);
         invalidateColor();
     }
 

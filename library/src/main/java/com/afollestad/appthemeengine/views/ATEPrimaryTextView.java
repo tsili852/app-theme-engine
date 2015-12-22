@@ -36,6 +36,6 @@ public class ATEPrimaryTextView extends TextView {
 
     private void init(Context context) {
         setTag("text_primary");
-        ATE.apply(context, this);
+        ATE.apply(context, this, null);
     }
 }

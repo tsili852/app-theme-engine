@@ -36,6 +36,6 @@ public class ATECheckBox extends CheckBox {
 
     private void init(Context context) {
         setTag("tint_accent_color");
-        ATE.apply(context, this);
+        ATE.apply(context, this, null);
     }
 }

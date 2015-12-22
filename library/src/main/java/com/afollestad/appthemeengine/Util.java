@@ -2,7 +2,10 @@ package com.afollestad.appthemeengine;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -20,6 +23,20 @@ class Util {
         } finally {
             a.recycle();
         }
+    }
+
+    @ColorInt
+    private static int shiftColor(@ColorInt int color, @FloatRange(from = 0.0f, to = 2.0f) float by) {
+        if (by == 1f) return color;
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= by; // value component
+        return Color.HSVToColor(hsv);
+    }
+
+    @ColorInt
+    public static int darkenColor(@ColorInt int color) {
+        return shiftColor(color, 0.9f);
     }
 
     private Util() {

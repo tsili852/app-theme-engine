@@ -36,6 +36,6 @@ public class AccentHeaderView extends FrameLayout {
 
     private void init(Context context) {
         setTag("bg_accent_color");
-        ATE.apply(context, this);
+        ATE.apply(context, this, null);
     }
 }

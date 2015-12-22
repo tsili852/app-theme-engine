@@ -2,6 +2,7 @@ package com.afollestad.appthemeengine;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,19 @@ public class ATEActivity extends AppCompatActivity {
 
     private long updateTime = -1;
 
+    @Nullable
+    protected String getATEKey() {
+        return null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ATE.preApply(this);
+        ATE.preApply(this, getATEKey());
         super.onCreate(savedInstanceState);
     }
 
     private void apply() {
-        ATE.apply(this);
+        ATE.apply(this, getATEKey());
         updateTime = System.currentTimeMillis();
     }
 
@@ -45,7 +51,7 @@ public class ATEActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (ATE.didValuesChange(this, updateTime))
+        if (ATE.didValuesChange(this, getATEKey(), updateTime))
             recreate();
     }
 }

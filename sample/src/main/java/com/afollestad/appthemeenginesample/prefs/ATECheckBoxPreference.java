@@ -29,6 +29,6 @@ public class ATECheckBoxPreference extends CheckBoxPreference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        ATE.apply(view.getContext(), view);
+        ATE.apply(view, null);
     }
 }

@@ -21,9 +21,9 @@ public class MainActivity extends ATEActivity {
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!ATE.config(this).isConfigured()) {
+        if (!ATE.config(this, null).isConfigured()) {
             // Default config
-            ATE.config(this)
+            ATE.config(this, null)
                     .primaryColor(Color.parseColor("#455A64"))
                     .accentColor(Color.parseColor("#263238"))
                     .coloredNavigationBar(true)
@@ -80,7 +80,7 @@ public class MainActivity extends ATEActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        ATE.applyMenu(mToolbar);
+        ATE.applyMenu(mToolbar, null);
         return super.onMenuOpened(featureId, menu);
     }
 }
