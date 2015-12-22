@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
@@ -121,8 +120,10 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("dark_theme").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    // This preference value gets shared in the default PreferenceManager,
-                    // and it's used in getATEKey() of both the Activities.
+                    // Marks config as changed to MainActivity restarts itself on return
+                    ATE.config(getActivity(), mAteKey).markChanged();
+                    // The dark_theme preference value gets saved by Android in the default PreferenceManager.
+                    // It's used in getATEKey() of both the Activities.
                     getActivity().recreate();
                     return true;
                 }

@@ -45,6 +45,11 @@ public final class Config extends ConfigBase {
     }
 
     @Override
+    public void markChanged() {
+        commit(true);
+    }
+
+    @Override
     public Config activityTheme(@StyleRes int theme) {
         mEditor.putInt(KEY_ACTIVITY_THEME, theme);
         return this;
@@ -260,11 +265,16 @@ public final class Config extends ConfigBase {
 
     // Apply and commit methods
 
+    private void commit(boolean onlyChanged) {
+        mEditor.putLong(VALUES_CHANGED, System.currentTimeMillis());
+        if (!onlyChanged)
+            mEditor.putBoolean(IS_CONFIGURED_KEY, true);
+        mEditor.commit();
+    }
+
     @Override
     public void commit() {
-        mEditor.putLong(VALUES_CHANGED, System.currentTimeMillis())
-                .putBoolean(IS_CONFIGURED_KEY, true)
-                .commit();
+        commit(false);
     }
 
     @Override

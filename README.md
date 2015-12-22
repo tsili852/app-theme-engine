@@ -8,11 +8,8 @@ Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/
 
 # When To NOT Use This Library
 
-If your app has two themes, a light theme and a dark theme, DON'T use this library. Static themes are faster, both
-computation wise and coding wise.
-
-This library is intended for apps that allow users to change theme values at runtime. If you have static themes, 
-you can use different colors, drawables, dimens, etc. throughout your app for each theme using theme attributes (`attrs.xml`).
+If your app has two themes, a light theme and a dark theme, do not use this library to configure them. 
+Only use this library if you intend to give the user the ability to change the color of UI elements in your app.﻿
 
 ---
 
@@ -27,6 +24,7 @@ you can use different colors, drawables, dimens, etc. throughout your app for ea
     3. [Default Configuration](https://github.com/afollestad/app-theme-engine#default-configuration)
     4. [Value Retrieval](https://github.com/afollestad/app-theme-engine#value-retrieval)
     5. [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
+    6. [Marking as Changed](https://github.com/afollestad/app-theme-engine#marking-as-changed)
 3. [Applying](https://github.com/afollestad/app-theme-engine#applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
@@ -69,7 +67,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.3.0@aar') {
+	compile('com.github.afollestad:app-theme-engine:0.3.1@aar') {
 		transitive = true
 	}
 }
@@ -188,6 +186,20 @@ public class MyActivity extends AppCompatActivity
 
 You can override some or all, to fit your needs. But again, you need to use these if you use keys for 
 different configurations.
+
+#### Marking as Changed
+
+In the sample project, you can switch between a light and dark theme. The preference that says whether or 
+not the dark theme is active is not part of ATE. The sample project tells the MainActivity that it
+needs to restart on return from the Settings Screen when the dark theme has been toggled, by marking ATE's
+configuration as changed:
+
+```java
+// Second parameter is optional config key
+ATE.config(this, null).markChanged();
+```
+
+Simply, it causes `didValuesChange()` to return true.
 
 ---
 
