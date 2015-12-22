@@ -184,7 +184,7 @@ public class MyActivity extends AppCompatActivity
 }
 ```
 
-You can override some or all, to fit your needs. But again, you need to use these if you use keys for 
+You can override some or all, to fit your needs. But again, you don't *need* to use these if you use keys for 
 different configurations.
 
 #### Marking as Changed
