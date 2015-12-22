@@ -15,8 +15,6 @@ interface ConfigInterface {
 
     boolean isConfigured();
 
-    void markChanged();
-
     // Activity theme
 
     Config activityTheme(@StyleRes int theme);

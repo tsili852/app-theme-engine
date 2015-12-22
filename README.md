@@ -195,11 +195,11 @@ needs to restart on return from the Settings Screen when the dark theme has been
 configuration as changed:
 
 ```java
-// Second parameter is optional config key
-ATE.config(this, null).markChanged();
+Config.markChanged(this);
 ```
 
-Simply, it causes `didValuesChange()` to return true.
+Simply, it causes `ATE#didValuesChange()` to return true the next time it is called. This changed state is removed
+after the next call to `ATE#didValuesChange()`, though.
 
 ---
 

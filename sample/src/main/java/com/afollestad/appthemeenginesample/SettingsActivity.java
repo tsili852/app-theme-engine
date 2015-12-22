@@ -121,7 +121,7 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     // Marks config as changed to MainActivity restarts itself on return
-                    ATE.config(getActivity(), mAteKey).markChanged();
+                    Config.markChanged(getActivity());
                     // The dark_theme preference value gets saved by Android in the default PreferenceManager.
                     // It's used in getATEKey() of both the Activities.
                     getActivity().recreate();

@@ -1,9 +1,11 @@
 package com.afollestad.appthemeengine;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -177,7 +179,13 @@ public final class ATE extends ATEBase {
         return didValuesChange(context, updateTime, null);
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static boolean didValuesChange(@NonNull Context context, long updateTime, @Nullable String key) {
+        final SharedPreferences prefs = Config.prefs(context, null);
+        if (prefs.getBoolean(Config.MARK_CHANGED, false)) {
+            prefs.edit().remove(Config.MARK_CHANGED).commit();
+            return true;
+        }
         return ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime;
     }
 
