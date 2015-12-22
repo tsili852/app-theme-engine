@@ -370,7 +370,7 @@ You could override `onMenuOpened(int, Menu)` from any other type of `Activity` t
 You theme individual views like this:
 
 ```java
-ATE.apply(view, null)
+ATE.apply(view, null);
 ```
 
 The second parameter is an optional Config key.
