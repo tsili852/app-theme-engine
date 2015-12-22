@@ -328,10 +328,7 @@ public final class Config extends ConfigBase {
     public static int statusBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATEStatusBarCustomizer)
             return ((ATEStatusBarCustomizer) context).getStatusBarColor();
-        int fallback = primaryColorDark(context, key);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            fallback = Util.resolveColor(context, android.R.attr.statusBarColor, fallback);
-        return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, fallback);
+        return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
     }
 
     @CheckResult
