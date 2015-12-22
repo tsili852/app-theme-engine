@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATETaskDescriptionCustomizer;
 import com.afollestad.appthemeengine.util.TintHelper;
 
@@ -172,6 +173,11 @@ public final class ATE extends ATEBase {
 
     public static void preApply(@NonNull Activity activity, @Nullable String key) {
         didPreApply = activity.getClass();
+
+        int activityTheme = activity instanceof ATEActivityThemeCustomizer ?
+                ((ATEActivityThemeCustomizer) activity).getActivityTheme() : Config.activityTheme(activity, key);
+        if (activityTheme != 0) activity.setTheme(activityTheme);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final Window window = activity.getWindow();
             if (Config.coloredStatusBar(activity, key))

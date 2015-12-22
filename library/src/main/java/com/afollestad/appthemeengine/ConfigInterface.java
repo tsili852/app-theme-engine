@@ -5,7 +5,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.StyleRes;
 import android.view.View;
 
 /**
@@ -14,6 +14,10 @@ import android.view.View;
 interface ConfigInterface {
 
     boolean isConfigured();
+
+    // Activity theme
+
+    Config activityTheme(@StyleRes int theme);
 
     // Primary colors
 

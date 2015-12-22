@@ -61,7 +61,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.2.1') {
+	compile('com.github.afollestad:app-theme-engine:0.3.0') {
 		transitive = true
 	}
 }
@@ -83,6 +83,7 @@ Here are a few configuration methods that can be used:
 
 ```java
 ATE.config(this, null) // context, optional key
+    .activityTheme(R.style.my_theme) // 0 to disable, sets a default theme for all Activities
     .coloredActionBar(true)
     .primaryColor(color)
     .autoGeneratePrimaryDark(true) // when true, primaryColorDark is auto generated from primaryColor
@@ -145,7 +146,13 @@ in your Configuration (if you don't want to use separate keys for different scre
 
 ```java
 public class MyActivity extends AppCompatActivity 
-        implements ATEStatusBarCustomizer, ATETaskDescriptionCustomizer, ATENavigationBarCustomizer {
+        implements ATEActivityThemeCustomizer, ATEStatusBarCustomizer, ATETaskDescriptionCustomizer, ATENavigationBarCustomizer {
+    
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        return R.style.my_activity_theme;
+    }
     
     @ColorInt
     @Override
@@ -169,6 +176,9 @@ public class MyActivity extends AppCompatActivity
     }
 }
 ```
+
+You can override some or all, to fit your needs. But again, you need to use these if you use keys for 
+different configurations.
 
 ---
 

@@ -12,6 +12,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
@@ -22,32 +23,7 @@ import com.afollestad.appthemeengine.util.Util;
 /**
  * @author Aidan Follestad (afollestad)
  */
-public final class Config implements ConfigInterface {
-
-    private final static String CONFIG_PREFS_KEY_DEFAULT = "[[afollestad_app-theme-engine]]";
-    private final static String CONFIG_PREFS_KEY_CUSTOM = "[[afollestad_app-theme-engine_%s]]";
-    private final static String IS_CONFIGURED_KEY = "is_configured";
-    protected final static String VALUES_CHANGED = "values_changed";
-
-    private final static String KEY_PRIMARY_COLOR = "primary_color";
-    private final static String KEY_PRIMARY_COLOR_DARK = "primary_color_dark";
-    private final static String KEY_ACCENT_COLOR = "accent_color";
-    private final static String KEY_STATUS_BAR_COLOR = "status_bar_color";
-    private final static String KEY_NAVIGATION_BAR_COLOR = "navigation_bar_color";
-
-    private final static String KEY_TEXT_COLOR_PRIMARY = "text_color_primary";
-    private final static String KEY_TEXT_COLOR_SECONDARY = "text_color_secondary";
-
-    private final static String KEY_APPLY_PRIMARYDARK_STATUSBAR = "apply_primarydark_statusbar";
-    private final static String KEY_APPLY_PRIMARY_SUPPORTAB = "apply_primary_supportab";
-    private final static String KEY_APPLY_PRIMARY_NAVBAR = "apply_primary_navbar";
-    private final static String KEY_AUTO_GENERATE_PRIMARYDARK = "auto_generate_primarydark";
-
-    private final static String KEY_THEMED_NAVIGATION_VIEW = "apply_navigation_view";
-    private final static String KEY_NAVIGATIONVIEW_SELECTED_TEXT = "navigation_view_selected_text";
-    private final static String KEY_NAVIGATIONVIEW_NORMAL_TEXT = "navigation_view_normal_text";
-    private final static String KEY_NAVIGATIONVIEW_SELECTED_ICON = "navigation_view_selected_icon";
-    private final static String KEY_NAVIGATIONVIEW_NORMAL_ICON = "navigation_view_normal_icon";
+public final class Config extends ConfigBase {
 
     private final Context mContext;
     private final String mKey;
@@ -64,6 +40,12 @@ public final class Config implements ConfigInterface {
     @Override
     public boolean isConfigured() {
         return prefs(mContext, mKey).getBoolean(IS_CONFIGURED_KEY, false);
+    }
+
+    @Override
+    public Config activityTheme(@StyleRes int theme) {
+        mEditor.putInt(KEY_ACTIVITY_THEME, theme);
+        return this;
     }
 
     @Override
@@ -315,6 +297,12 @@ public final class Config implements ConfigInterface {
         return context.getSharedPreferences(
                 key != null ? String.format(CONFIG_PREFS_KEY_CUSTOM, key) : CONFIG_PREFS_KEY_DEFAULT,
                 Context.MODE_PRIVATE);
+    }
+
+    @CheckResult
+    @StyleRes
+    public static int activityTheme(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getInt(KEY_ACTIVITY_THEME, 0);
     }
 
     @CheckResult
