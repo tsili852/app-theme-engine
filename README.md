@@ -10,7 +10,7 @@ Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/
 
 If your app has two themes, a light theme and a dark theme, DON'T use this library. Static themes are faster.
 
-This library is intended for apps that allow users to change them values at runtime. If you have static themes, 
+This library is intended for apps that allow users to change theme values at runtime. If you have static themes, 
 you can use different colors, drawables, dimens, etc. throughout your app for each theme using theme attributes (`attrs.xml`).
 
 ---
