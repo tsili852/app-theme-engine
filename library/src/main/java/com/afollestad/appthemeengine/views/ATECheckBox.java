@@ -44,7 +44,7 @@ public class ATECheckBox extends CheckBox {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATECheckBox, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATECheckBox_ateKey);
+                    key = a.getString(R.styleable.ATECheckBox_ateKey_checkBox);
                 } finally {
                     a.recycle();
                 }

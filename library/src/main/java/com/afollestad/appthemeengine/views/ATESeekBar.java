@@ -44,7 +44,7 @@ public class ATESeekBar extends SeekBar {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESeekBar, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATESeekBar_ateKey);
+                    key = a.getString(R.styleable.ATESeekBar_ateKey_seekBar);
                 } finally {
                     a.recycle();
                 }

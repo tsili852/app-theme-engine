@@ -43,7 +43,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/header"
-                    android:textSize="@dimen/header_text_size" />
+                    android:textSize="@dimen/header_text_size"
+                    app:ateKey_primaryTextView="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATESecondaryTextView
                     android:layout_width="wrap_content"
@@ -53,41 +54,47 @@
                     android:lineSpacingMultiplier="1.4"
                     android:tag="text_secondary"
                     android:text="@string/lorem_ipsum"
-                    android:textSize="@dimen/body_text_size" />
+                    android:textSize="@dimen/body_text_size"
+                    app:ateKey_secondaryTextView="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATECheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/content_inset"
                     android:checked="true"
-                    android:text="@string/checkbox" />
+                    android:text="@string/checkbox"
+                    app:ateKey_checkBox="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATERadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/content_inset"
                     android:checked="true"
-                    android:text="@string/radiobutton" />
+                    android:text="@string/radiobutton"
+                    app:ateKey_radioButton="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATEEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/content_inset"
                     android:hint="@string/edit_text"
-                    android:tag="tint_accent_color" />
+                    android:tag="tint_accent_color"
+                    app:ateKey_editText="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATEProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/content_inset"
-                    android:tag="tint_accent_color" />
+                    android:tag="tint_accent_color"
+                    app:ateKey_progressBar="?ate_key" />
 
                 <com.afollestad.appthemeengine.views.ATESeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/content_inset"
-                    android:tag="tint_accent_color" />
+                    android:tag="tint_accent_color"
+                    app:ateKey_seekBar="?ate_key" />
 
             </LinearLayout>
 

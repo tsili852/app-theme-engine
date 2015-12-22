@@ -44,7 +44,7 @@ public class ATEEditText extends EditText {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEEditText, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATEEditText_ateKey);
+                    key = a.getString(R.styleable.ATEEditText_ateKey_editText);
                 } finally {
                     a.recycle();
                 }

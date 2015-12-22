@@ -510,10 +510,11 @@ If you use Config keys in your app, you may want to apply theme to these pre-mad
 <com.afollestad.appthemeengine.ATECheckBox
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:ateKey="your-config-key-here" />
+    app:ateKey_checkBox="your-config-key-here" />
 ```
 
-All that you need to do is specify a value for `app:ateKey`.
+All of the different views have a different suffix to `app:ateKey_`, since using the same attribute 
+name for all of them would result in duplicate errors.
 
 You can even use theme attributes in your Activity themes and reference them for this value (which is 
 done in the sample project since different keys are used for a light and dark theme).

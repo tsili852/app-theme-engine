@@ -44,7 +44,7 @@ public class ATEPrimaryTextView extends TextView {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEPrimaryTextView, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATEPrimaryTextView_ateKey);
+                    key = a.getString(R.styleable.ATEPrimaryTextView_ateKey_primaryTextView);
                 } finally {
                     a.recycle();
                 }

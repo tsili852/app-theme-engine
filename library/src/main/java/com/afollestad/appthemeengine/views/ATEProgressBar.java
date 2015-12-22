@@ -44,7 +44,7 @@ public class ATEProgressBar extends ProgressBar {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEProgressBar, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATEProgressBar_ateKey);
+                    key = a.getString(R.styleable.ATEProgressBar_ateKey_progressBar);
                 } finally {
                     a.recycle();
                 }

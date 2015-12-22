@@ -44,7 +44,7 @@ public class ATESecondaryTextView extends TextView {
             try {
                 a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATESecondaryTextView, 0, 0);
                 try {
-                    key = a.getString(R.styleable.ATESecondaryTextView_ateKey);
+                    key = a.getString(R.styleable.ATESecondaryTextView_ateKey_secondaryTextView);
                 } finally {
                     a.recycle();
                 }
