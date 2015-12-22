@@ -190,16 +190,17 @@ different configurations.
 #### Marking as Changed
 
 In the sample project, you can switch between a light and dark theme. The preference that says whether or 
-not the dark theme is active is not part of ATE. The sample project tells the MainActivity that it
-needs to restart on return from the Settings Screen when the dark theme has been toggled, by marking ATE's
-configuration as changed:
+not the dark theme is active is not part of ATE. The sample project tells MainActivity that it
+needs to restart on return from the Settings Screen when the dark theme has been toggled using 
+`markChanged(Context, Class<? extends Activity>)`.
+
+You pass a Context and a target Activity which always restart on next return:
 
 ```java
-Config.markChanged(this);
+Config.markChanged(this, MyActivity.class);
 ```
 
-Simply, it causes `ATE#didValuesChange()` to return true the next time it is called. This changed state is removed
-after the next call to `ATE#didValuesChange()`, though.
+This state gets reset next time the target Activity makes a call to `didValuesChange()` or `apply()`.
 
 ---
 

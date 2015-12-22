@@ -30,7 +30,7 @@ public class AccentAboutDialog extends DialogFragment {
         return new MaterialDialog.Builder(context)
                 .title(R.string.about)
                 .positiveText(R.string.dismiss)
-                .titleColor(Config.primaryColor(context, ateKey))
+                .titleColor(Config.textColorPrimary(context, ateKey))
                 .contentColor(Config.textColorSecondary(context, ateKey))
                 .linkColor(accentColor)
                 .buttonRippleColor(accentColor)

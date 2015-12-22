@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -181,12 +180,8 @@ public final class ATE extends ATEBase {
 
     @SuppressLint("CommitPrefEdits")
     public static boolean didValuesChange(@NonNull Context context, long updateTime, @Nullable String key) {
-        final SharedPreferences prefs = Config.prefs(context, null);
-        if (prefs.getBoolean(Config.MARK_CHANGED, false)) {
-            prefs.edit().remove(Config.MARK_CHANGED).commit();
-            return true;
-        }
-        return ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime;
+        return (context instanceof Activity && Config.clearChanged(context, ((Activity) context).getClass())) ||
+                (ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime);
     }
 
     @Deprecated
@@ -242,6 +237,8 @@ public final class ATE extends ATEBase {
     }
 
     public static void apply(@NonNull Activity activity, @Nullable String key) {
+        Config.clearChanged(activity, activity.getClass());
+
         if (didPreApply == null)
             preApply(activity, key);
         if (Config.coloredActionBar(activity, key)) {

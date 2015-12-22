@@ -301,9 +301,20 @@ public final class Config extends ConfigBase {
                 Context.MODE_PRIVATE);
     }
 
-    public static void markChanged(@NonNull Context context) {
-        prefs(context, null).edit()
-                .putBoolean(MARK_CHANGED, true).commit();
+    public static void markChanged(@NonNull Context context, @NonNull Class<? extends Activity> target) {
+        final String key = String.format(MARK_CHANGED, target.getName());
+        prefs(context, null).edit().putBoolean(key, true).commit();
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    protected static boolean clearChanged(@NonNull Context context, @NonNull Class<? extends Activity> target) {
+        final SharedPreferences prefs = prefs(context, null);
+        final String key = String.format(MARK_CHANGED, target.getName());
+        if (prefs.getBoolean(key, false)) {
+            prefs.edit().remove(key).commit();
+            return true;
+        }
+        return false;
     }
 
     @Nullable
