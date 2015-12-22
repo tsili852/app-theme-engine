@@ -1,4 +1,4 @@
-package com.afollestad.appthemeengine;
+package com.afollestad.appthemeengine.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,7 +10,7 @@ import android.support.annotation.FloatRange;
 /**
  * @author Aidan Follestad (afollestad)
  */
-class Util {
+public final class Util {
 
     public static int resolveColor(Context context, @AttrRes int attr) {
         return resolveColor(context, attr, 0);

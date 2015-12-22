@@ -1,4 +1,4 @@
-package com.afollestad.appthemeengine;
+package com.afollestad.appthemeengine.util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -18,10 +18,12 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 
+import com.afollestad.appthemeengine.R;
+
 /**
  * https://raw.githubusercontent.com/afollestad/material-dialogs/master/core/src/main/java/com/afollestad/materialdialogs/internal/MDTintHelper.java
  */
-class TintHelper {
+public final class TintHelper {
 
     public static void setTintAuto(@NonNull View view, @ColorInt int color) {
         if (view instanceof RadioButton)
