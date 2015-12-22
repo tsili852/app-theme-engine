@@ -24,8 +24,8 @@ public class MainActivity extends ATEActivity {
         if (!ATE.config(this, null).isConfigured()) {
             // Default config
             ATE.config(this, null)
-                    .primaryColor(Color.parseColor("#455A64"))
-                    .accentColor(Color.parseColor("#263238"))
+                    .primaryColorRes(R.color.colorPrimary)
+                    .accentColorRes(R.color.colorAccent)
                     .coloredNavigationBar(true)
                     .commit();
         }
