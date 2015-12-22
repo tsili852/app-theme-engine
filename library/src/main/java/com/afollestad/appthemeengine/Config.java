@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.AttrRes;
+import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -53,6 +54,7 @@ public final class Config implements ConfigInterface {
         mEditor = prefs(context, key).edit();
     }
 
+    @CheckResult
     @Override
     public boolean isConfigured() {
         return prefs(mContext, mKey).getBoolean(IS_CONFIGURED_KEY, false);
@@ -285,6 +287,7 @@ public final class Config implements ConfigInterface {
 
     // Static getters
 
+    @CheckResult
     @NonNull
     protected static SharedPreferences prefs(@NonNull Context context, @Nullable String key) {
         return context.getSharedPreferences(
@@ -292,21 +295,25 @@ public final class Config implements ConfigInterface {
                 Context.MODE_PRIVATE);
     }
 
+    @CheckResult
     @ColorInt
     public static int primaryColor(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_PRIMARY_COLOR, Util.resolveColor(context, R.attr.colorPrimary, Color.parseColor("#455A64")));
     }
 
+    @CheckResult
     @ColorInt
     public static int primaryColorDark(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_PRIMARY_COLOR_DARK, Util.resolveColor(context, R.attr.colorPrimaryDark, Color.parseColor("#37474F")));
     }
 
+    @CheckResult
     @ColorInt
     public static int accentColor(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_ACCENT_COLOR, Util.resolveColor(context, R.attr.colorAccent, Color.parseColor("#263238")));
     }
 
+    @CheckResult
     @ColorInt
     public static int statusBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATEStatusBarCustomizer)
@@ -314,51 +321,62 @@ public final class Config implements ConfigInterface {
         return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
     }
 
+    @CheckResult
     @ColorInt
     public static int textColorPrimary(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_PRIMARY, Util.resolveColor(context, android.R.attr.textColorPrimary));
     }
 
+    @CheckResult
     @ColorInt
     public static int textColorSecondary(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_SECONDARY, Util.resolveColor(context, android.R.attr.textColorSecondary));
     }
 
+    @CheckResult
     public static boolean coloredStatusBar(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARYDARK_STATUSBAR, true);
     }
 
+    @CheckResult
     public static boolean coloredActionBar(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARY_SUPPORTAB, true);
     }
 
+    @CheckResult
     public static boolean coloredNavigationBar(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARY_NAVBAR, false);
     }
 
+    @CheckResult
     public static boolean autoGeneratePrimaryDark(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_AUTO_GENERATE_PRIMARYDARK, true);
     }
 
+    @CheckResult
     public static boolean navigationViewThemed(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_THEMED_NAVIGATION_VIEW, true);
     }
 
+    @CheckResult
     @ColorInt
     public static int navigationViewSelectedIcon(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_SELECTED_ICON, accentColor(context, key));
     }
 
+    @CheckResult
     @ColorInt
     public static int navigationViewSelectedText(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_SELECTED_TEXT, accentColor(context, key));
     }
 
+    @CheckResult
     @ColorInt
     public static int navigationViewNormalIcon(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_ICON, textColorSecondary(context, key));
     }
 
+    @CheckResult
     @ColorInt
     public static int navigationViewNormalText(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_TEXT, textColorPrimary(context, key));
