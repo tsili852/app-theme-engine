@@ -136,6 +136,8 @@ public final class ATE extends ATEBase {
                 });
         view.setItemTextColor(textSl);
         view.setItemIconTintList(iconSl);
+        final View headerView = view.getHeaderView(0);
+        if (headerView != null) apply(view, key);
     }
 
     private static boolean lightStatusBarEnabled(@NonNull Context context, @Nullable String key) {
