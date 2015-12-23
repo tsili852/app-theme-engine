@@ -9,6 +9,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -18,6 +19,9 @@ import android.view.View;
 import com.afollestad.appthemeengine.customizers.ATENavigationBarCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
 import com.afollestad.appthemeengine.util.Util;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -185,6 +189,13 @@ public final class Config extends ConfigBase {
     @Override
     public Config autoGeneratePrimaryDark(boolean autoGenerate) {
         mEditor.putBoolean(KEY_AUTO_GENERATE_PRIMARYDARK, autoGenerate);
+        return this;
+    }
+
+    @Override
+    public Config lightStatusBarMode(@LightStatusBarMode int mode, boolean tintToolbarTitleAndIcons) {
+        mEditor.putInt(KEY_LIGHT_STATUS_BAR_MODE, mode)
+                .putBoolean(KEY_TINT_TOOLBAR_TITLE_AND_ICONS, tintToolbarTitleAndIcons);
         return this;
     }
 
@@ -465,6 +476,16 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARY_NAVBAR, false);
     }
 
+    @CheckResult
+    public static int lightStatusBarMode(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getInt(KEY_LIGHT_STATUS_BAR_MODE, Config.LIGHT_STATUS_BAR_OFF);
+    }
+
+    @CheckResult
+    public static boolean tintToolbarTitleAndIcons(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getBoolean(KEY_TINT_TOOLBAR_TITLE_AND_ICONS, true);
+    }
+
     @Deprecated
     @CheckResult
     public static boolean autoGeneratePrimaryDark(@NonNull Context context) {
@@ -538,4 +559,14 @@ public final class Config extends ConfigBase {
     public static int navigationViewNormalText(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_TEXT, textColorPrimary(context, key));
     }
+
+
+    @IntDef({LIGHT_STATUS_BAR_OFF, LIGHT_STATUS_BAR_ON, LIGHT_STATUS_BAR_AUTO})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LightStatusBarMode {
+    }
+
+    public static final int LIGHT_STATUS_BAR_OFF = 0;
+    public static final int LIGHT_STATUS_BAR_ON = 1;
+    public static final int LIGHT_STATUS_BAR_AUTO = 2;
 }

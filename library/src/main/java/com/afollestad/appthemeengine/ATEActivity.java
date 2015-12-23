@@ -25,27 +25,11 @@ public class ATEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    private void apply() {
+    @Override
+    protected void onStart() {
+        super.onStart();
         ATE.apply(this, getATEKey());
         updateTime = System.currentTimeMillis();
-    }
-
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        apply();
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        apply();
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        super.setContentView(view, params);
-        apply();
     }
 
     @Override

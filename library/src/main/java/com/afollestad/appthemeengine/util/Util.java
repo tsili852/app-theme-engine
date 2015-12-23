@@ -39,6 +39,11 @@ public final class Util {
         return shiftColor(color, 0.9f);
     }
 
+    public static boolean isColorLight(@ColorInt int color) {
+        final double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
+        return darkness < 0.5;
+    }
+
     private Util() {
     }
 }

@@ -7,6 +7,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -21,6 +22,8 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,6 +36,7 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATETaskDescriptionCustomizer;
 import com.afollestad.appthemeengine.util.TintHelper;
+import com.afollestad.appthemeengine.util.Util;
 
 import java.lang.reflect.Field;
 
@@ -134,6 +138,35 @@ public final class ATE extends ATEBase {
         view.setItemIconTintList(iconSl);
     }
 
+    private static boolean lightStatusBarEnabled(@NonNull Context context, @Nullable String key) {
+        final int lightStatusMode = Config.lightStatusBarMode(context, key);
+        return lightStatusMode != Config.LIGHT_STATUS_BAR_OFF &&
+                (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
+    }
+
+    private static boolean processMenu(@NonNull Context context, @Nullable String key, @NonNull Menu menu) {
+        final boolean tinted = lightStatusBarEnabled(context, key);
+        for (int i = 0; i < menu.size(); i++) {
+            final MenuItem item = menu.getItem(i);
+            if (item.getIcon() != null)
+                item.getIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
+        }
+        return tinted;
+    }
+
+    private static void processToolbar(@NonNull Context context, @Nullable String key, @NonNull Toolbar toolbar) {
+        boolean tinted;
+        if (toolbar.getMenu() != null) {
+            tinted = processMenu(context, key, toolbar.getMenu());
+        } else {
+            tinted = lightStatusBarEnabled(context, key);
+        }
+        if (toolbar.getNavigationIcon() != null)
+            toolbar.getNavigationIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
+        // TODO user specified theme color for title? Invert primary text color?
+        toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
+    }
+
     private static void processTag(@NonNull Context context, @NonNull View current, @Nullable String key) {
         final String tag = (String) current.getTag();
         if (tag.contains(",")) {
@@ -151,13 +184,13 @@ public final class ATE extends ATEBase {
             final View current = view.getChildAt(i);
             if (current instanceof NavigationView) {
                 processNavigationView((NavigationView) current, key);
-            } else if (current.getTag() != null && current.getTag() instanceof String) {
-                Log.d("ATE", "Processed view: " + current.getClass().getName());
-                processTag(context, current, key);
-            }
-            if (current instanceof ViewGroup) {
-                Log.d("ATE", "Processed group: " + current.getClass().getName());
-                apply(context, (ViewGroup) current, key);
+            } else {
+                if (current instanceof Toolbar)
+                    processToolbar(context, key, (Toolbar) current);
+                if (current.getTag() != null && current.getTag() instanceof String)
+                    processTag(context, current, key);
+                if (current instanceof ViewGroup)
+                    apply(context, (ViewGroup) current, key);
             }
         }
         final long diff = System.currentTimeMillis() - start;
@@ -205,6 +238,24 @@ public final class ATE extends ATEBase {
                 window.setNavigationBarColor(Config.navigationBarColor(activity, key));
             else window.setNavigationBarColor(Color.BLACK);
             applyTaskDescription(activity, key);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final View decorView = activity.getWindow().getDecorView();
+            final int lightStatusMode = Config.lightStatusBarMode(activity, key);
+            boolean lightStatusEnabled = false;
+            switch (lightStatusMode) {
+                default: // OFF
+                    break;
+                case Config.LIGHT_STATUS_BAR_ON:
+                    lightStatusEnabled = true;
+                    break;
+                case Config.LIGHT_STATUS_BAR_AUTO:
+                    lightStatusEnabled = Util.isColorLight(Config.statusBarColor(activity, key));
+                    break;
+            }
+            if (lightStatusEnabled)
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            else decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS);
         }
     }
 
@@ -318,6 +369,8 @@ public final class ATE extends ATEBase {
         mToolbar.post(new Runnable() {
             @Override
             public void run() {
+                if (mToolbar.getMenu() != null)
+                    processMenu(mToolbar.getContext(), key, mToolbar.getMenu());
                 try {
                     Field f1 = Toolbar.class.getDeclaredField("mMenuView");
                     f1.setAccessible(true);

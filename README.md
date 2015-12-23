@@ -88,25 +88,35 @@ to set them again unless you want the value to be changed from what it was previ
 Here are a few configuration methods that can be used:
 
 ```java
-ATE.config(this, null) // context, optional key
-    .activityTheme(R.style.my_theme) // 0 to disable, sets a default theme for all Activities which use this config key
+// 0 to disable, sets a default theme for all Activities which use this config key
+ATE.config(this, null) 
+    // 0 to disable, sets a default theme for all Activities which use this config key
+    .activityTheme(R.style.my_theme) 
     .coloredActionBar(true)
     .primaryColor(color)
-    .autoGeneratePrimaryDark(true) // when true, primaryColorDark is auto generated from primaryColor
+    // when true, primaryColorDark is auto generated from primaryColor
+    .autoGeneratePrimaryDark(true) 
     .primaryColorDark(color)
     .accentColor(color)
     .coloredStatusBar(true)
-    .statusBarColor(color) // by default, is equal to primaryColorDark unless coloredStatusBar is false
+    // by default, is equal to primaryColorDark unless coloredStatusBar is false
+    .statusBarColor(color)
+     // dark status bar icons on Marshmallow (API 23)+
+     // second parameter will tint toolbar title/icons when light status bar mode is on
+    .lightStatusBarMode(Config.LIGHT_STATUS_BAR_OFF, true)
     .coloredNavigationBar(false)
-    .navigationBarColor(color) // by default, is equal to primaryColor unless coloredNavigationBar is false
+    // by default, is equal to primaryColor unless coloredNavigationBar is false
+    .navigationBarColor(color)
     .textColorPrimary(color)
     .textColorSecondary(color)
-    .navigationViewThemed(true) // enables or disables the next 4 values
+    // enables or disables the next 4 values
+    .navigationViewThemed(true) 
     .navigationViewSelectedIcon(color)
     .navigationViewSelectedText(color)
     .navigationViewNormalIcon(color)
     .navigationViewNormalText(color)
-    .apply(this); // activity, fragment, or view
+    // activity, fragment, or view
+    .apply(this);
 ```
 
 There's also color resource and color attribute variations of the color modifiers. For an example: 
@@ -220,8 +230,6 @@ public class MyActivity extends ATEActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // setContentView() triggers the theme engine initially
         setContentView(R.layout.my_layout);
     }
 }
@@ -244,8 +252,6 @@ public class MyActivity extends ATEActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // setContentView() triggers the theme engine initially
         setContentView(R.layout.my_layout);
     }
     
@@ -283,7 +289,8 @@ public class MyActivity extends AppCompatActivity {
         
         // Store the time the engine was initially applied, so the Activity can restart when coming back after changes
         updateTime = System.currentTimeMillis();
-        // Apply colors to other views in the Activity.
+        
+        // Apply colors to other views in the Activity. Call after all initial view setup, including toolbars!
         // Second parameter is optional config key.
         ATE.apply(this, null);
     }

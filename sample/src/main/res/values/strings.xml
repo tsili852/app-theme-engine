@@ -44,5 +44,18 @@
     <string name="radiobutton_clickme">Radio button (click me)</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="dark_theme_summary">Apply a dark theme throughout the app</string>
+    <string name="light_status_bar_mode">Light Status Bar Mode</string>
+
+    <string-array name="light_status_mode_entries">
+        <item>Normal, status bar icons will be white</item>
+        <item>On, status bar icons will be black</item>
+        <item>Auto, status bar icons will be black if status bar color is light</item>
+    </string-array>
+
+    <string-array name="light_status_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>
