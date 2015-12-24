@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
@@ -32,7 +33,6 @@ public final class TintHelper {
     public static void setTintSelector(@NonNull View view, @ColorInt int color, boolean darker) {
         final int pressed = Util.shiftColor(color, darker ? 0.9f : 1.1f);
         final int activated = Util.shiftColor(color, darker ? 1.1f : 0.9f);
-
         final ColorStateList sl = new ColorStateList(
                 new int[][]{
                         new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
@@ -47,6 +47,13 @@ public final class TintHelper {
                         activated
                 }
         );
+
+        if (view instanceof FloatingActionButton) {
+            final FloatingActionButton fab = (FloatingActionButton) view;
+            fab.setRippleColor(Util.isColorLight(color) ? Color.BLACK : Color.WHITE);
+            fab.setBackgroundTintList(sl);
+            return;
+        }
 
         Drawable drawable = view.getBackground();
         if (drawable != null) {

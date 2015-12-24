@@ -118,8 +118,7 @@
                 android:src="@drawable/ic_add"
                 android:tag="bg_tint_accent_color_selector_lighter"
                 app:elevation="6dp"
-                app:pressedTranslationZ="12dp"
-                app:rippleColor="#fff" />
+                app:pressedTranslationZ="12dp" />
 
         </FrameLayout>
 
