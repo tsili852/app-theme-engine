@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/checkboxItem"
         android:checkable="true"
         android:checked="true"

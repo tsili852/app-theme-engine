@@ -6,6 +6,14 @@ import android.graphics.Color;
 import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.WindowDecorActionBar;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ToolbarWidgetWrapper;
+
+import java.lang.reflect.Field;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -42,6 +50,22 @@ public final class Util {
     public static boolean isColorLight(@ColorInt int color) {
         final double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
         return darkness < 0.5;
+    }
+
+    @Nullable
+    public static Toolbar getSupportActionBarView(@NonNull ActionBar ab) {
+        if (!(ab instanceof WindowDecorActionBar)) return null;
+        try {
+            WindowDecorActionBar decorAb = (WindowDecorActionBar) ab;
+            Field field = WindowDecorActionBar.class.getDeclaredField("mDecorToolbar");
+            field.setAccessible(true);
+            ToolbarWidgetWrapper wrapper = (ToolbarWidgetWrapper) field.get(decorAb);
+            field = ToolbarWidgetWrapper.class.getDeclaredField("mToolbar");
+            field.setAccessible(true);
+            return (Toolbar) field.get(wrapper);
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to retrieve Toolbar from AppCompat support ActionBar: " + t.getMessage(), t);
+        }
     }
 
     private Util() {

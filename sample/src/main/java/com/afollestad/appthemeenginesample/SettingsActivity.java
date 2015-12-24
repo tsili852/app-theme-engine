@@ -11,13 +11,14 @@ import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import android.support.annotation.StyleRes;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
 import com.afollestad.appthemeengine.Config;
+import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference;
 import com.afollestad.appthemeenginesample.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
@@ -27,13 +28,21 @@ import com.afollestad.materialdialogs.prefs.MaterialListPreference;
  * @author Aidan Follestad (afollestad)
  */
 @SuppressLint("NewApi")
-public class SettingsActivity extends ATEActivity implements ColorChooserDialog.ColorCallback {
+public class SettingsActivity extends ATEActivity
+        implements ColorChooserDialog.ColorCallback, ATEActivityThemeCustomizer {
 
     @Nullable
     @Override
     protected String getATEKey() {
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
                 "dark_theme" : "light_theme";
+    }
+
+    @StyleRes
+    @Override
+    public int getActivityTheme() {
+        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
+                R.style.AppThemeDark_ActionBar : R.style.AppTheme_ActionBar;
     }
 
     @Override
@@ -185,8 +194,6 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preference_activity_custom);
-
-        setSupportActionBar((Toolbar) findViewById(R.id.appbar_toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null)

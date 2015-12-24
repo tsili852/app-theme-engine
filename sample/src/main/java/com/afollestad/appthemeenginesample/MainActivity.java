@@ -63,15 +63,7 @@ public class MainActivity extends ATEActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 mDrawer.closeDrawers();
-                if (item.getItemId() == R.id.settings) {
-                    post(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                        }
-                    });
-                    return false;
-                } else if (item.getItemId() == R.id.about) {
+                if (item.getItemId() == R.id.about) {
                     post(new Runnable() {
                         @Override
                         public void run() {
@@ -94,6 +86,15 @@ public class MainActivity extends ATEActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

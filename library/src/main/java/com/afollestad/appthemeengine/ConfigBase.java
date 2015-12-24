@@ -5,8 +5,8 @@ package com.afollestad.appthemeengine;
  */
 abstract class ConfigBase implements ConfigInterface {
 
-    protected final static String CONFIG_PREFS_KEY_DEFAULT = "[[afollestad_app-theme-engine]]";
-    protected final static String CONFIG_PREFS_KEY_CUSTOM = "[[afollestad_app-theme-engine_%s]]";
+    protected final static String CONFIG_PREFS_KEY_DEFAULT = "[[afollestad_theme-engine]]";
+    protected final static String CONFIG_PREFS_KEY_CUSTOM = "[[afollestad_heme-engine_%s]]";
     protected final static String IS_CONFIGURED_KEY = "is_configured";
     protected final static String VALUES_CHANGED = "values_changed";
 

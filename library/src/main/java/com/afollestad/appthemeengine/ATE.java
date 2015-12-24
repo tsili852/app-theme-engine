@@ -21,7 +21,6 @@ import android.support.v7.view.menu.ListMenuItemView;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -114,42 +113,49 @@ public final class ATE extends ATEBase {
                 break;
 
             case KEY_TEXTSHADOW_PRIMARY_COLOR: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.primaryColor(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_PRIMARY_COLOR_DARK: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.primaryColorDark(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_ACCENT_COLOR: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.accentColor(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_PRIMARY: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.textColorPrimary(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_PRIMARY_INVERSE: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.textColorPrimaryInverse(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_SECONDARY: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.textColorSecondary(context, key));
                 break;
             }
             case KEY_TEXTSHADOW_SECONDARY_INVERSE: {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) return;
                 final TextView tv = (TextView) current;
                 tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
                         Config.textColorSecondaryInverse(context, key));
@@ -279,7 +285,7 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    private static void processToolbar(@NonNull Context context, @Nullable String key, @NonNull Toolbar toolbar) {
+    protected static void processToolbar(@NonNull Context context, @Nullable String key, @NonNull Toolbar toolbar) {
         boolean tinted = lightStatusBarEnabled(context, key);
         if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
             final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
@@ -312,7 +318,6 @@ public final class ATE extends ATEBase {
     }
 
     private static void apply(@NonNull Context context, @NonNull ViewGroup view, @Nullable String key) {
-        final long start = System.currentTimeMillis();
         for (int i = 0; i < view.getChildCount(); i++) {
             final View current = view.getChildAt(i);
             if (current instanceof NavigationView) {
@@ -326,8 +331,6 @@ public final class ATE extends ATEBase {
                     apply(context, (ViewGroup) current, key);
             }
         }
-        final long diff = System.currentTimeMillis() - start;
-        Log.d("ATE", String.format("Theme engine applied in %dms (%d seconds).", diff, diff / 1000));
     }
 
     @Deprecated
@@ -425,8 +428,11 @@ public final class ATE extends ATEBase {
         if (Config.coloredActionBar(activity, key)) {
             if (activity instanceof AppCompatActivity) {
                 final AppCompatActivity aca = (AppCompatActivity) activity;
-                if (aca.getSupportActionBar() != null)
+                if (aca.getSupportActionBar() != null) {
                     aca.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
+                    Toolbar abView = Util.getSupportActionBarView(aca.getSupportActionBar());
+                    if (abView != null) processToolbar(activity, key, abView);
+                }
             } else if (activity.getActionBar() != null) {
                 activity.getActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
             }
