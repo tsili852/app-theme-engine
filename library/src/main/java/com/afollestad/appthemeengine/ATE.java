@@ -290,7 +290,7 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    protected static void processToolbar(final @NonNull Context context, final @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
+    protected static void processToolbar(@NonNull Context context, @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
         if (toolbar == null && context instanceof AppCompatActivity)
             toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
         if (toolbar == null) return;
@@ -317,7 +317,6 @@ public final class ATE extends ATEBase {
             Util.setOverflowButtonColor((Activity) context, color);
 
             try {
-                final Toolbar fToolbar = toolbar;
                 final Field menuField = Toolbar.class.getDeclaredField("mMenuBuilderCallback");
                 menuField.setAccessible(true);
                 final Field presenterField = Toolbar.class.getDeclaredField("mActionMenuPresenterCallback");
@@ -325,28 +324,16 @@ public final class ATE extends ATEBase {
                 final Field menuViewField = Toolbar.class.getDeclaredField("mMenuView");
                 menuViewField.setAccessible(true);
 
-                final MenuBuilder.Callback currentMenuCb = (MenuBuilder.Callback) menuField.get(toolbar);
                 final MenuPresenter.Callback currentPresenterCb = (MenuPresenter.Callback) presenterField.get(toolbar);
-                final MenuPresenter.Callback newPresenterCb = new MenuPresenter.Callback() {
-                    @Override
-                    public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
-                        if (currentPresenterCb != null)
-                            currentPresenterCb.onCloseMenu(menu, allMenusAreClosing);
-                    }
-
-                    @Override
-                    public boolean onOpenSubMenu(MenuBuilder subMenu) {
-                        if (currentPresenterCb != null)
-                            currentPresenterCb.onOpenSubMenu(subMenu);
-                        applyOverflow((Activity) context, key, fToolbar);
-                        return true;
-                    }
-                };
-                toolbar.setMenuCallbacks(newPresenterCb, currentMenuCb);
-
-                ActionMenuView menuView = (ActionMenuView) menuViewField.get(toolbar);
-                if (menuView != null)
-                    menuView.setMenuCallbacks(newPresenterCb, currentMenuCb);
+                if (!(currentPresenterCb instanceof ATEMenuPresenterCallback)) {
+                    final ATEMenuPresenterCallback newPresenterCb = new ATEMenuPresenterCallback(
+                            (Activity) context, key, currentPresenterCb, toolbar);
+                    final MenuBuilder.Callback currentMenuCb = (MenuBuilder.Callback) menuField.get(toolbar);
+                    toolbar.setMenuCallbacks(newPresenterCb, currentMenuCb);
+                    ActionMenuView menuView = (ActionMenuView) menuViewField.get(toolbar);
+                    if (menuView != null)
+                        menuView.setMenuCallbacks(newPresenterCb, currentMenuCb);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
