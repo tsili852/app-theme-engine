@@ -30,6 +30,14 @@ import java.util.ArrayList;
  */
 public final class Util {
 
+    public static int adjustAlpha(@ColorInt int color, @FloatRange(from = 0.0, to = 1.0) float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     public static int resolveColor(Context context, @AttrRes int attr) {
         return resolveColor(context, attr, 0);
     }

@@ -7,12 +7,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.R;
@@ -87,6 +90,10 @@ public final class TintHelper {
                 setTint((CheckBox) view, color);
             else if (view instanceof ImageView)
                 setTint((ImageView) view, color);
+            else if (view instanceof Switch)
+                setTint((Switch) view, color);
+            else if (view instanceof SwitchCompat)
+                setTint((SwitchCompat) view, color);
             else background = true;
         }
         if (background) {
@@ -204,8 +211,7 @@ public final class TintHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             box.setButtonTintList(sl);
         } else {
-            Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(box.getContext(), R.drawable.abc_btn_check_material));
-            DrawableCompat.setTintList(drawable, sl);
+            Drawable drawable = tintDrawable(ContextCompat.getDrawable(box.getContext(), R.drawable.abc_btn_check_material), sl);
             box.setButtonDrawable(drawable);
         }
     }
@@ -214,11 +220,52 @@ public final class TintHelper {
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
+    private static Drawable modifySwitchDrawable(@NonNull Drawable from, @ColorInt int tint, @FloatRange(from = 0.0, to = 1.0) float alpha, boolean thumb) {
+        if (alpha < 1f)
+            tint = Util.adjustAlpha(tint, alpha);
+        final ColorStateList sl = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_activated, -android.R.attr.state_checked},
+                        new int[]{android.R.attr.state_activated},
+                        new int[]{android.R.attr.state_checked}
+                },
+                new int[]{
+                        Color.parseColor(thumb ? "#e7e7e7" : "#9f9f9f"),
+                        tint,
+                        tint
+                }
+        );
+        return tintDrawable(from, sl);
+    }
+
+    public static void setTint(@NonNull Switch switchView, @ColorInt int color) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) return;
+        if (switchView.getTrackDrawable() != null)
+            switchView.setTrackDrawable(modifySwitchDrawable(switchView.getTrackDrawable(), color, 0.5f, false));
+        if (switchView.getThumbDrawable() != null)
+            switchView.setThumbDrawable(modifySwitchDrawable(switchView.getThumbDrawable(), color, 1.0f, true));
+    }
+
+    public static void setTint(@NonNull SwitchCompat switchView, @ColorInt int color) {
+        if (switchView.getTrackDrawable() != null)
+            switchView.setTrackDrawable(modifySwitchDrawable(switchView.getTrackDrawable(), color, 0.5f, false));
+        if (switchView.getThumbDrawable() != null)
+            switchView.setThumbDrawable(modifySwitchDrawable(switchView.getThumbDrawable(), color, 1.0f, true));
+    }
+
     @Nullable
     public static Drawable tintDrawable(@Nullable Drawable drawable, @ColorInt int color) {
         if (drawable == null) return null;
         drawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTint(drawable, color);
+        return drawable;
+    }
+
+    @Nullable
+    public static Drawable tintDrawable(@Nullable Drawable drawable, @NonNull ColorStateList sl) {
+        if (drawable == null) return null;
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(drawable, sl);
         return drawable;
     }
 }

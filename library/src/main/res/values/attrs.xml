@@ -29,4 +29,8 @@
         <attr name="ateKey_seekBar" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="ATESwitch">
+        <attr name="ateKey_switch" format="string" />
+    </declare-styleable>
+
 </resources>
