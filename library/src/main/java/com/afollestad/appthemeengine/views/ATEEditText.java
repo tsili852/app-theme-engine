@@ -37,7 +37,7 @@ public class ATEEditText extends EditText {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        setTag("tint_accent_color");
+        setTag("tint_accent_color,text_primary");
         String key = null;
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ATEEditText, 0, 0);
