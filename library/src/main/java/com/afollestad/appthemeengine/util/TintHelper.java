@@ -52,9 +52,7 @@ public final class TintHelper {
         if (drawable != null) {
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTintList(drawable, sl);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                view.setBackground(drawable);
-            else view.setBackgroundDrawable(drawable);
+            Util.setBackgroundCompat(view, drawable);
         }
 
         if (view instanceof TextView) {
@@ -88,9 +86,7 @@ public final class TintHelper {
             if (drawable != null) {
                 drawable = DrawableCompat.wrap(drawable);
                 DrawableCompat.setTint(drawable, color);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                    view.setBackground(drawable);
-                else view.setBackgroundDrawable(drawable);
+                Util.setBackgroundCompat(view, drawable);
             }
         }
     }
@@ -213,6 +209,4 @@ public final class TintHelper {
         DrawableCompat.setTint(drawable, color);
         return drawable;
     }
-
-
 }

@@ -299,7 +299,7 @@ public final class ATE extends ATEBase {
             tinted = Util.isColorLight(toolbarBg.getColor());
         }
         final int color = tinted ? Color.BLACK : Color.WHITE;
-        toolbar.setTitleTextColor(color);
+            toolbar.setTitleTextColor(color);
         if (toolbar.getNavigationIcon() != null)
             toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), color));
         if (menu == null)
@@ -457,7 +457,11 @@ public final class ATE extends ATEBase {
             if (activity instanceof AppCompatActivity) {
                 final AppCompatActivity aca = (AppCompatActivity) activity;
                 if (aca.getSupportActionBar() != null) {
-                    aca.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
+                    Toolbar toolbar = Util.getSupportActionBarView(aca.getSupportActionBar());
+                    if (toolbar != null)
+                        Util.setBackgroundCompat(toolbar, new ColorDrawable(Config.primaryColor(activity, key)));
+                    else
+                        aca.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
                     processToolbar(activity, key, null, null);
                 }
             } else if (activity.getActionBar() != null) {
