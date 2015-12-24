@@ -1,5 +1,7 @@
 package com.afollestad.appthemeengine;
 
+import android.support.v7.widget.Toolbar;
+
 /**
  * @author Aidan Follestad (afollestad)
  */
@@ -70,4 +72,5 @@ class ATEBase {
     protected final static String KEY_BG_TINT_TEXT_SECONDARY_INVERSE_SELECTOR_DARKER = "bg_tint_text_secondary_inverse_selector_darker";
 
     protected static Class<?> didPreApply = null;
+    protected static Toolbar mToolbar = null;
 }

@@ -176,7 +176,7 @@ public class SettingsActivity extends ATEActivity
                         @Config.LightStatusBarMode
                         int constant = Integer.parseInt((String) newValue);
                         ATE.config(getActivity(), mAteKey)
-                                .lightStatusBarMode(constant, true)
+                                .lightStatusBarMode(constant)
                                 .apply(getActivity());
                         preference.setSummary(((ListPreference) preference).getEntries()[constant]);
                         return true;

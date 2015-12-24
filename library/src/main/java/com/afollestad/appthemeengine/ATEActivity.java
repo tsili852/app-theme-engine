@@ -3,10 +3,7 @@ package com.afollestad.appthemeengine;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-
-import com.afollestad.appthemeengine.util.Util;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -42,10 +39,19 @@ public class ATEActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (getSupportActionBar() != null) {
-            Toolbar abView = Util.getSupportActionBarView(getSupportActionBar());
-            if (abView != null) ATE.processToolbar(this, getATEKey(), abView);
-        }
+        ATE.applyMenu(this, getATEKey(), menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        ATE.applyOverflow(this, getATEKey());
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        ATE.applyOverflow(this, getATEKey());
+        return super.onMenuOpened(featureId, menu);
     }
 }

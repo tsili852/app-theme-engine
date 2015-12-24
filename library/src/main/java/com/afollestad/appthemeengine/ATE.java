@@ -7,7 +7,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -285,25 +284,31 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    protected static void processToolbar(@NonNull Context context, @Nullable String key, @NonNull Toolbar toolbar) {
+    protected static void processToolbar(@NonNull Context context, @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
+        if (toolbar == null && context instanceof AppCompatActivity)
+            toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
+        if (toolbar == null) return;
+
         boolean tinted = lightStatusBarEnabled(context, key);
         if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
             final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
             tinted = Util.isColorLight(toolbarBg.getColor());
-            toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
-        } else {
-            toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
         }
+        final int color = tinted ? Color.BLACK : Color.WHITE;
+        toolbar.setTitleTextColor(color);
         if (toolbar.getNavigationIcon() != null)
-            toolbar.getNavigationIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
-        if (toolbar.getMenu() != null && toolbar.getMenu().size() > 0) {
-            final Menu menu = toolbar.getMenu();
+            toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), color));
+        if (menu == null)
+            menu = toolbar.getMenu();
+        if (menu != null && menu.size() > 0) {
             for (int i = 0; i < menu.size(); i++) {
                 final MenuItem item = menu.getItem(i);
                 if (item.getIcon() != null)
-                    item.getIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
+                    item.setIcon(TintHelper.tintDrawable(item.getIcon(), color));
             }
         }
+        if (context instanceof Activity)
+            Util.setOverflowButtonColor((Activity) context, color);
     }
 
     private static void processTag(@NonNull Context context, @NonNull View current, @Nullable String key) {
@@ -323,8 +328,10 @@ public final class ATE extends ATEBase {
             if (current instanceof NavigationView) {
                 processNavigationView((NavigationView) current, key);
             } else {
-                if (current instanceof Toolbar)
-                    processToolbar(context, key, (Toolbar) current);
+                if (current instanceof Toolbar) {
+                    mToolbar = (Toolbar) current;
+                    processToolbar(context, key, mToolbar, null);
+                }
                 if (current.getTag() != null && current.getTag() instanceof String)
                     processTag(context, current, key);
                 if (current instanceof ViewGroup)
@@ -359,6 +366,7 @@ public final class ATE extends ATEBase {
 
     public static void preApply(@NonNull Activity activity, @Nullable String key) {
         didPreApply = activity.getClass();
+        mToolbar = null;
 
         int activityTheme = activity instanceof ATEActivityThemeCustomizer ?
                 ((ATEActivityThemeCustomizer) activity).getActivityTheme() : Config.activityTheme(activity, key);
@@ -430,8 +438,7 @@ public final class ATE extends ATEBase {
                 final AppCompatActivity aca = (AppCompatActivity) activity;
                 if (aca.getSupportActionBar() != null) {
                     aca.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
-                    Toolbar abView = Util.getSupportActionBarView(aca.getSupportActionBar());
-                    if (abView != null) processToolbar(activity, key, abView);
+                    processToolbar(activity, key, null, null);
                 }
             } else if (activity.getActionBar() != null) {
                 activity.getActionBar().setBackgroundDrawable(new ColorDrawable(Config.primaryColor(activity, key)));
@@ -496,37 +503,38 @@ public final class ATE extends ATEBase {
         activity.setTaskDescription(td);
     }
 
-    @Deprecated
-    public static void applyMenu(final @NonNull Toolbar mToolbar) {
-        applyMenu(mToolbar, null);
+    public static void applyMenu(@NonNull Activity activity, @Nullable String key, @Nullable Menu menu) {
+        processToolbar(activity, key, mToolbar, menu);
     }
 
-    public static void applyMenu(final @NonNull Toolbar mToolbar, final @Nullable String key) {
-        mToolbar.post(new Runnable() {
+    public static void applyOverflow(@NonNull AppCompatActivity activity, @Nullable String key) {
+        final Toolbar toolbar = mToolbar != null ? mToolbar : Util.getSupportActionBarView(activity.getSupportActionBar());
+        applyOverflow(activity, key, toolbar);
+    }
+
+    public static void applyOverflow(final @NonNull Activity activity, final @Nullable String key, final @Nullable Toolbar toolbar) {
+        if (toolbar == null) return;
+        toolbar.post(new Runnable() {
             @Override
             public void run() {
-                if (mToolbar.getMenu() != null)
-                    processToolbar(mToolbar.getContext(), key, mToolbar);
                 try {
                     Field f1 = Toolbar.class.getDeclaredField("mMenuView");
                     f1.setAccessible(true);
-                    ActionMenuView actionMenuView = (ActionMenuView) f1.get(mToolbar);
-
+                    ActionMenuView actionMenuView = (ActionMenuView) f1.get(toolbar);
                     Field f2 = ActionMenuView.class.getDeclaredField("mPresenter");
                     f2.setAccessible(true);
 
-                    //Actually ActionMenuPresenter
+                    // Actually ActionMenuPresenter
                     BaseMenuPresenter presenter = (BaseMenuPresenter) f2.get(actionMenuView);
-
                     Field f3 = presenter.getClass().getDeclaredField("mOverflowPopup");
                     f3.setAccessible(true);
                     MenuPopupHelper overflowMenuPopupHelper = (MenuPopupHelper) f3.get(presenter);
-                    setTintForMenuPopupHelper(overflowMenuPopupHelper, key);
+                    setTintForMenuPopupHelper(activity, overflowMenuPopupHelper, key);
 
                     Field f4 = presenter.getClass().getDeclaredField("mActionButtonPopup");
                     f4.setAccessible(true);
                     MenuPopupHelper subMenuPopupHelper = (MenuPopupHelper) f4.get(presenter);
-                    setTintForMenuPopupHelper(subMenuPopupHelper, key);
+                    setTintForMenuPopupHelper(activity, subMenuPopupHelper, key);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -534,7 +542,7 @@ public final class ATE extends ATEBase {
         });
     }
 
-    private static void setTintForMenuPopupHelper(MenuPopupHelper menuPopupHelper, final @Nullable String key) {
+    private static void setTintForMenuPopupHelper(final @NonNull Activity context, @Nullable MenuPopupHelper menuPopupHelper, final @Nullable String key) {
         if (menuPopupHelper != null) {
             final ListView listView = menuPopupHelper.getPopup().getListView();
             listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -548,25 +556,21 @@ public final class ATE extends ATEBase {
 
                         for (int i = 0; i < listView.getChildCount(); i++) {
                             View v = listView.getChildAt(i);
-                            if (!(v instanceof ListMenuItemView)) {
-                                continue;
-                            }
+                            if (!(v instanceof ListMenuItemView)) continue;
                             ListMenuItemView iv = (ListMenuItemView) v;
 
                             CheckBox check = (CheckBox) checkboxField.get(iv);
                             if (check != null) {
-                                TintHelper.setTint(check, Config.accentColor(listView.getContext(), key));
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                TintHelper.setTint(check, Config.accentColor(context, key));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                     check.setBackground(null);
-                                }
                             }
 
                             RadioButton radioButton = (RadioButton) radioButtonField.get(iv);
                             if (radioButton != null) {
-                                TintHelper.setTint(radioButton, Config.accentColor(listView.getContext(), key));
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                TintHelper.setTint(radioButton, Config.accentColor(context, key));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                     radioButton.setBackground(null);
-                                }
                             }
                         }
                     } catch (Throwable e) {

@@ -13,11 +13,9 @@ import android.view.MenuItem;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
-import com.afollestad.appthemeengine.Config;
 
 public class MainActivity extends ATEActivity {
 
-    private Toolbar mToolbar;
     private DrawerLayout mDrawer;
 
     @Nullable
@@ -36,8 +34,7 @@ public class MainActivity extends ATEActivity {
                     .activityTheme(R.style.AppTheme)
                     .primaryColorRes(R.color.colorPrimaryLightDefault)
                     .accentColorRes(R.color.colorAccentLightDefault)
-                    .coloredNavigationBar(true)
-                    .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO, true)
+                    .coloredNavigationBar(false)
                     .commit();
         }
         if (!ATE.config(this, "dark_theme").isConfigured()) {
@@ -52,13 +49,13 @@ public class MainActivity extends ATEActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.appbar_toolbar);
-        mToolbar.setTitle(R.string.app_name);
-        mToolbar.setNavigationIcon(R.drawable.ic_menu);
-        setSupportActionBar(mToolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        setSupportActionBar(toolbar);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer.setDrawerListener(new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close));
+        mDrawer.setDrawerListener(new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close));
 
         final NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -66,22 +63,18 @@ public class MainActivity extends ATEActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 mDrawer.closeDrawers();
                 if (item.getItemId() == R.id.about) {
-                    post(new Runnable() {
+                    mDrawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             AccentAboutDialog.show(MainActivity.this);
                         }
-                    });
+                    }, 200);
                     return false;
                 }
                 return true;
             }
         });
         navView.getMenu().findItem(R.id.home).setChecked(true);
-    }
-
-    private void post(Runnable runnable) {
-        mDrawer.postDelayed(runnable, 200);
     }
 
     @Override
@@ -97,11 +90,5 @@ public class MainActivity extends ATEActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        ATE.applyMenu(mToolbar, getATEKey());
-        return super.onMenuOpened(featureId, menu);
     }
 }

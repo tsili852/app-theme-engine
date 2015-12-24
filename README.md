@@ -29,7 +29,7 @@ Only use this library if you intend to give the user the ability to change the c
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
     3. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
-    4. [Overflow Menu Widgets](https://github.com/afollestad/app-theme-engine#overflow-menu-widgets)
+    4. [Menus and Overflow Menu](https://github.com/afollestad/app-theme-engine#menus-and-overflow-menus)
     5. [Lists and Individual Views](https://github.com/afollestad/app-theme-engine#lists-and-individual-views)
     6. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
@@ -343,42 +343,9 @@ be themed to your primary color automatically.
 There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
  section.
 
-#### Overflow Menu Widgets
+#### Menus and Overflow Menu
 
-If you have checkboxes or radio buttons in your Toolbar's overflow menu, you can tint them to your accent 
-color:
-
-```java
-public class MyActivity extends ATEActivity {
-
-    private Toolbar mToolbar;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_activity);
-        
-        mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionbar(mToolbar); // ATE does not support toolbars that aren't set as action bars right now
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        // When the overflow menu opens, a tint is applied to the widget views inside.
-        // Second parameter is optional key.
-        ATE.applyMenu(mToolbar, null);
-        return super.onMenuOpened(featureId, menu);
-    }
-}
-```
-
-You could override `onMenuOpened(int, Menu)` from any other type of `Activity` too, not just `ATEActivity`.
+*Will be filled in before the next release is ready.*
 
 #### Lists and Individual Views
 

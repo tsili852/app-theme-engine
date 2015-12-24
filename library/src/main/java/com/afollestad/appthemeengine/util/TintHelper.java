@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
@@ -203,5 +204,11 @@ public final class TintHelper {
 
     public static void setTint(@NonNull ImageView image, @ColorInt int color) {
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    }
+
+    public static Drawable tintDrawable(@Nullable Drawable drawable, @ColorInt int color) {
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, color);
+        return drawable;
     }
 }
