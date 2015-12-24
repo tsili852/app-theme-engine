@@ -57,7 +57,7 @@ interface ConfigInterface {
 
     Config navigationBarColorAttr(@AttrRes int colorAttr);
 
-    Config lightStatusBarMode(@Config.LightStatusBarMode int mode, boolean tintToolbarTitleAndIcons);
+    Config lightStatusBarMode(@Config.LightStatusBarMode int mode);
 
     // Primary text color
 

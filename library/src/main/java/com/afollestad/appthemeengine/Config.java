@@ -193,9 +193,8 @@ public final class Config extends ConfigBase {
     }
 
     @Override
-    public Config lightStatusBarMode(@LightStatusBarMode int mode, boolean tintToolbarTitleAndIcons) {
-        mEditor.putInt(KEY_LIGHT_STATUS_BAR_MODE, mode)
-                .putBoolean(KEY_TINT_TOOLBAR_TITLE_AND_ICONS, tintToolbarTitleAndIcons);
+    public Config lightStatusBarMode(@LightStatusBarMode int mode) {
+        mEditor.putInt(KEY_LIGHT_STATUS_BAR_MODE, mode);
         return this;
     }
 
@@ -483,12 +482,7 @@ public final class Config extends ConfigBase {
 
     @CheckResult
     public static int lightStatusBarMode(@NonNull Context context, @Nullable String key) {
-        return prefs(context, key).getInt(KEY_LIGHT_STATUS_BAR_MODE, Config.LIGHT_STATUS_BAR_OFF);
-    }
-
-    @CheckResult
-    public static boolean tintToolbarTitleAndIcons(@NonNull Context context, @Nullable String key) {
-        return prefs(context, key).getBoolean(KEY_TINT_TOOLBAR_TITLE_AND_ICONS, true);
+        return prefs(context, key).getInt(KEY_LIGHT_STATUS_BAR_MODE, Config.LIGHT_STATUS_BAR_AUTO);
     }
 
     @Deprecated

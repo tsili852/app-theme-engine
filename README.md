@@ -103,8 +103,7 @@ ATE.config(this, null)
     // by default, is equal to primaryColorDark unless coloredStatusBar is false
     .statusBarColor(color)
      // dark status bar icons on Marshmallow (API 23)+
-     // second parameter will tint toolbar title/icons when light status bar mode is on
-    .lightStatusBarMode(Config.LIGHT_STATUS_BAR_OFF, true)
+    .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
     .coloredNavigationBar(false)
     // by default, is equal to primaryColor unless coloredNavigationBar is false
     .navigationBarColor(color)

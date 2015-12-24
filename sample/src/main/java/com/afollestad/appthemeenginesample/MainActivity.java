@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEActivity;
+import com.afollestad.appthemeengine.Config;
 
 public class MainActivity extends ATEActivity {
 
@@ -36,6 +37,7 @@ public class MainActivity extends ATEActivity {
                     .primaryColorRes(R.color.colorPrimaryLightDefault)
                     .accentColorRes(R.color.colorAccentLightDefault)
                     .coloredNavigationBar(true)
+                    .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO, true)
                     .commit();
         }
         if (!ATE.config(this, "dark_theme").isConfigured()) {
