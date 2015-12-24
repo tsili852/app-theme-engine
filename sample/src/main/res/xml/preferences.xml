@@ -53,7 +53,7 @@
         android:widgetLayout="@layout/preference_checkbox" />
 
     <com.afollestad.appthemeenginesample.prefs.ATEListPreference
-        android:defaultValue="0"
+        android:defaultValue="2"
         android:entries="@array/light_status_mode_entries"
         android:entryValues="@array/light_status_mode_values"
         android:key="light_status_bar_mode"
