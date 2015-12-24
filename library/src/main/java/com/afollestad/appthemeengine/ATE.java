@@ -17,7 +17,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.BaseMenuPresenter;
 import android.support.v7.view.menu.ListMenuItemView;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -288,7 +290,7 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    protected static void processToolbar(@NonNull Context context, @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
+    protected static void processToolbar(final @NonNull Context context, final @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
         if (toolbar == null && context instanceof AppCompatActivity)
             toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
         if (toolbar == null) return;
@@ -299,7 +301,7 @@ public final class ATE extends ATEBase {
             tinted = Util.isColorLight(toolbarBg.getColor());
         }
         final int color = tinted ? Color.BLACK : Color.WHITE;
-            toolbar.setTitleTextColor(color);
+        toolbar.setTitleTextColor(color);
         if (toolbar.getNavigationIcon() != null)
             toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), color));
         if (menu == null)
@@ -311,8 +313,44 @@ public final class ATE extends ATEBase {
                     item.setIcon(TintHelper.tintDrawable(item.getIcon(), color));
             }
         }
-        if (context instanceof Activity)
+        if (context instanceof Activity) {
             Util.setOverflowButtonColor((Activity) context, color);
+
+            try {
+                final Toolbar fToolbar = toolbar;
+                final Field menuField = Toolbar.class.getDeclaredField("mMenuBuilderCallback");
+                menuField.setAccessible(true);
+                final Field presenterField = Toolbar.class.getDeclaredField("mActionMenuPresenterCallback");
+                presenterField.setAccessible(true);
+                final Field menuViewField = Toolbar.class.getDeclaredField("mMenuView");
+                menuViewField.setAccessible(true);
+
+                final MenuBuilder.Callback currentMenuCb = (MenuBuilder.Callback) menuField.get(toolbar);
+                final MenuPresenter.Callback currentPresenterCb = (MenuPresenter.Callback) presenterField.get(toolbar);
+                final MenuPresenter.Callback newPresenterCb = new MenuPresenter.Callback() {
+                    @Override
+                    public void onCloseMenu(MenuBuilder menu, boolean allMenusAreClosing) {
+                        if (currentPresenterCb != null)
+                            currentPresenterCb.onCloseMenu(menu, allMenusAreClosing);
+                    }
+
+                    @Override
+                    public boolean onOpenSubMenu(MenuBuilder subMenu) {
+                        if (currentPresenterCb != null)
+                            currentPresenterCb.onOpenSubMenu(subMenu);
+                        applyOverflow((Activity) context, key, fToolbar);
+                        return true;
+                    }
+                };
+                toolbar.setMenuCallbacks(newPresenterCb, currentMenuCb);
+
+                ActionMenuView menuView = (ActionMenuView) menuViewField.get(toolbar);
+                if (menuView != null)
+                    menuView.setMenuCallbacks(newPresenterCb, currentMenuCb);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void processTag(@NonNull Context context, @NonNull View current, @Nullable String key) {
