@@ -168,8 +168,6 @@ public class SettingsActivity extends BaseThemedActivity
                 statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        lightStatusMode.setValue("0");
-                        lightStatusMode.setSummary(lightStatusMode.getEntries()[0]);
                         ATE.config(getActivity(), mAteKey)
                                 .coloredStatusBar((Boolean) newValue)
                                 .apply(getActivity());

@@ -171,8 +171,6 @@ public final class Config extends ConfigBase {
     @Override
     public Config coloredStatusBar(boolean colored) {
         mEditor.putBoolean(KEY_APPLY_PRIMARYDARK_STATUSBAR, colored);
-        if (!colored)
-            lightStatusBarMode(Config.LIGHT_STATUS_BAR_OFF);
         return this;
     }
 
@@ -393,6 +391,8 @@ public final class Config extends ConfigBase {
     public static int statusBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATEStatusBarCustomizer)
             return ((ATEStatusBarCustomizer) context).getStatusBarColor();
+        else if (!coloredStatusBar(context, key))
+            return Color.BLACK;
         return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
     }
 
