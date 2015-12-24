@@ -327,6 +327,14 @@ public final class ATE extends ATEBase {
     }
 
     private static void apply(@NonNull Context context, @NonNull ViewGroup view, @Nullable String key) {
+        if (view instanceof AbsListView) {
+            EdgeGlowUtil.setEdgeGlowColor((AbsListView) view, Config.accentColor(context, key));
+            return;
+        } else if (view instanceof RecyclerView) {
+            EdgeGlowUtil.setEdgeGlowColor((RecyclerView) view, Config.accentColor(context, key));
+            return;
+        }
+
         for (int i = 0; i < view.getChildCount(); i++) {
             final View current = view.getChildAt(i);
             if (current instanceof NavigationView) {
