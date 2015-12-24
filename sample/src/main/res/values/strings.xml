@@ -50,7 +50,7 @@
     <string name="rv_sample">RV Sample</string>
 
     <string-array name="light_status_mode_entries">
-        <item>Normal, status bar icons will be white</item>
+        <item>Off, status bar icons will be white</item>
         <item>On, status bar icons will be black</item>
         <item>Auto, status bar icons will be black if status bar color is light</item>
     </string-array>

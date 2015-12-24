@@ -135,31 +135,7 @@ public class SettingsActivity extends BaseThemedActivity
                 }
             });
 
-            ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
-            statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
-            statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    ATE.config(getActivity(), mAteKey)
-                            .coloredStatusBar((Boolean) newValue)
-                            .apply(getActivity());
-                    return true;
-                }
-            });
-
-            ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
-            navBarPref.setChecked(Config.coloredNavigationBar(getActivity(), mAteKey));
-            navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    ATE.config(getActivity(), mAteKey)
-                            .coloredNavigationBar((Boolean) newValue)
-                            .apply(getActivity());
-                    return true;
-                }
-            });
-
-            MaterialListPreference lightStatusMode = (MaterialListPreference) findPreference("light_status_bar_mode");
+            final MaterialListPreference lightStatusMode = (MaterialListPreference) findPreference("light_status_bar_mode");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 lightStatusMode.setEnabled(true);
                 lightStatusMode.setSummary(lightStatusMode.getEntries()[Integer.parseInt(lightStatusMode.getValue())]);
@@ -179,6 +155,32 @@ public class SettingsActivity extends BaseThemedActivity
                 lightStatusMode.setEnabled(false);
                 lightStatusMode.setSummary(R.string.not_available_below_m);
             }
+
+            ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
+            statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
+            statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    lightStatusMode.setValue("0");
+                    lightStatusMode.setSummary(lightStatusMode.getEntries()[0]);
+                    ATE.config(getActivity(), mAteKey)
+                            .coloredStatusBar((Boolean) newValue)
+                            .apply(getActivity());
+                    return true;
+                }
+            });
+
+            ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
+            navBarPref.setChecked(Config.coloredNavigationBar(getActivity(), mAteKey));
+            navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    ATE.config(getActivity(), mAteKey)
+                            .coloredNavigationBar((Boolean) newValue)
+                            .apply(getActivity());
+                    return true;
+                }
+            });
         }
     }
 

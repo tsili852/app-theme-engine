@@ -171,6 +171,8 @@ public final class Config extends ConfigBase {
     @Override
     public Config coloredStatusBar(boolean colored) {
         mEditor.putBoolean(KEY_APPLY_PRIMARYDARK_STATUSBAR, colored);
+        if (!colored)
+            lightStatusBarMode(Config.LIGHT_STATUS_BAR_OFF);
         return this;
     }
 
