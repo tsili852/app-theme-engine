@@ -2,6 +2,7 @@ package com.afollestad.appthemeenginesample;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -122,8 +123,9 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             findPreference("dark_theme").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    // Marks config as changed so MainActivity restarts itself on return
-                    Config.markChanged(getActivity(), MainActivity.class);
+                    // Marks both theme configs as changed so MainActivity restarts itself on return
+                    Config.markChanged(getActivity(), "light_theme");
+                    Config.markChanged(getActivity(), "dark_theme");
                     // The dark_theme preference value gets saved by Android in the default PreferenceManager.
                     // It's used in getATEKey() of both the Activities.
                     getActivity().recreate();
@@ -156,20 +158,25 @@ public class SettingsActivity extends ATEActivity implements ColorChooserDialog.
             });
 
             MaterialListPreference lightStatusMode = (MaterialListPreference) findPreference("light_status_bar_mode");
-            lightStatusMode.setSummary(lightStatusMode.getEntries()[Integer.parseInt(lightStatusMode.getValue())]);
-            lightStatusMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    @Config.LightStatusBarMode
-                    int constant = Integer.parseInt((String) newValue);
-                    ATE.config(getActivity(), mAteKey)
-                            .lightStatusBarMode(constant, true)
-                            .apply(getActivity());
-                    preference.setSummary(((ListPreference) preference).getEntries()[constant]);
-                    return true;
-                }
-            });
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                lightStatusMode.setEnabled(true);
+                lightStatusMode.setSummary(lightStatusMode.getEntries()[Integer.parseInt(lightStatusMode.getValue())]);
+                lightStatusMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        @Config.LightStatusBarMode
+                        int constant = Integer.parseInt((String) newValue);
+                        ATE.config(getActivity(), mAteKey)
+                                .lightStatusBarMode(constant, true)
+                                .apply(getActivity());
+                        preference.setSummary(((ListPreference) preference).getEntries()[constant]);
+                        return true;
+                    }
+                });
+            } else {
+                lightStatusMode.setEnabled(false);
+                lightStatusMode.setSummary(R.string.not_available_below_m);
+            }
         }
     }
 

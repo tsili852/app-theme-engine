@@ -108,7 +108,9 @@ ATE.config(this, null)
     // by default, is equal to primaryColor unless coloredNavigationBar is false
     .navigationBarColor(color)
     .textColorPrimary(color)
+    .textColorPrimaryInverse(color)
     .textColorSecondary(color)
+    .textColorSecondaryInverse(color)
     // enables or disables the next 4 values
     .navigationViewThemed(true) 
     .navigationViewSelectedIcon(color)
@@ -201,16 +203,22 @@ different configurations.
 
 In the sample project, you can switch between a light and dark theme. The preference that says whether or 
 not the dark theme is active is not part of ATE. The sample project tells MainActivity that it
-needs to restart on return from the Settings Screen when the dark theme has been toggled using 
-`markChanged(Context, Class<? extends Activity>)`.
-
-You pass a Context and a target Activity which always restart on next return:
+needs to restart on return from the Settings Screen when the dark theme has been toggled.
 
 ```java
-Config.markChanged(this, MyActivity.class);
+// Second parameter is an optional Config key
+Config.markChanged(this, null);
 ```
 
-This state gets reset next time the target Activity makes a call to `didValuesChange()` or `apply()`.
+This method tells all already running Activities that the configuration has been changed since they were 
+first opened, without having to edit other configuration values.
+
+You can mark multiple configuration keys as changed:
+
+```java
+// Second parameter is an optional Config key
+Config.markChanged(this, "light_theme", "dark_theme");
+```
 
 ---
 
@@ -500,7 +508,9 @@ You can change the background of any type of view.
 2. `bg_primary_color_dark` - sets the background to the primary dark color.
 3. `bg_accent_color` - sets the background to the accent color.
 4. `bg_text_primary` - sets the background to the primary text color.
-5. `bg_text_secondary` - sets the background to the secondary text color.
+5. `bg_text_primary_inverse` - sets the background to the inverse primary text color.
+6. `bg_text_secondary` - sets the background to the secondary text color.
+7. `bg_text_secondary_inverse` - sets the background to the inverse secondary text color.
 
 #### Text Colors
 
@@ -510,7 +520,9 @@ You can only change the text color of a view that extends `TextView`, which incl
 2. `text_primary_color_dark` - sets the text color to the primary dark color.
 3. `text_accent_color` - sets the text color to the accent color.
 4. `text_primary` - sets the text color to the primary text color.
-5. `text_secondary` - sets the text color to the secondary text color.
+5. `text_primary_inverse` - sets the text color to the inverse primary text color.
+6. `text_secondary` - sets the text color to the secondary text color.
+7. `text_secondary_inverse` - sets the text color to the inverse secondary text color.
 
 #### Text Link Colors
 
@@ -520,7 +532,9 @@ This should only really be needed on `TextView'`s, it changes the color of links
 2. `text_link_primary_color_dark` - sets the link text color to the primary dark color.
 3. `text_link_accent_color` - sets the link text color to the accent color.
 4. `text_link_primary` - sets the link text color to the primary text color.
-5. `text_link_secondary` - sets the link text color to the secondary text color. 
+5. `text_link_primary_inverse` - sets the link text color to the inverse primary text color.
+6. `text_link_secondary` - sets the link text color to the secondary text color.
+7. `text_link_secondary_inverse` - sets the link text color to the inverse secondary text color.
 
 #### Tint Colors
 
@@ -530,7 +544,39 @@ You can tint `CheckBox`'s, `RadioButton`'s, `ProgressBar`'s, `EditText`'s, `Seek
 2. `tint_primary_color_dark` - tints the view with the primary dark color.
 3. `tint_accent_color` - tints the view with the accent color.
 4. `tint_text_primary` - tints the view with the primary text color.
-5. `tint_text_secondary` - tints the view with the secondary text color.
+5. `tint_text_primary_inverse` - tints the view with the inverse primary text color.
+6. `tint_text_secondary` - tints the view with the secondary text color.
+7. `tint_text_secondary_inverse` - tints the view with the inverse secondary text color.
+
+---
+
+Background tints work on any type of view:
+
+1. `bg_tint_primary_color` - tints the view background with the primary color.
+2. `bg_tint_primary_color_dark` - tints the view background with the primary dark color.
+3. `bg_tint_accent_color` - tints the view background with the accent color.
+4. `bg_tint_text_primary` - tints the view background with the primary text color.
+5. `bg_tint_text_primary_inverse` - tints the view background with the inverse primary text color.
+6. `bg_tint_text_secondary` - tints the view background with the secondary text color.
+7. `bg_tint_text_secondary_inverse` - tints the view background with the inverse secondary text color.
+
+---
+
+You can even use background tint selectors:
+
+1. `bg_tint_primary_color_selector_lighter` - tints the view background with a primary color selector, which is lighter when pressed.
+2. `bg_tint_primary_color_dark_selector_lighter` - tints the view background with a primary dark color selector, which is lighter when pressed.
+3. `bg_tint_accent_color_selector_lighter` - tints the view background with a accent color selector, which is lighter when pressed.
+4. `bg_tint_text_primary_selector_lighter` - tints the view background with a primary text color selector, which is lighter when pressed.
+5. `bg_tint_text_secondary_selector_lighter` - tints the view background with a secondary text color selector, which is lighter when pressed.
+6. `bg_tint_primary_color_selector_darker` - tints the view background with a primary color selector, which is lighter when pressed.
+6. `bg_tint_primary_color_selector_darker` - tints the view background with a primary color selector, which is lighter when pressed.
+7. `bg_tint_primary_color_dark_selector_darker` - tints the view background with a primary dark color selector, which is lighter when pressed.
+8. `bg_tint_accent_color_selector_darker` - tints the view background with a accent color selector, which is lighter when pressed.
+9. `bg_tint_text_primary_selector_darker` - tints the view background with a primary text color selector, which is lighter when pressed.
+10. `bg_tint_text_primary_inverse_selector_darker` - tints the view background with a inverse primary text color selector, which is lighter when pressed.
+11. `bg_tint_text_secondary_selector_darker` - tints the view background with a secondary text color selector, which is lighter when pressed.
+12. `bg_tint_text_secondary_inverse_selector_darker` - tints the view background with a inverse secondary text color selector, which is lighter when pressed.
 
 ---
 

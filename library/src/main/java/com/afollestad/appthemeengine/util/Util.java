@@ -26,7 +26,7 @@ public final class Util {
     }
 
     @ColorInt
-    private static int shiftColor(@ColorInt int color, @FloatRange(from = 0.0f, to = 2.0f) float by) {
+    public static int shiftColor(@ColorInt int color, @FloatRange(from = 0.0f, to = 2.0f) float by) {
         if (by == 1f) return color;
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);

@@ -9,7 +9,6 @@ abstract class ConfigBase implements ConfigInterface {
     protected final static String CONFIG_PREFS_KEY_CUSTOM = "[[afollestad_app-theme-engine_%s]]";
     protected final static String IS_CONFIGURED_KEY = "is_configured";
     protected final static String VALUES_CHANGED = "values_changed";
-    protected final static String MARK_CHANGED = "mark_changed_%s";
 
     protected final static String KEY_ACTIVITY_THEME = "activity_theme";
 
@@ -23,7 +22,9 @@ abstract class ConfigBase implements ConfigInterface {
     protected final static String KEY_TINT_TOOLBAR_TITLE_AND_ICONS = "tint_toolbar_title_and_icons";
 
     protected final static String KEY_TEXT_COLOR_PRIMARY = "text_color_primary";
+    protected final static String KEY_TEXT_COLOR_PRIMARY_INVERSE = "text_color_primary_inverse";
     protected final static String KEY_TEXT_COLOR_SECONDARY = "text_color_secondary";
+    protected final static String KEY_TEXT_COLOR_SECONDARY_INVERSE = "text_color_secondary_inverse";
 
     protected final static String KEY_APPLY_PRIMARYDARK_STATUSBAR = "apply_primarydark_statusbar";
     protected final static String KEY_APPLY_PRIMARY_SUPPORTAB = "apply_primary_supportab";

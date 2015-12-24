@@ -312,20 +312,13 @@ public final class Config extends ConfigBase {
                 Context.MODE_PRIVATE);
     }
 
-    public static void markChanged(@NonNull Context context, @NonNull Class<? extends Activity> target) {
-        final String key = String.format(MARK_CHANGED, target.getName());
-        prefs(context, null).edit().putBoolean(key, true).commit();
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    protected static boolean clearChanged(@NonNull Context context, @NonNull Class<? extends Activity> target) {
-        final SharedPreferences prefs = prefs(context, null);
-        final String key = String.format(MARK_CHANGED, target.getName());
-        if (prefs.getBoolean(key, false)) {
-            prefs.edit().remove(key).commit();
-            return true;
+    public static void markChanged(@NonNull Context context, @Nullable String... keys) {
+        if (keys == null) {
+            new Config(context, null).commit();
+        } else {
+            for (String key : keys)
+                new Config(context, key).commit();
         }
-        return false;
     }
 
     @Nullable
@@ -430,6 +423,12 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_PRIMARY, Util.resolveColor(context, android.R.attr.textColorPrimary));
     }
 
+    @CheckResult
+    @ColorInt
+    public static int textColorPrimaryInverse(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getInt(KEY_TEXT_COLOR_PRIMARY_INVERSE, Util.resolveColor(context, android.R.attr.textColorPrimaryInverse));
+    }
+
     @Deprecated
     @CheckResult
     @ColorInt
@@ -441,6 +440,12 @@ public final class Config extends ConfigBase {
     @ColorInt
     public static int textColorSecondary(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_SECONDARY, Util.resolveColor(context, android.R.attr.textColorSecondary));
+    }
+
+    @CheckResult
+    @ColorInt
+    public static int textColorSecondaryInverse(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getInt(KEY_TEXT_COLOR_SECONDARY_INVERSE, Util.resolveColor(context, android.R.attr.textColorSecondaryInverse));
     }
 
     @Deprecated

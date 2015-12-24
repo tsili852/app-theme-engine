@@ -59,8 +59,14 @@ public final class ATE extends ATEBase {
             case KEY_BG_TEXT_PRIMARY:
                 current.setBackgroundColor(Config.textColorPrimary(context, key));
                 break;
+            case KEY_BG_TEXT_PRIMARY_INVERSE:
+                current.setBackgroundColor(Config.textColorPrimaryInverse(context, key));
+                break;
             case KEY_BG_TEXT_SECONDARY:
                 current.setBackgroundColor(Config.textColorSecondary(context, key));
+                break;
+            case KEY_BG_TEXT_SECONDARY_INVERSE:
+                current.setBackgroundColor(Config.textColorSecondaryInverse(context, key));
                 break;
 
             case KEY_TEXT_PRIMARY_COLOR:
@@ -75,8 +81,14 @@ public final class ATE extends ATEBase {
             case KEY_TEXT_PRIMARY:
                 ((TextView) current).setTextColor(Config.textColorPrimary(context, key));
                 break;
+            case KEY_TEXT_PRIMARY_INVERSE:
+                ((TextView) current).setTextColor(Config.textColorPrimaryInverse(context, key));
+                break;
             case KEY_TEXT_SECONDARY:
                 ((TextView) current).setTextColor(Config.textColorSecondary(context, key));
+                break;
+            case KEY_TEXT_SECONDARY_INVERSE:
+                ((TextView) current).setTextColor(Config.textColorSecondaryInverse(context, key));
                 break;
 
             case KEY_TEXTLINK_PRIMARY_COLOR:
@@ -91,24 +103,102 @@ public final class ATE extends ATEBase {
             case KEY_TEXTLINK_PRIMARY:
                 ((TextView) current).setLinkTextColor(Config.textColorPrimary(context, key));
                 break;
+            case KEY_TEXTLINK_PRIMARY_INVERSE:
+                ((TextView) current).setLinkTextColor(Config.textColorPrimaryInverse(context, key));
+                break;
             case KEY_TEXTLINK_SECONDARY:
                 ((TextView) current).setLinkTextColor(Config.textColorSecondary(context, key));
                 break;
+            case KEY_TEXTLINK_SECONDARY_INVERSE:
+                ((TextView) current).setLinkTextColor(Config.textColorSecondaryInverse(context, key));
+                break;
 
             case KEY_TINT_PRIMARY_COLOR:
-                TintHelper.setTintAuto(current, Config.primaryColor(context, key));
+                TintHelper.setTintAuto(current, Config.primaryColor(context, key), false);
                 break;
             case KEY_TINT_PRIMARY_COLOR_DARK:
-                TintHelper.setTintAuto(current, Config.primaryColorDark(context, key));
+                TintHelper.setTintAuto(current, Config.primaryColorDark(context, key), false);
                 break;
             case KEY_TINT_ACCENT_COLOR:
-                TintHelper.setTintAuto(current, Config.accentColor(context, key));
+                TintHelper.setTintAuto(current, Config.accentColor(context, key), false);
                 break;
             case KEY_TINT_TEXT_PRIMARY:
-                TintHelper.setTintAuto(current, Config.textColorPrimary(context, key));
+                TintHelper.setTintAuto(current, Config.textColorPrimary(context, key), false);
+                break;
+            case KEY_TINT_TEXT_PRIMARY_INVERSE:
+                TintHelper.setTintAuto(current, Config.textColorPrimaryInverse(context, key), false);
                 break;
             case KEY_TINT_TEXT_SECONDARY:
-                TintHelper.setTintAuto(current, Config.textColorSecondary(context, key));
+                TintHelper.setTintAuto(current, Config.textColorSecondary(context, key), false);
+                break;
+            case KEY_TINT_TEXT_SECONDARY_INVERSE:
+                TintHelper.setTintAuto(current, Config.textColorSecondaryInverse(context, key), false);
+                break;
+
+            case KEY_BG_TINT_PRIMARY_COLOR:
+                TintHelper.setTintAuto(current, Config.primaryColor(context, key), true);
+                break;
+            case KEY_BG_TINT_PRIMARY_COLOR_DARK:
+                TintHelper.setTintAuto(current, Config.primaryColorDark(context, key), true);
+                break;
+            case KEY_BG_TINT_ACCENT_COLOR:
+                TintHelper.setTintAuto(current, Config.accentColor(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY:
+                TintHelper.setTintAuto(current, Config.textColorPrimary(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY_INVERSE:
+                TintHelper.setTintAuto(current, Config.textColorPrimaryInverse(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY:
+                TintHelper.setTintAuto(current, Config.textColorSecondary(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY_INVERSE:
+                TintHelper.setTintAuto(current, Config.textColorSecondaryInverse(context, key), true);
+                break;
+
+            case KEY_BG_TINT_PRIMARY_COLOR_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.primaryColor(context, key), false);
+                break;
+            case KEY_BG_TINT_PRIMARY_COLOR_DARK_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), false);
+                break;
+            case KEY_BG_TINT_ACCENT_COLOR_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.accentColor(context, key), false);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), false);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY_INVERSE_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), false);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), false);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY_INVERSE_SELECTOR_LIGHTER:
+                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), false);
+                break;
+
+            case KEY_BG_TINT_PRIMARY_COLOR_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.primaryColor(context, key), true);
+                break;
+            case KEY_BG_TINT_PRIMARY_COLOR_DARK_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), true);
+                break;
+            case KEY_BG_TINT_ACCENT_COLOR_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.accentColor(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_PRIMARY_INVERSE_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), true);
+                break;
+            case KEY_BG_TINT_TEXT_SECONDARY_INVERSE_SELECTOR_DARKER:
+                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), true);
                 break;
         }
     }
@@ -165,7 +255,6 @@ public final class ATE extends ATEBase {
         }
         if (toolbar.getNavigationIcon() != null)
             toolbar.getNavigationIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
-        // TODO user specified theme color for title? Invert primary text color?
         toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
     }
 
@@ -215,8 +304,7 @@ public final class ATE extends ATEBase {
 
     @SuppressLint("CommitPrefEdits")
     public static boolean didValuesChange(@NonNull Context context, long updateTime, @Nullable String key) {
-        return (context instanceof Activity && Config.clearChanged(context, ((Activity) context).getClass())) ||
-                (ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime);
+        return ATE.config(context, key).isConfigured() && Config.prefs(context, key).getLong(Config.VALUES_CHANGED, -1) > updateTime;
     }
 
     @Deprecated
@@ -290,8 +378,6 @@ public final class ATE extends ATEBase {
     }
 
     public static void apply(@NonNull Activity activity, @Nullable String key) {
-        Config.clearChanged(activity, activity.getClass());
-
         if (didPreApply == null)
             preApply(activity, key);
         if (Config.coloredActionBar(activity, key)) {

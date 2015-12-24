@@ -23,13 +23,13 @@ public class ATEActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ATE.preApply(this, getATEKey());
         super.onCreate(savedInstanceState);
+        updateTime = System.currentTimeMillis();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         ATE.apply(this, getATEKey());
-        updateTime = System.currentTimeMillis();
     }
 
     @Override

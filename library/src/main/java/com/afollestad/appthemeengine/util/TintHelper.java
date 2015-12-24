@@ -2,6 +2,7 @@ package com.afollestad.appthemeengine.util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -17,29 +18,80 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.afollestad.appthemeengine.R;
 
 /**
- * https://raw.githubusercontent.com/afollestad/material-dialogs/master/core/src/main/java/com/afollestad/materialdialogs/internal/MDTintHelper.java
+ * @author afollestad, plusCubed
  */
 public final class TintHelper {
 
-    public static void setTintAuto(@NonNull View view, @ColorInt int color) {
-        if (view instanceof RadioButton)
-            setTint((RadioButton) view, color);
-        else if (view instanceof SeekBar)
-            setTint((SeekBar) view, color);
-        else if (view instanceof ProgressBar)
-            setTint((ProgressBar) view, color);
-        else if (view instanceof EditText)
-            setTint((EditText) view, color);
-        else if (view instanceof CheckBox)
-            setTint((CheckBox) view, color);
-        else if (view instanceof ImageView)
-            setTint((ImageView) view, color);
-        else
-            throw new IllegalArgumentException("Tinting of view of type " + view.getClass().getName() + " is unsupported.");
+    @SuppressWarnings("deprecation")
+    public static void setTintSelector(@NonNull View view, @ColorInt int color, boolean darker) {
+        final int pressed = Util.shiftColor(color, darker ? 0.9f : 1.1f);
+        final int activated = Util.shiftColor(color, darker ? 1.1f : 0.9f);
+
+        final ColorStateList sl = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
+                        new int[]{android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_pressed, android.R.attr.state_activated, -android.R.attr.state_checked},
+                        new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, android.R.attr.state_checked}
+                },
+                new int[]{
+                        color,
+                        pressed,
+                        activated,
+                        activated
+                }
+        );
+
+        Drawable drawable = view.getBackground();
+        if (drawable != null) {
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTintList(drawable, sl);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                view.setBackground(drawable);
+            else view.setBackgroundDrawable(drawable);
+        }
+
+        if (view instanceof TextView) {
+            final TextView tv = (TextView) view;
+            // TODO use other theme values in place of these?
+            if (Util.isColorLight(color))
+                tv.setTextColor(Color.BLACK);
+            else tv.setTextColor(Color.WHITE);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void setTintAuto(@NonNull View view, @ColorInt int color, boolean background) {
+        if (!background) {
+            if (view instanceof RadioButton)
+                setTint((RadioButton) view, color);
+            else if (view instanceof SeekBar)
+                setTint((SeekBar) view, color);
+            else if (view instanceof ProgressBar)
+                setTint((ProgressBar) view, color);
+            else if (view instanceof EditText)
+                setTint((EditText) view, color);
+            else if (view instanceof CheckBox)
+                setTint((CheckBox) view, color);
+            else if (view instanceof ImageView)
+                setTint((ImageView) view, color);
+            else background = true;
+        }
+        if (background && view.getBackground() != null) {
+            Drawable drawable = view.getBackground();
+            if (drawable != null) {
+                drawable = DrawableCompat.wrap(drawable);
+                DrawableCompat.setTint(drawable, color);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                    view.setBackground(drawable);
+                else view.setBackgroundDrawable(drawable);
+            }
+        }
     }
 
     public static void setTint(@NonNull RadioButton radioButton, @ColorInt int color) {

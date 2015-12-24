@@ -12,8 +12,8 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/appbar_toolbar"
@@ -25,77 +25,103 @@
             app:contentInsetStart="@dimen/content_inset"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/content_inset"
+                    android:paddingLeft="@dimen/content_inset"
+                    android:paddingRight="@dimen/content_inset"
+                    android:paddingTop="@dimen/content_inset"
+                    tools:ignore="UnusedAttribute">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:tag="text_primary"
+                        android:text="@string/header"
+                        android:textSize="@dimen/header_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:fontFamily="sans-serif-light"
+                        android:lineSpacingMultiplier="1.4"
+                        android:tag="text_secondary"
+                        android:text="@string/lorem_ipsum"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:checked="true"
+                        android:tag="tint_accent_color"
+                        android:text="@string/checkbox" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:checked="true"
+                        android:tag="tint_accent_color"
+                        android:text="@string/radiobutton" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:hint="@string/edit_text"
+                        android:tag="tint_accent_color" />
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:tag="tint_accent_color" />
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:tag="tint_accent_color" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="@dimen/content_inset"
+                        android:tag="bg_tint_accent_color_selector_lighter"
+                        android:text="@string/button" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/content_inset"
-                android:paddingLeft="@dimen/content_inset"
-                android:paddingRight="@dimen/content_inset"
-                android:paddingTop="@dimen/content_inset"
-                tools:ignore="UnusedAttribute">
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/content_inset"
+                android:clickable="true"
+                android:src="@drawable/ic_add"
+                android:tag="bg_tint_accent_color_selector_lighter"
+                app:elevation="6dp"
+                app:pressedTranslationZ="12dp"
+                app:rippleColor="#fff" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:tag="text_primary"
-                    android:text="@string/header"
-                    android:textSize="@dimen/header_text_size" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:fontFamily="sans-serif-light"
-                    android:lineSpacingMultiplier="1.4"
-                    android:tag="text_secondary"
-                    android:text="@string/lorem_ipsum"
-                    android:textSize="@dimen/body_text_size" />
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:checked="true"
-                    android:tag="tint_accent_color"
-                    android:text="@string/checkbox" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:checked="true"
-                    android:tag="tint_accent_color"
-                    android:text="@string/radiobutton" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:hint="@string/edit_text"
-                    android:tag="tint_accent_color" />
-
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:tag="tint_accent_color" />
-
-                <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/content_inset"
-                    android:tag="tint_accent_color" />
-
-            </LinearLayout>
-
-        </ScrollView>
+        </FrameLayout>
 
     </LinearLayout>
 
