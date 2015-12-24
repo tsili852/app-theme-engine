@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -88,12 +89,16 @@ public final class TintHelper {
                 setTint((ImageView) view, color);
             else background = true;
         }
-        if (background && view.getBackground() != null) {
-            Drawable drawable = view.getBackground();
-            if (drawable != null) {
-                drawable = DrawableCompat.wrap(drawable);
-                DrawableCompat.setTint(drawable, color);
-                Util.setBackgroundCompat(view, drawable);
+        if (background) {
+            if (view instanceof FloatingActionButton || view instanceof Button) {
+                setTintSelector(view, color, false);
+            } else if (view.getBackground() != null) {
+                Drawable drawable = view.getBackground();
+                if (drawable != null) {
+                    drawable = DrawableCompat.wrap(drawable);
+                    DrawableCompat.setTint(drawable, color);
+                    Util.setBackgroundCompat(view, drawable);
+                }
             }
         }
     }
