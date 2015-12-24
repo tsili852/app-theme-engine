@@ -29,6 +29,14 @@ class ATEBase {
     protected final static String KEY_TEXTLINK_SECONDARY = "text_link_secondary";
     protected final static String KEY_TEXTLINK_SECONDARY_INVERSE = "text_link_secondary_inverse";
 
+    protected final static String KEY_TEXTSHADOW_PRIMARY_COLOR = "text_shadow_primary_color";
+    protected final static String KEY_TEXTSHADOW_PRIMARY_COLOR_DARK = "text_shadow_primary_color_dark";
+    protected final static String KEY_TEXTSHADOW_ACCENT_COLOR = "text_shadow_accent_color";
+    protected final static String KEY_TEXTSHADOW_PRIMARY = "text_shadow_primary";
+    protected final static String KEY_TEXTSHADOW_PRIMARY_INVERSE = "text_shadow_primary_inverse";
+    protected final static String KEY_TEXTSHADOW_SECONDARY = "text_shadow_secondary";
+    protected final static String KEY_TEXTSHADOW_SECONDARY_INVERSE = "text_shadow_secondary_inverse";
+
     protected final static String KEY_TINT_PRIMARY_COLOR = "tint_primary_color";
     protected final static String KEY_TINT_PRIMARY_COLOR_DARK = "tint_primary_color_dark";
     protected final static String KEY_TINT_ACCENT_COLOR = "tint_accent_color";

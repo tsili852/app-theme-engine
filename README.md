@@ -36,6 +36,7 @@ Only use this library if you intend to give the user the ability to change the c
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
     2. [Text Colors](https://github.com/afollestad/app-theme-engine#text-colors)
     3. [Text Link Colors](https://github.com/afollestad/app-theme-engine#text-link-colors)
+    3. [Text Shadow Colors](https://github.com/afollestad/app-theme-engine#text-shadow-colors)
     3. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
 5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
 
@@ -535,6 +536,18 @@ This should only really be needed on `TextView'`s, it changes the color of links
 5. `text_link_primary_inverse` - sets the link text color to the inverse primary text color.
 6. `text_link_secondary` - sets the link text color to the secondary text color.
 7. `text_link_secondary_inverse` - sets the link text color to the inverse secondary text color.
+
+#### Text Shadow Colors
+
+This can be used on `TextView'`s, it changes the `shadowColor` value.
+
+1. `text_shadow_primary_color` - sets the link text color to the primary color.
+2. `text_shadow_primary_color_dark` - sets the link text color to the primary dark color.
+3. `text_shadow_accent_color` - sets the link text color to the accent color.
+4. `text_shadow_primary` - sets the link text color to the primary text color.
+5. `text_shadow_primary_inverse` - sets the link text color to the inverse primary text color.
+6. `text_shadow_secondary` - sets the link text color to the secondary text color.
+7. `text_shadow_secondary_inverse` - sets the link text color to the inverse secondary text color.
 
 #### Tint Colors
 

@@ -113,6 +113,49 @@ public final class ATE extends ATEBase {
                 ((TextView) current).setLinkTextColor(Config.textColorSecondaryInverse(context, key));
                 break;
 
+            case KEY_TEXTSHADOW_PRIMARY_COLOR: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.primaryColor(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_PRIMARY_COLOR_DARK: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.primaryColorDark(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_ACCENT_COLOR: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.accentColor(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_PRIMARY: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.textColorPrimary(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_PRIMARY_INVERSE: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.textColorPrimaryInverse(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_SECONDARY: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.textColorSecondary(context, key));
+                break;
+            }
+            case KEY_TEXTSHADOW_SECONDARY_INVERSE: {
+                final TextView tv = (TextView) current;
+                tv.setShadowLayer(tv.getShadowRadius(), tv.getShadowDx(), tv.getShadowDy(),
+                        Config.textColorSecondaryInverse(context, key));
+                break;
+            }
+
             case KEY_TINT_PRIMARY_COLOR:
                 TintHelper.setTintAuto(current, Config.primaryColor(context, key), false);
                 break;
@@ -236,26 +279,25 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    private static boolean processMenu(@NonNull Context context, @Nullable String key, @NonNull Menu menu) {
-        final boolean tinted = lightStatusBarEnabled(context, key);
-        for (int i = 0; i < menu.size(); i++) {
-            final MenuItem item = menu.getItem(i);
-            if (item.getIcon() != null)
-                item.getIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
-        }
-        return tinted;
-    }
-
     private static void processToolbar(@NonNull Context context, @Nullable String key, @NonNull Toolbar toolbar) {
-        boolean tinted;
-        if (toolbar.getMenu() != null) {
-            tinted = processMenu(context, key, toolbar.getMenu());
+        boolean tinted = lightStatusBarEnabled(context, key);
+        if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
+            final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
+            tinted = Util.isColorLight(toolbarBg.getColor());
+            toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
         } else {
-            tinted = lightStatusBarEnabled(context, key);
+            toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
         }
         if (toolbar.getNavigationIcon() != null)
             toolbar.getNavigationIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
-        toolbar.setTitleTextColor(tinted ? Color.BLACK : Color.WHITE);
+        if (toolbar.getMenu() != null && toolbar.getMenu().size() > 0) {
+            final Menu menu = toolbar.getMenu();
+            for (int i = 0; i < menu.size(); i++) {
+                final MenuItem item = menu.getItem(i);
+                if (item.getIcon() != null)
+                    item.getIcon().setColorFilter(tinted ? Color.BLACK : Color.WHITE, PorterDuff.Mode.SRC_IN);
+            }
+        }
     }
 
     private static void processTag(@NonNull Context context, @NonNull View current, @Nullable String key) {
@@ -458,7 +500,7 @@ public final class ATE extends ATEBase {
             @Override
             public void run() {
                 if (mToolbar.getMenu() != null)
-                    processMenu(mToolbar.getContext(), key, mToolbar.getMenu());
+                    processToolbar(mToolbar.getContext(), key, mToolbar);
                 try {
                     Field f1 = Toolbar.class.getDeclaredField("mMenuView");
                     f1.setAccessible(true);
