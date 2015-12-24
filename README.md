@@ -312,6 +312,18 @@ public class MyActivity extends AppCompatActivity {
         if (ATE.didValuesChange(this, updateTime, null))
             recreate();
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        ATE.applyMenu(this, getATEKey(), menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        ATE.applyOverflow(this, getATEKey());
+        return super.onMenuOpened(featureId, menu);
+    }
 }
 ```
 
