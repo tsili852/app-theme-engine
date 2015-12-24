@@ -103,6 +103,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/content_inset"
+                        android:max="100"
+                        android:progress="60"
                         android:tag="tint_accent_color" />
 
                     <Button
