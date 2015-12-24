@@ -10,16 +10,15 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.ATEActivity;
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
 import com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference;
 import com.afollestad.appthemeenginesample.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
@@ -29,15 +28,8 @@ import com.afollestad.materialdialogs.prefs.MaterialListPreference;
  * @author Aidan Follestad (afollestad)
  */
 @SuppressLint("NewApi")
-public class SettingsActivity extends ATEActivity
+public class SettingsActivity extends BaseThemedActivity
         implements ColorChooserDialog.ColorCallback, ATEActivityThemeCustomizer {
-
-    @Nullable
-    @Override
-    protected String getATEKey() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
-                "dark_theme" : "light_theme";
-    }
 
     @StyleRes
     @Override

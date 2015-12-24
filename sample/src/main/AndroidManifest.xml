@@ -6,7 +6,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.ActionBar">
 
         <activity
             android:name=".MainActivity"
@@ -20,9 +21,13 @@
         </activity>
 
         <activity
+            android:name=".rv.RecyclerViewSampleActivity"
+            android:label="@string/rv_sample"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/AppTheme.ActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
     </application>

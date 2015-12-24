@@ -19,6 +19,7 @@ import android.support.v7.view.menu.BaseMenuPresenter;
 import android.support.v7.view.menu.ListMenuItemView;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.ActionMenuView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,13 +27,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
 import com.afollestad.appthemeengine.customizers.ATETaskDescriptionCustomizer;
+import com.afollestad.appthemeengine.util.EdgeGlowUtil;
 import com.afollestad.appthemeengine.util.TintHelper;
 import com.afollestad.appthemeengine.util.Util;
 
@@ -331,11 +335,19 @@ public final class ATE extends ATEBase {
                 if (current instanceof Toolbar) {
                     mToolbar = (Toolbar) current;
                     processToolbar(context, key, mToolbar, null);
+                } else if (current instanceof ScrollView) {
+                    EdgeGlowUtil.setEdgeGlowColor((ScrollView) current, Config.accentColor(context, key));
+                } else if (current instanceof AbsListView) {
+                    EdgeGlowUtil.setEdgeGlowColor((AbsListView) current, Config.accentColor(context, key));
+                } else if (current instanceof RecyclerView) {
+                    EdgeGlowUtil.setEdgeGlowColor((RecyclerView) current, Config.accentColor(context, key));
                 }
-                if (current.getTag() != null && current.getTag() instanceof String)
+                if (current.getTag() != null && current.getTag() instanceof String) {
                     processTag(context, current, key);
-                if (current instanceof ViewGroup)
+                }
+                if (current instanceof ViewGroup) {
                     apply(context, (ViewGroup) current, key);
+                }
             }
         }
     }

@@ -206,9 +206,13 @@ public final class TintHelper {
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
+    @Nullable
     public static Drawable tintDrawable(@Nullable Drawable drawable, @ColorInt int color) {
+        if (drawable == null) return null;
         drawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTint(drawable, color);
         return drawable;
     }
+
+
 }
