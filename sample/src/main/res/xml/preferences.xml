@@ -52,7 +52,7 @@
         android:title="@string/colored_nav_bar"
         android:widgetLayout="@layout/preference_checkbox" />
 
-    <com.afollestad.materialdialogs.prefs.MaterialListPreference
+    <com.afollestad.appthemeenginesample.prefs.ATEListPreference
         android:defaultValue="0"
         android:entries="@array/light_status_mode_entries"
         android:entryValues="@array/light_status_mode_values"
