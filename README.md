@@ -218,7 +218,6 @@ first opened, without having to edit other configuration values.
 You can mark multiple configuration keys as changed:
 
 ```java
-// Second parameter is an optional Config key
 Config.markChanged(this, "light_theme", "dark_theme");
 ```
 
