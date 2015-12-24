@@ -66,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/content_inset"
                         android:checked="true"
-                        android:tag="tint_accent_color"
+                        android:tag="tint_accent_color,text_primary"
                         android:text="@string/checkbox" />
 
                     <RadioButton
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/content_inset"
                         android:checked="true"
-                        android:tag="tint_accent_color"
+                        android:tag="tint_accent_color,text_primary"
                         android:text="@string/radiobutton" />
 
                     <EditText
@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/content_inset"
                         android:hint="@string/edit_text"
-                        android:tag="tint_accent_color" />
+                        android:tag="tint_accent_color,text_primary" />
 
                     <ProgressBar
                         android:layout_width="wrap_content"
