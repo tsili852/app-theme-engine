@@ -315,6 +315,7 @@ public class MyActivity extends AppCompatActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
         ATE.applyMenu(this, getATEKey(), menu);
         return super.onCreateOptionsMenu(menu);
     }
