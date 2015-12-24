@@ -67,12 +67,16 @@ public class SettingsActivity extends BaseThemedActivity
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-            mAteKey = ((SettingsActivity) getActivity()).getATEKey();
         }
 
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+            invalidateSettings();
+        }
+
+        public void invalidateSettings() {
+            mAteKey = ((SettingsActivity) getActivity()).getATEKey();
 
             ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
             primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK);
@@ -156,31 +160,40 @@ public class SettingsActivity extends BaseThemedActivity
                 lightStatusMode.setSummary(R.string.not_available_below_m);
             }
 
-            ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
-            statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
-            statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    lightStatusMode.setValue("0");
-                    lightStatusMode.setSummary(lightStatusMode.getEntries()[0]);
-                    ATE.config(getActivity(), mAteKey)
-                            .coloredStatusBar((Boolean) newValue)
-                            .apply(getActivity());
-                    return true;
-                }
-            });
+            final ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
+            final ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
 
-            ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
-            navBarPref.setChecked(Config.coloredNavigationBar(getActivity(), mAteKey));
-            navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    ATE.config(getActivity(), mAteKey)
-                            .coloredNavigationBar((Boolean) newValue)
-                            .apply(getActivity());
-                    return true;
-                }
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
+                statusBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        lightStatusMode.setValue("0");
+                        lightStatusMode.setSummary(lightStatusMode.getEntries()[0]);
+                        ATE.config(getActivity(), mAteKey)
+                                .coloredStatusBar((Boolean) newValue)
+                                .apply(getActivity());
+                        return true;
+                    }
+                });
+
+
+                navBarPref.setChecked(Config.coloredNavigationBar(getActivity(), mAteKey));
+                navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        ATE.config(getActivity(), mAteKey)
+                                .coloredNavigationBar((Boolean) newValue)
+                                .apply(getActivity());
+                        return true;
+                    }
+                });
+            } else {
+                statusBarPref.setEnabled(false);
+                statusBarPref.setSummary(R.string.not_available_below_lollipop);
+                navBarPref.setEnabled(false);
+                navBarPref.setSummary(R.string.not_available_below_lollipop);
+            }
         }
     }
 
@@ -191,8 +204,12 @@ public class SettingsActivity extends BaseThemedActivity
         setContentView(R.layout.preference_activity_custom);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+        } else {
+            SettingsFragment frag = (SettingsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
+            if (frag != null) frag.invalidateSettings();
+        }
     }
 
     @Override

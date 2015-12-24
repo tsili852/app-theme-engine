@@ -46,6 +46,7 @@
     <string name="dark_theme_summary">Apply a dark theme throughout the app</string>
     <string name="light_status_bar_mode">Light Status Bar Mode</string>
     <string name="not_available_below_m">Not available below 6.0 Marshmallow.</string>
+    <string name="not_available_below_lollipop">Not available below 5.0 Lollipop.</string>
     <string name="button">Button</string>
     <string name="rv_sample">RV Sample</string>
 

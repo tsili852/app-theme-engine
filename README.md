@@ -28,10 +28,10 @@ Only use this library if you intend to give the user the ability to change the c
 3. [Applying](https://github.com/afollestad/app-theme-engine#applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
-    3. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
-    4. [Menus and Overflow Menu](https://github.com/afollestad/app-theme-engine#menus-and-overflow-menus)
-    5. [Lists and Individual Views](https://github.com/afollestad/app-theme-engine#lists-and-individual-views)
-    6. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
+    3. [Toolbars, Menus and Overflows](https://github.com/afollestad/app-theme-engine#toolbars-menus-and-overflows)
+    4. [Lists and Individual Views](https://github.com/afollestad/app-theme-engine#lists-and-individual-views)
+    5. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
+    6. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
     2. [Text Colors](https://github.com/afollestad/app-theme-engine#text-colors)
@@ -68,7 +68,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.3.1@aar') {
+	compile('com.github.afollestad:app-theme-engine:0.4.0@aar') {
 		transitive = true
 	}
 }
@@ -335,17 +335,19 @@ public class MyFragment extends Fragment {
 
 And again, replace occurrences of `null` above with a key if you need separate configurations.
 
-#### Task Description (Recents)
+#### Toolbars, Menus, and Overflows
 
-You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will 
-be themed to your primary color automatically.
+ATE will automatically theme your toolbars or support action bars.
 
-There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
- section.
+*If the toolbar background is light*: the navigation icon (e.g. home up or drawer icon) will be tinted black,
+the title text color will be black, the menu icons will be tinted black, and the overflow button will be tinted black.
 
-#### Menus and Overflow Menu
+*If the toolbar background is dark*: the navigation icon (e.g. home up or drawer icon) will be tinted white,
+the title text color will be white, the menu icons will be tinted white, and the overflow button will be tinted white. 
 
-*Will be filled in before the next release is ready.*
+---
+
+ATE will also automatically theme widgets in your overflow menu, such as checkboxes and radio buttons.
 
 #### Lists and Individual Views
 
@@ -442,6 +444,14 @@ color when it's closed. You don't have to manually do anything.
 If you use `NavigationView` from the design support library, ATE will by default theme it. There are 
 navigation view theming configuration methods discussed in the next section. If your drawer uses a `Fragment`
 or plain `ListView`/`RecyclerView`, you have to do what's discussed in the previous section.
+
+#### Task Description (Recents)
+
+You don't have to do anything extra for this. Your app's Android recents (multi-tasking) entry will 
+be themed to your primary color automatically.
+
+There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
+ section.
 
 ---
 
