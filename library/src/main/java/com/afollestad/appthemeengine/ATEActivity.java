@@ -44,12 +44,6 @@ public class ATEActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        ATE.applyOverflow(this, getATEKey());
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
         ATE.applyOverflow(this, getATEKey());
         return super.onMenuOpened(featureId, menu);
