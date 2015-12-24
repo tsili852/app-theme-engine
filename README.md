@@ -6,6 +6,8 @@ and [Impression](https://github.com/afollestad/impression).
 
 Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/raw/master/sample/Sample.apk) to check it out! 
 
+![Showcase](https://raw.githubusercontent.com/afollestad/app-theme-engine/master/art/showcase.png)
+
 # When To NOT Use This Library
 
 If your app has two themes, a light theme and a dark theme, do not use this library to configure them. 
