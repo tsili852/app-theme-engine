@@ -11,6 +11,7 @@ import com.afollestad.appthemeengine.R;
 /**
  * @author Aidan Follestad (afollestad)
  */
+@PreMadeView
 public class ATESwitch extends SwitchCompat {
 
     public ATESwitch(Context context) {

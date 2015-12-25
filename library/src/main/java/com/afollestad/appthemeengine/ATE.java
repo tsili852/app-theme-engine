@@ -41,6 +41,7 @@ import com.afollestad.appthemeengine.customizers.ATETaskDescriptionCustomizer;
 import com.afollestad.appthemeengine.util.EdgeGlowUtil;
 import com.afollestad.appthemeengine.util.TintHelper;
 import com.afollestad.appthemeengine.util.Util;
+import com.afollestad.appthemeengine.views.PreMadeView;
 
 import java.lang.reflect.Field;
 
@@ -351,6 +352,10 @@ public final class ATE extends ATEBase {
         }
     }
 
+    private static boolean isPreMadeView(@NonNull View view) {
+        return view.getClass().getAnnotation(PreMadeView.class) != null;
+    }
+
     private static void apply(@NonNull Context context, @NonNull ViewGroup view, @Nullable String key) {
         if (view instanceof AbsListView) {
             EdgeGlowUtil.setEdgeGlowColor((AbsListView) view, Config.accentColor(context, key));
@@ -362,6 +367,10 @@ public final class ATE extends ATEBase {
 
         for (int i = 0; i < view.getChildCount(); i++) {
             final View current = view.getChildAt(i);
+            if (isPreMadeView(current)) {
+                // Pre-made views handle themselves, don't need to apply theming here
+                continue;
+            }
             if (current instanceof NavigationView) {
                 processNavigationView((NavigationView) current, key);
             } else {

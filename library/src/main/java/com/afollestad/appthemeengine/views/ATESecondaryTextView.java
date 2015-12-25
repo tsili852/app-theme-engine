@@ -13,6 +13,7 @@ import com.afollestad.appthemeengine.R;
 /**
  * @author Aidan Follestad (afollestad)
  */
+@PreMadeView
 public class ATESecondaryTextView extends TextView {
 
     public ATESecondaryTextView(Context context) {

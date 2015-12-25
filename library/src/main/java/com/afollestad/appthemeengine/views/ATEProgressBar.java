@@ -13,6 +13,7 @@ import com.afollestad.appthemeengine.R;
 /**
  * @author Aidan Follestad (afollestad)
  */
+@PreMadeView
 public class ATEProgressBar extends ProgressBar {
 
     public ATEProgressBar(Context context) {

@@ -13,6 +13,7 @@ import com.afollestad.appthemeengine.R;
 /**
  * @author Aidan Follestad (afollestad)
  */
+@PreMadeView
 public class ATECheckBox extends CheckBox {
 
     public ATECheckBox(Context context) {
