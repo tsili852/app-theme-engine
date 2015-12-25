@@ -28,7 +28,7 @@ Only use this library if you intend to give the user the ability to change the c
     4. [Value Retrieval](https://github.com/afollestad/app-theme-engine#value-retrieval)
     5. [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
     6. [Marking as Changed](https://github.com/afollestad/app-theme-engine#marking-as-changed)
-3. [Applying](https://github.com/afollestad/app-theme-engine#applying)
+3. [Basics of Applying](https://github.com/afollestad/app-theme-engine#basics-of-applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
     2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
     3. [Toolbars, Menus and Overflows](https://github.com/afollestad/app-theme-engine#toolbars-menus-and-overflows)
@@ -43,6 +43,7 @@ Only use this library if you intend to give the user the ability to change the c
     3. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
 5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
 6. [Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration)
+7. [Preference UI](https://github.com/afollestad/app-theme-engine#preference-ui)
 
 ---
 
@@ -137,7 +138,7 @@ to different Activities, Fragments, Views, at will. Passing null specifies to us
 two Activities which store their own separate theme values independently, or you could have two configurations 
 for a light and dark theme.
 
-The [Applying](https://github.com/afollestad/app-theme-engine#applying) section will go over this a bit more.
+The [Basics of Applying](https://github.com/afollestad/app-theme-engine#basics-of-applying) section will go over this a bit more.
 
 #### Default Configuration
 
@@ -241,7 +242,7 @@ Config.markChanged(this, "light_theme", "dark_theme");
 
 ---
 
-# Applying
+# Basics of Applying
 
 Once you have configurations set, you can apply the theme engine to Activities, Fragments, and even 
 individual views.
@@ -645,3 +646,24 @@ ATE.config(this, null)
     .usingMaterialDialogs(true)
     .commit();
 ```
+
+---
+
+# Preference UI
+
+As seen in the sample project, ATE includes a set of pre-made Preference classes that handle theming 
+their own UI in your settings screen. They also use Material Dialogs, and enable Material Dialogs integration 
+automatically when used. The preference classes include:
+
+1. `ATEDialogPreference`
+2. `ATEListPreference`
+3. `ATECheckBoxPreference`
+4. `ATEEditTextPreference`
+5. `ATEMultiSelectPreference`
+6. `ATEColorPreference` – doesn't actually display a dialog, just displays a color indicator on the right. Setting display color and displaying a dialog is done from the settings screen.
+
+All of these except `ATEColorPreference` inherit their Material Dialogs equivalent class.
+
+In your settings screen, the title will be themed to the primary text color, the summary will be 
+themed to the secondary text color. The actual dialogs are themed using the logic in 
+[Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration).

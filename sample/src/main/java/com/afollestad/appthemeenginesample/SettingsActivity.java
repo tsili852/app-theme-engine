@@ -18,9 +18,9 @@ import android.view.View;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+import com.afollestad.appthemeengine.prefs.ATECheckBoxPreference;
 import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
-import com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference;
-import com.afollestad.appthemeenginesample.prefs.ATEColorPreference;
+import com.afollestad.appthemeengine.prefs.ATEColorPreference;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.afollestad.materialdialogs.prefs.MaterialListPreference;
 

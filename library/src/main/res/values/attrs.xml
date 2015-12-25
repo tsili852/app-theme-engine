@@ -33,4 +33,28 @@
         <attr name="ateKey_switch" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="ATECheckBoxPreference">
+        <attr name="ateKey_pref_checkBox" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEColorPreference">
+        <attr name="ateKey_pref_color" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEDialogPreference">
+        <attr name="ateKey_pref_dialog" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEEditTextPreference">
+        <attr name="ateKey_pref_editText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEListPreference">
+        <attr name="ateKey_pref_list" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEMultiSelectPreference">
+        <attr name="ateKey_pref_multiSelect" format="string" />
+    </declare-styleable>
+
 </resources>
