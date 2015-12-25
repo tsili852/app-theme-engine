@@ -5,6 +5,7 @@ their apps, similar to what's seen in [Cabinet](https://play.google.com/store/ap
 and [Impression](https://github.com/afollestad/impression).
 
 Download the [latest sample APK](https://github.com/afollestad/app-theme-engine/raw/master/sample/Sample.apk) to check it out! 
+ The sample's icon was designed by [Alex Mueller](https://plus.google.com/109174583408308276235).
 
 ![Showcase](https://raw.githubusercontent.com/afollestad/app-theme-engine/master/art/showcase.png)
 
