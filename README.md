@@ -668,7 +668,8 @@ themed to the secondary text color. The actual dialogs are themed using the logi
 
 ---
 
-Like pre-made views, you can specify config keys through your XML. For an example:
+Like pre-made views, you can specify config keys through your XML. For an example, you can use a 
+theme attribute set from your Activity theme, which specifies a string (see the sample project):
 
 ```xml
 <com.afollestad.appthemeengine.prefs.ATEColorPreference
