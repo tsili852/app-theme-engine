@@ -106,6 +106,11 @@ public final class TintHelper {
             else if (view instanceof SwitchCompat)
                 setTint((SwitchCompat) view, color);
             else background = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                    !background && view.getBackground() instanceof RippleDrawable) {
+                RippleDrawable rd = (RippleDrawable) view.getBackground();
+                rd.setColor(ColorStateList.valueOf(Util.adjustAlpha(color, 0.4f)));
+            }
         }
         if (background) {
             if (view instanceof FloatingActionButton || view instanceof Button) {

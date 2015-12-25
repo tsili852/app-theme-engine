@@ -2,8 +2,10 @@ package com.afollestad.appthemeengine;
 
 import android.app.Activity;
 import android.support.annotation.AttrRes;
+import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.view.View;
@@ -13,7 +15,11 @@ import android.view.View;
  */
 interface ConfigInterface {
 
+    @CheckResult
     boolean isConfigured();
+
+    @CheckResult
+    boolean isConfigured(@IntRange(from = 0, to = Integer.MAX_VALUE) int version);
 
     // Activity theme
 

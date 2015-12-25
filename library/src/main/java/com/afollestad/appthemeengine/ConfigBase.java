@@ -8,6 +8,7 @@ abstract class ConfigBase implements ConfigInterface {
     protected final static String CONFIG_PREFS_KEY_DEFAULT = "[[afollestad_theme-engine]]";
     protected final static String CONFIG_PREFS_KEY_CUSTOM = "[[afollestad_heme-engine_%s]]";
     protected final static String IS_CONFIGURED_KEY = "is_configured";
+    protected final static String IS_CONFIGURED_VERSION_KEY = "is_configured_version";
     protected final static String VALUES_CHANGED = "values_changed";
 
     protected final static String KEY_ACTIVITY_THEME = "activity_theme";

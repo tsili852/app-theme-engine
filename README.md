@@ -149,7 +149,23 @@ if (!ATE.config(this, null).isConfigured()) {
 }
 ```
 
-Again, the second parameter is an optional key.
+Again, the second parameter of `config(Context, String)` is an optional key.
+
+---
+
+You can also pass a number to `isConfigured(int)` which allows you to perform configuration upgrades/overrides.
+
+```java
+if (!ATE.config(this, null).isConfigured(1)) {
+    // Setup default options for the default (null) key, version 1
+}
+
+// LATER, you want to override previously set defaults for existing users...
+
+if (!ATE.config(this, null).isConfigured(2)) {
+    // Setup default options for the default (null) key, version 2
+}
+```
 
 #### Value Retrieval
 

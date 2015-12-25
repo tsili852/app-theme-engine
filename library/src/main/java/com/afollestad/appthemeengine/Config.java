@@ -11,6 +11,7 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -48,6 +49,18 @@ public final class Config extends ConfigBase {
     @Override
     public boolean isConfigured() {
         return prefs(mContext, mKey).getBoolean(IS_CONFIGURED_KEY, false);
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    @Override
+    public boolean isConfigured(@IntRange(from = 0, to = Integer.MAX_VALUE) int version) {
+        final SharedPreferences prefs = prefs(mContext, mKey);
+        final int lastVersion = prefs.getInt(IS_CONFIGURED_VERSION_KEY, -1);
+        if (version > lastVersion) {
+            prefs.edit().putInt(IS_CONFIGURED_VERSION_KEY, version).commit();
+            return false;
+        }
+        return true;
     }
 
     @Override
