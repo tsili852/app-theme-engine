@@ -652,8 +652,8 @@ ATE.config(this, null)
 # Preference UI
 
 As seen in the sample project, ATE includes a set of pre-made Preference classes that handle theming 
-their own UI in your settings screen. They also use Material Dialogs, and enable Material Dialogs integration 
-automatically when used. The preference classes include:
+their own UI in your settings screen. They also use [Material Dialogs](https://github.com/afollestad/material-dialogs), 
+and enable Material Dialogs integration automatically when used. The preference classes include:
 
 1. `ATEDialogPreference`
 2. `ATEListPreference`
@@ -662,8 +662,21 @@ automatically when used. The preference classes include:
 5. `ATEMultiSelectPreference`
 6. `ATEColorPreference` – doesn't actually display a dialog, just displays a color indicator on the right. Setting display color and displaying a dialog is done from the settings screen.
 
-All of these except `ATEColorPreference` inherit their Material Dialogs equivalent class.
-
 In your settings screen, the title will be themed to the primary text color, the summary will be 
 themed to the secondary text color. The actual dialogs are themed using the logic in 
 [Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration).
+
+---
+
+Like pre-made views, you can specify config keys through your XML. For an example:
+
+```xml
+<com.afollestad.appthemeengine.prefs.ATEColorPreference
+        android:key="primary_color"
+        android:persistent="false"
+        android:summary="@string/primary_color_summary"
+        android:title="@string/primary_color"
+        app:ateKey_pref_color="?ate_key" />
+```
+
+`app:ateKey_pref_` is suffixed with the preference type. Android Studio will auto complete the name for you for other preference types.
