@@ -30,9 +30,10 @@ Only use this library if you intend to give the user the ability to change the c
     6. [Marking as Changed](https://github.com/afollestad/app-theme-engine#marking-as-changed)
 3. [Basics of Applying](https://github.com/afollestad/app-theme-engine#basics-of-applying)
     1. [ATEActivity](https://github.com/afollestad/app-theme-engine#ateactivity)
-    2. [Custom Activities and Fragments](https://github.com/afollestad/app-theme-engine#custom-activities-and-fragments)
+    2. [Custom Activities](https://github.com/afollestad/app-theme-engine#custom-activities)
+    3. [Fragments](https://github.com/afollestad/app-theme-engine#fragments)
     3. [Toolbars, Menus and Overflows](https://github.com/afollestad/app-theme-engine#toolbars-menus-and-overflows)
-    4. [Lists and Individual Views](https://github.com/afollestad/app-theme-engine#lists-and-individual-views)
+    4. [Individual Views and Lists](https://github.com/afollestad/app-theme-engine#individual-views-and-lists)
     5. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
     6. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
@@ -296,7 +297,7 @@ One that accepts a config key, one that doesn't. `ATE.config(Context, String)` i
  `ATE.config(Context)` and pass the above `Activity` as the `Context`, it would automatically use the return value 
  of `getATEKey()` as the second parameter even though it wasn't directly specified.
 
-#### Custom Activities and Fragments
+#### Custom Activities
 
 If you don't use `ATEActivity`, there's a few things you have to do:
 
@@ -335,42 +336,40 @@ public class MyActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_menu, menu);
+        // Applies tinting to menu icons and overflow button if necessary (if toolbar background is light colored)
         ATE.applyMenu(this, getATEKey(), menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
+        // Applies tinting to widgets (e.g. checkboxes) inside the overflow menu popup
         ATE.applyOverflow(this, getATEKey());
         return super.onMenuOpened(featureId, menu);
     }
 }
 ```
 
----
+#### Fragments
 
 You can also apply theming to views in a Fragment:
 
 ```java
 public class MyFragment extends Fragment {
 
-    ...
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Second parameter is optional config key.
         ATE.apply(this, null);
     }
 }
 ```
 
----
-
-And again, replace occurrences of `null` above with a key if you need separate configurations.
-
 #### Toolbars, Menus, and Overflows
 
-ATE will automatically theme your toolbars or support action bars.
+ATE will automatically theme your toolbars or support action bars (if you use `ATEActivity` *or* follow
+the directions in [Custom Activities](https://github.com/afollestad/app-theme-engine#custom-activities)). 
 
 *If the toolbar background is light*: the navigation icon (e.g. home up or drawer icon) will be tinted black,
 the title text color will be black, the menu icons will be tinted black, and the overflow button will be tinted black.
@@ -378,11 +377,9 @@ the title text color will be black, the menu icons will be tinted black, and the
 *If the toolbar background is dark*: the navigation icon (e.g. home up or drawer icon) will be tinted white,
 the title text color will be white, the menu icons will be tinted white, and the overflow button will be tinted white. 
 
----
-
 ATE will also automatically theme widgets in your overflow menu, such as checkboxes and radio buttons.
 
-#### Lists and Individual Views
+#### Individual Views and Lists
 
 You theme individual views like this:
 
