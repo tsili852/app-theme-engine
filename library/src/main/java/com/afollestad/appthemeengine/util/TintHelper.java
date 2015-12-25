@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -37,20 +38,30 @@ public final class TintHelper {
     public static void setTintSelector(@NonNull View view, @ColorInt int color, boolean darker) {
         final int pressed = Util.shiftColor(color, darker ? 0.9f : 1.1f);
         final int activated = Util.shiftColor(color, darker ? 1.1f : 0.9f);
-        final ColorStateList sl = new ColorStateList(
-                new int[][]{
-                        new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
-                        new int[]{android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
-                        new int[]{-android.R.attr.state_pressed, android.R.attr.state_activated, -android.R.attr.state_checked},
-                        new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, android.R.attr.state_checked}
-                },
-                new int[]{
-                        color,
-                        pressed,
-                        activated,
-                        activated
-                }
-        );
+
+        final ColorStateList sl;
+        if (view instanceof Button && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sl = ColorStateList.valueOf(color);
+            if (view.getBackground() instanceof RippleDrawable) {
+                RippleDrawable rd = (RippleDrawable) view.getBackground();
+                rd.setColor(ColorStateList.valueOf(Util.isColorLight(color) ? Color.BLACK : Color.WHITE));
+            }
+        } else {
+            sl = new ColorStateList(
+                    new int[][]{
+                            new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
+                            new int[]{android.R.attr.state_pressed, -android.R.attr.state_activated, -android.R.attr.state_checked},
+                            new int[]{-android.R.attr.state_pressed, android.R.attr.state_activated, -android.R.attr.state_checked},
+                            new int[]{-android.R.attr.state_pressed, -android.R.attr.state_activated, android.R.attr.state_checked}
+                    },
+                    new int[]{
+                            color,
+                            pressed,
+                            activated,
+                            activated
+                    }
+            );
+        }
 
         if (view instanceof FloatingActionButton) {
             final FloatingActionButton fab = (FloatingActionButton) view;
