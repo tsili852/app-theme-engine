@@ -35,4 +35,6 @@ abstract class ConfigBase implements ConfigInterface {
     protected final static String KEY_NAVIGATIONVIEW_NORMAL_TEXT = "navigation_view_normal_text";
     protected final static String KEY_NAVIGATIONVIEW_SELECTED_ICON = "navigation_view_selected_icon";
     protected final static String KEY_NAVIGATIONVIEW_NORMAL_ICON = "navigation_view_normal_icon";
+
+    protected final static String KEY_USING_MATERIAL_DIALOGS = "using_material_dialogs";
 }

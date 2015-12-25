@@ -222,7 +222,7 @@ public class SettingsActivity extends BaseThemedActivity
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.about) {
-            AccentAboutDialog.show(this);
+            AboutDialog.show(this);
             return true;
         }
         return super.onOptionsItemSelected(item);

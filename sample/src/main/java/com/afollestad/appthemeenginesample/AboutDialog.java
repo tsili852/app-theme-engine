@@ -1,6 +1,5 @@
 package com.afollestad.appthemeenginesample;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,33 +7,25 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 
-import com.afollestad.appthemeengine.Config;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
  * @author Aidan Follestad (afollestad)
  */
-public class AccentAboutDialog extends DialogFragment {
+public class AboutDialog extends DialogFragment {
 
     public static void show(AppCompatActivity context) {
-        AccentAboutDialog dialog = new AccentAboutDialog();
+        AboutDialog dialog = new AboutDialog();
         dialog.show(context.getSupportFragmentManager(), "[ABOUT_DIALOG]");
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Activity context = getActivity();
-        final String ateKey = Util.resolveString(context, R.attr.ate_key);
-        final int accentColor = Config.accentColor(context, ateKey);
-        return new MaterialDialog.Builder(context)
+        // Color theming is handled by ATE's MD integration
+        return new MaterialDialog.Builder(getActivity())
                 .title(R.string.about)
                 .positiveText(R.string.dismiss)
-                .titleColor(Config.textColorPrimary(context, ateKey))
-                .contentColor(Config.textColorSecondary(context, ateKey))
-                .linkColor(accentColor)
-                .buttonRippleColor(accentColor)
-                .positiveColor(accentColor)
                 .content(Html.fromHtml(getString(R.string.about_body)))
                 .contentLineSpacing(1.6f)
                 .build();

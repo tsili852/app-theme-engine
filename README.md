@@ -42,6 +42,7 @@ Only use this library if you intend to give the user the ability to change the c
     3. [Text Shadow Colors](https://github.com/afollestad/app-theme-engine#text-shadow-colors)
     3. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
 5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
+6. [Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration)
 
 ---
 
@@ -615,3 +616,16 @@ name for all of them would result in duplicate errors.
 
 You can even use theme attributes in your Activity themes and reference them for this value (which is 
 done in the sample project since different keys are used for a light and dark theme).
+
+---
+
+# Material Dialogs Integration
+
+If you want your primary/secondary text color and accent color to be applied to dialogs created using
+my [Material Dialogs](https://github.com/afollestad/material-dialogs) library, it only takes one config option:
+
+```java
+ATE.config(this, null)
+    .usingMaterialDialogs(true)
+    .commit();
+```

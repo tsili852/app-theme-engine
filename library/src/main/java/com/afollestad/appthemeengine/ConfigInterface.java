@@ -111,6 +111,10 @@ interface ConfigInterface {
 
     Config navigationViewNormalTextAttr(@AttrRes int colorAttr);
 
+    // Misc
+
+    Config usingMaterialDialogs(boolean enabled);
+
     // Commit/apply
 
     void commit();

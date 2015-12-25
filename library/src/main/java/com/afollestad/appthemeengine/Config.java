@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.AttrRes;
 import android.support.annotation.CheckResult;
@@ -19,6 +20,7 @@ import android.view.View;
 import com.afollestad.appthemeengine.customizers.ATENavigationBarCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
 import com.afollestad.appthemeengine.util.Util;
+import com.afollestad.materialdialogs.internal.ThemeSingleton;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -268,6 +270,14 @@ public final class Config extends ConfigBase {
         return navigationViewNormalText(Util.resolveColor(mContext, colorAttr));
     }
 
+    // Misc
+
+    @Override
+    public Config usingMaterialDialogs(boolean enabled) {
+        mEditor.putBoolean(KEY_USING_MATERIAL_DIALOGS, enabled);
+        return this;
+    }
+
     // Apply and commit methods
 
     @Override
@@ -275,6 +285,19 @@ public final class Config extends ConfigBase {
         mEditor.putLong(VALUES_CHANGED, System.currentTimeMillis())
                 .putBoolean(IS_CONFIGURED_KEY, true)
                 .commit();
+
+        // MD integration
+        if (Config.usingMaterialDialogs(mContext, mKey)) {
+            final ThemeSingleton md = ThemeSingleton.get();
+            md.titleColor = Config.textColorPrimary(mContext, mKey);
+            md.contentColor = Config.textColorSecondary(mContext, mKey);
+            md.itemColor = md.titleColor;
+            md.widgetColor = Config.accentColor(mContext, mKey);
+            md.linkColor = ColorStateList.valueOf(md.widgetColor);
+            md.positiveColor = ColorStateList.valueOf(md.widgetColor);
+            md.neutralColor = ColorStateList.valueOf(md.widgetColor);
+            md.negativeColor = ColorStateList.valueOf(md.widgetColor);
+        }
     }
 
     @Override
@@ -559,6 +582,11 @@ public final class Config extends ConfigBase {
     @ColorInt
     public static int navigationViewNormalText(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_TEXT, textColorPrimary(context, key));
+    }
+
+    @CheckResult
+    public static boolean usingMaterialDialogs(@NonNull Context context, @Nullable String key) {
+        return prefs(context, key).getBoolean(KEY_USING_MATERIAL_DIALOGS, false);
     }
 
 

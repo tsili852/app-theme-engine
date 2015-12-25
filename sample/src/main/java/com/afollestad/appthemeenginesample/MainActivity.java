@@ -59,7 +59,7 @@ public class MainActivity extends BaseThemedActivity {
                     mDrawer.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            AccentAboutDialog.show(MainActivity.this);
+                            AboutDialog.show(MainActivity.this);
                         }
                     }, 200);
                     return false;

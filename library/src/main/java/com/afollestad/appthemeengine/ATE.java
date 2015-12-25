@@ -42,6 +42,7 @@ import com.afollestad.appthemeengine.util.EdgeGlowUtil;
 import com.afollestad.appthemeengine.util.TintHelper;
 import com.afollestad.appthemeengine.util.Util;
 import com.afollestad.appthemeengine.views.PreMadeView;
+import com.afollestad.materialdialogs.internal.ThemeSingleton;
 
 import java.lang.reflect.Field;
 
@@ -453,6 +454,19 @@ public final class ATE extends ATEBase {
             if (lightStatusEnabled)
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             else decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS);
+        }
+
+        // MD integration
+        if (Config.usingMaterialDialogs(activity, key)) {
+            final ThemeSingleton md = ThemeSingleton.get();
+            md.titleColor = Config.textColorPrimary(activity, key);
+            md.contentColor = Config.textColorSecondary(activity, key);
+            md.itemColor = md.titleColor;
+            md.widgetColor = Config.accentColor(activity, key);
+            md.linkColor = ColorStateList.valueOf(md.widgetColor);
+            md.positiveColor = ColorStateList.valueOf(md.widgetColor);
+            md.neutralColor = ColorStateList.valueOf(md.widgetColor);
+            md.negativeColor = ColorStateList.valueOf(md.widgetColor);
         }
     }
 
