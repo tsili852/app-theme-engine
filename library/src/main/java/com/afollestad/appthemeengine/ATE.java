@@ -23,6 +23,7 @@ import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -297,17 +298,37 @@ public final class ATE extends ATEBase {
             toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
         if (toolbar == null) return;
 
-        boolean tinted = lightStatusBarEnabled(context, key);
-        if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
-            final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
-            tinted = Util.isColorLight(toolbarBg.getColor());
+        boolean isLightMode;
+        @Config.LightToolbarMode
+        final int lightToolbarMode = Config.lightToolbarMode(context, key);
+        switch (lightToolbarMode) {
+            case Config.LIGHT_TOOLBAR_ON:
+                isLightMode = true;
+                break;
+            case Config.LIGHT_TOOLBAR_OFF:
+                isLightMode = false;
+                break;
+            default:
+            case Config.LIGHT_TOOLBAR_AUTO:
+                if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
+                    final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
+                    isLightMode = Util.isColorLight(toolbarBg.getColor());
+                } else {
+                    Log.d("ATE", "Toolbar does not use a ColorDrawable for its background, can't determine its color.");
+                    isLightMode = false;
+                }
+                break;
         }
-        final int color = tinted ? Color.BLACK : Color.WHITE;
+
+        final int color = isLightMode ? Color.BLACK : Color.WHITE;
+
+        // Tint the toolbar title and navigation icon (e.g. back, drawer, etc.)
         toolbar.setTitleTextColor(color);
         if (toolbar.getNavigationIcon() != null)
             toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), color));
-        if (menu == null)
-            menu = toolbar.getMenu();
+
+        // Tint visible action button icons on the toolbar
+        if (menu == null) menu = toolbar.getMenu();
         if (menu != null && menu.size() > 0) {
             for (int i = 0; i < menu.size(); i++) {
                 final MenuItem item = menu.getItem(i);
@@ -315,9 +336,11 @@ public final class ATE extends ATEBase {
                     item.setIcon(TintHelper.tintDrawable(item.getIcon(), color));
             }
         }
-        if (context instanceof Activity) {
-            Util.setOverflowButtonColor((Activity) context, color);
 
+        if (context instanceof Activity) {
+            // Set color of the overflow icon
+            Util.setOverflowButtonColor((Activity) context, color);
+            // Setup overflow expansion listeners to tint overflow menu widgets
             try {
                 final Field menuField = Toolbar.class.getDeclaredField("mMenuBuilderCallback");
                 menuField.setAccessible(true);

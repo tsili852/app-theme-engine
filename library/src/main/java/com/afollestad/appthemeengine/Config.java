@@ -20,6 +20,7 @@ import android.view.View;
 
 import com.afollestad.appthemeengine.customizers.ATENavigationBarCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
+import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.appthemeengine.util.Util;
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
 
@@ -210,6 +211,12 @@ public final class Config extends ConfigBase {
     @Override
     public Config lightStatusBarMode(@LightStatusBarMode int mode) {
         mEditor.putInt(KEY_LIGHT_STATUS_BAR_MODE, mode);
+        return this;
+    }
+
+    @Override
+    public Config lightToolbarMode(@LightToolbarMode int mode) {
+        mEditor.putInt(KEY_LIGHT_TOOLBAR_MODE, mode);
         return this;
     }
 
@@ -527,6 +534,15 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_LIGHT_STATUS_BAR_MODE, Config.LIGHT_STATUS_BAR_AUTO);
     }
 
+    @SuppressWarnings("ResourceType")
+    @CheckResult
+    @LightToolbarMode
+    public static int lightToolbarMode(@NonNull Context context, @Nullable String key) {
+        if (context instanceof ATEToolbarCustomizer)
+            return ((ATEToolbarCustomizer) context).getLightToolbarMode();
+        return prefs(context, key).getInt(KEY_LIGHT_TOOLBAR_MODE, Config.LIGHT_TOOLBAR_AUTO);
+    }
+
     @Deprecated
     @CheckResult
     public static boolean autoGeneratePrimaryDark(@NonNull Context context) {
@@ -612,7 +628,16 @@ public final class Config extends ConfigBase {
     public @interface LightStatusBarMode {
     }
 
+    @IntDef({LIGHT_TOOLBAR_OFF, LIGHT_TOOLBAR_ON, LIGHT_TOOLBAR_AUTO})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LightToolbarMode {
+    }
+
     public static final int LIGHT_STATUS_BAR_OFF = 0;
     public static final int LIGHT_STATUS_BAR_ON = 1;
     public static final int LIGHT_STATUS_BAR_AUTO = 2;
+
+    public static final int LIGHT_TOOLBAR_OFF = 0;
+    public static final int LIGHT_TOOLBAR_ON = 1;
+    public static final int LIGHT_TOOLBAR_AUTO = 2;
 }

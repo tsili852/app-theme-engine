@@ -108,8 +108,10 @@ ATE.config(this, null)
     .coloredStatusBar(true)
     // by default, is equal to primaryColorDark unless coloredStatusBar is false
     .statusBarColor(color)
-     // dark status bar icons on Marshmallow (API 23)+
+    // dark status bar icons on Marshmallow (API 23)+
     .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
+    // when on, makes the toolbar navigation icon, title, and menu icons black  
+    lightToolbarMode(Config.LIGHT_TOOLBAR_AUTO)
     .coloredNavigationBar(false)
     // by default, is equal to primaryColor unless coloredNavigationBar is false
     .navigationBarColor(color)
@@ -371,11 +373,8 @@ public class MyFragment extends Fragment {
 ATE will automatically theme your toolbars or support action bars (if you use `ATEActivity` *or* follow
 the directions in [Custom Activities](https://github.com/afollestad/app-theme-engine#custom-activities)). 
 
-*If the toolbar background is light*: the navigation icon (e.g. home up or drawer icon) will be tinted black,
-the title text color will be black, the menu icons will be tinted black, and the overflow button will be tinted black.
-
-*If the toolbar background is dark*: the navigation icon (e.g. home up or drawer icon) will be tinted white,
-the title text color will be white, the menu icons will be tinted white, and the overflow button will be tinted white. 
+If `lightToolbarMode` is on, or if it's set to *auto* and the toolbar background is light: the navigation 
+icon (e.g. back or drawer), title, and menu icons will be tinted black. Otherwise they will be white as normal. 
 
 ATE will also automatically theme widgets in your overflow menu, such as checkboxes and radio buttons.
 

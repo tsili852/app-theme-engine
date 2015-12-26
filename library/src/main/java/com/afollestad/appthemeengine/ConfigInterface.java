@@ -63,7 +63,11 @@ interface ConfigInterface {
 
     Config navigationBarColorAttr(@AttrRes int colorAttr);
 
+    // Light UI
+
     Config lightStatusBarMode(@Config.LightStatusBarMode int mode);
+
+    Config lightToolbarMode(@Config.LightToolbarMode int mode);
 
     // Primary text color
 
