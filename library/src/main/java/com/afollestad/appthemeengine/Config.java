@@ -518,8 +518,12 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARY_NAVBAR, false);
     }
 
+    @SuppressWarnings("ResourceType")
     @CheckResult
+    @LightStatusBarMode
     public static int lightStatusBarMode(@NonNull Context context, @Nullable String key) {
+        if (context instanceof ATEStatusBarCustomizer)
+            return ((ATEStatusBarCustomizer) context).getLightStatusBarMode();
         return prefs(context, key).getInt(KEY_LIGHT_STATUS_BAR_MODE, Config.LIGHT_STATUS_BAR_AUTO);
     }
 
