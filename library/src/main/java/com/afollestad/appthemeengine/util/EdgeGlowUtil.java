@@ -93,6 +93,7 @@ public class EdgeGlowUtil {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void setEdgeGlowColor(@NonNull EdgeEffectCompat edgeEffect, @ColorInt int color) throws Exception {
         Field field = EdgeEffectCompat.class.getDeclaredField("mEdgeEffect");
         field.setAccessible(true);
