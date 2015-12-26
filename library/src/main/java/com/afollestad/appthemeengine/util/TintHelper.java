@@ -106,13 +106,30 @@ public final class TintHelper {
             else if (view instanceof SwitchCompat)
                 setTint((SwitchCompat) view, color);
             else background = true;
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                     !background && view.getBackground() instanceof RippleDrawable) {
+                // Ripples for the above views (e.g. when you tap and hold a switch or checkbox)
                 RippleDrawable rd = (RippleDrawable) view.getBackground();
-                rd.setColor(ColorStateList.valueOf(Util.adjustAlpha(color, 0.4f)));
+                final int unchecked = Util.adjustAlpha(Color.parseColor("#9f9f9f"), 0.4f);
+                final int checked = Util.adjustAlpha(color, 0.4f);
+                final ColorStateList sl = new ColorStateList(
+                        new int[][]{
+                                new int[]{-android.R.attr.state_activated, -android.R.attr.state_checked},
+                                new int[]{android.R.attr.state_activated},
+                                new int[]{android.R.attr.state_checked}
+                        },
+                        new int[]{
+                                unchecked,
+                                checked,
+                                checked
+                        }
+                );
+                rd.setColor(sl);
             }
         }
         if (background) {
+            // Need to tint the background of a view
             if (view instanceof FloatingActionButton || view instanceof Button) {
                 setTintSelector(view, color, false);
             } else if (view.getBackground() != null) {
