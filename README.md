@@ -373,8 +373,9 @@ public class MyFragment extends Fragment {
 ATE will automatically theme your toolbars or support action bars (if you use `ATEActivity` *or* follow
 the directions in [Custom Activities](https://github.com/afollestad/app-theme-engine#custom-activities)). 
 
-If `lightToolbarMode` is on, or if it's set to *auto* and the toolbar background is light: the navigation 
-icon (e.g. back or drawer), title, and menu icons will be tinted black. Otherwise they will be white as normal. 
+If `lightToolbarMode` is set to `Config.LIGHT_TOOLBAR_ON`, or if it's set to *auto* and the toolbar 
+background is light: the navigation icon (e.g. back or drawer), title, and menu icons will be tinted 
+black. Otherwise they will be white as normal. 
 
 ATE will also automatically theme widgets in your overflow menu, such as checkboxes and radio buttons.
 
