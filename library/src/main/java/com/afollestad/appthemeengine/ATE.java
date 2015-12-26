@@ -17,9 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.BaseMenuPresenter;
 import android.support.v7.view.menu.ListMenuItemView;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
-import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -293,7 +291,7 @@ public final class ATE extends ATEBase {
                 (lightStatusMode == Config.LIGHT_STATUS_BAR_ON || Util.isColorLight(Config.statusBarColor(context, key)));
     }
 
-    protected static void processToolbar(@NonNull Context context, @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
+    protected static void processToolbar(@NonNull final Context context, @Nullable final String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
         if (toolbar == null && context instanceof AppCompatActivity)
             toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
         if (toolbar == null) return;
@@ -342,7 +340,7 @@ public final class ATE extends ATEBase {
             Util.setOverflowButtonColor((Activity) context, color);
             // Setup overflow expansion listeners to tint overflow menu widgets
             try {
-                final Field menuField = Toolbar.class.getDeclaredField("mMenuBuilderCallback");
+                /*final Field menuField = Toolbar.class.getDeclaredField("mMenuBuilderCallback");
                 menuField.setAccessible(true);
                 final Field presenterField = Toolbar.class.getDeclaredField("mActionMenuPresenterCallback");
                 presenterField.setAccessible(true);
@@ -358,7 +356,64 @@ public final class ATE extends ATEBase {
                     ActionMenuView menuView = (ActionMenuView) menuViewField.get(toolbar);
                     if (menuView != null)
                         menuView.setMenuCallbacks(newPresenterCb, currentMenuCb);
+                }*/
+
+                //OnMenuItemClickListener to tint submenu items
+                final Field menuItemClickListener = Toolbar.class.getDeclaredField("mOnMenuItemClickListener");
+                menuItemClickListener.setAccessible(true);
+
+                Toolbar.OnMenuItemClickListener currentClickListener = (Toolbar.OnMenuItemClickListener) menuItemClickListener.get(toolbar);
+                if (!(currentClickListener instanceof ATEOnMenuItemClickListener)) {
+                    final ATEOnMenuItemClickListener newClickListener = new ATEOnMenuItemClickListener(
+                            (Activity) context, key, currentClickListener, toolbar);
+                    toolbar.setOnMenuItemClickListener(newClickListener);
                 }
+
+
+                //TODO: Not working - views aren't inflated yet when overflow is pressed, which makes sense.
+                //Need to find another way to tint the menu items after they are inflated
+                //Thinking about this a bit more, probably just discard this because this will only work for overflow menus, not other menus
+
+                /*final String overflowDescription = context.getString(R.string.abc_action_menu_overflow_description);
+                final ViewGroup decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView();
+                final ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
+                final Toolbar finalToolbar = toolbar;
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        final ArrayList<View> outViews = new ArrayList<>();
+                        decorView.findViewsWithText(outViews, overflowDescription,
+                                View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+                        if (outViews.isEmpty()) return;
+                        final AppCompatImageView overflow = (AppCompatImageView) outViews.get(0);
+
+                        try {
+                            Field listenerInfoField = View.class.getDeclaredField("mListenerInfo");
+                            listenerInfoField.setAccessible(true);
+                            Object listenerInfo = listenerInfoField.get(overflow);
+
+                            Field listenerField = listenerInfo.getClass().getDeclaredField("mOnTouchListener");
+                            listenerField.setAccessible(true);
+                            final View.OnTouchListener listener = (View.OnTouchListener) listenerField.get(listenerInfo);
+
+                            overflow.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    ATE.applyOverflow((AppCompatActivity) context, key, finalToolbar);
+                                    return listener.onTouch(v, event);
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        Util.removeOnGlobalLayoutListener(decorView, this);
+                    }
+                });*/
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

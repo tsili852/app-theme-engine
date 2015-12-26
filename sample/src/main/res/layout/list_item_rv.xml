@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="72dp"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/content_inset_half"
+    android:gravity="center_vertical"
     android:paddingLeft="@dimen/content_inset"
     android:paddingRight="@dimen/content_inset"
-    android:paddingTop="@dimen/content_inset_half"
     tools:ignore="UnusedAttribute">
 
     <TextView
@@ -16,14 +15,16 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:tag="text_accent_color"
-        android:textSize="@dimen/header_text_size" />
+        android:textSize="@dimen/body_text_size"
+        tools:text="Primary Text" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif"
         android:tag="text_secondary"
-        android:textSize="@dimen/body_text_size" />
+        android:textSize="@dimen/secondary_text_size"
+        tools:text="Secondary Text" />
 
 </LinearLayout>
