@@ -440,7 +440,7 @@ public final class ATE extends ATEBase {
             EdgeGlowUtil.setEdgeGlowColor((AbsListView) view, Config.accentColor(context, key));
             return;
         } else if (view instanceof RecyclerView) {
-            EdgeGlowUtil.setEdgeGlowColor((RecyclerView) view, Config.accentColor(context, key));
+            EdgeGlowUtil.setEdgeGlowColor((RecyclerView) view, Config.accentColor(context, key), null);
             return;
         }
 
@@ -461,7 +461,7 @@ public final class ATE extends ATEBase {
                 } else if (current instanceof AbsListView) {
                     EdgeGlowUtil.setEdgeGlowColor((AbsListView) current, Config.accentColor(context, key));
                 } else if (current instanceof RecyclerView) {
-                    EdgeGlowUtil.setEdgeGlowColor((RecyclerView) current, Config.accentColor(context, key));
+                    EdgeGlowUtil.setEdgeGlowColor((RecyclerView) current, Config.accentColor(context, key), null);
                 }
                 if (current.getTag() != null && current.getTag() instanceof String) {
                     processTag(context, current, key);

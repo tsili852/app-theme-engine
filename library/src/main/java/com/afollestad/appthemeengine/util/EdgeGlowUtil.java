@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
@@ -55,18 +56,17 @@ public class EdgeGlowUtil {
         }
     }
 
-    static RecyclerView.OnScrollListener edgeScrollListener;
-
-    public static void setEdgeGlowColor(@NonNull RecyclerView recyclerView, final @ColorInt int color) {
-        if (edgeScrollListener == null) {
-            edgeScrollListener = new RecyclerView.OnScrollListener() {
+    public static void setEdgeGlowColor(@NonNull RecyclerView recyclerView, final @ColorInt int color,
+                                        @Nullable RecyclerView.OnScrollListener scrollListener) {
+        if (scrollListener == null) {
+            scrollListener = new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-                    setEdgeGlowColor(recyclerView, color);
+                    EdgeGlowUtil.setEdgeGlowColor(recyclerView, color, this);
                 }
             };
-            recyclerView.addOnScrollListener(edgeScrollListener);
+            recyclerView.addOnScrollListener(scrollListener);
             return;
         }
 
