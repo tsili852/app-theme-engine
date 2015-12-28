@@ -93,7 +93,7 @@ public class TabLayoutProcessor implements Processor<TabLayout, Void> {
             }
         }
 
-        view.setTabTextColors(Util.adjustAlpha(tabTextColorSelected, 0.25f), tabTextColorSelected);
+        view.setTabTextColors(Util.adjustAlpha(tabTextColorSelected, 0.35f), tabTextColorSelected);
         view.setSelectedTabIndicatorColor(tabIndicatorColorSelected);
 
         final ColorStateList sl = new ColorStateList(new int[][]{
@@ -101,7 +101,7 @@ public class TabLayoutProcessor implements Processor<TabLayout, Void> {
                 new int[]{android.R.attr.state_selected}
         },
                 new int[]{
-                        Util.adjustAlpha(tabIndicatorColorSelected, 0.25f),
+                        Util.adjustAlpha(tabIndicatorColorSelected, 0.35f),
                         tabIndicatorColorSelected
                 });
         for (int i = 0; i < view.getTabCount(); i++) {
