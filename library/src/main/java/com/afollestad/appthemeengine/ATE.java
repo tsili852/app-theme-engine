@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.BaseMenuPresenter;
@@ -48,16 +49,30 @@ public final class ATE extends ATEBase {
         return view.getClass().getAnnotation(PreMadeView.class) != null;
     }
 
+    private static boolean isChildrenBlacklistedViewGroup(@NonNull ViewGroup view) {
+        // We don't want to theme children in these views
+        return view instanceof ListView || view instanceof RecyclerView || view instanceof TabLayout;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void performDefaultProcessing(@NonNull Context context, @NonNull View current, @Nullable String key) {
+        if (current.getTag() != null && current.getTag() instanceof String) {
+            // Apply default processor to view if view's tag is a String
+            Processor processor = getProcessor(null); // gets default processor
+            if (processor != null)
+                processor.process(context, key, current, null);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private static void apply(@NonNull Context context, @NonNull ViewGroup view, @Nullable String key) {
         Processor processor = getProcessor(view.getClass());
         if (processor != null) {
             processor.process(context, key, view, null);
-
-            // We don't want to theme children of ListViews or RecyclerViews, adapters need to do that
-            if (view instanceof ListView || view instanceof RecyclerView) {
-                return;
-            }
+        }
+        if (isChildrenBlacklistedViewGroup(view)) {
+            performDefaultProcessing(context, view, key);
+            return;
         }
 
         for (int i = 0; i < view.getChildCount(); i++) {
@@ -70,22 +85,17 @@ public final class ATE extends ATEBase {
                 continue;
             }
 
-            // Apply view theming using processors, if any match
-            processor = getProcessor(current.getClass());
-            if (processor != null) {
-                processor.process(context, key, current, null);
-            }
+            performDefaultProcessing(context, current, key);
 
-            // Apply default processor to view if view's tag is a String
-            if (current.getTag() != null && current.getTag() instanceof String) {
-                processor = getProcessor(null); // gets default processor
-                if (processor != null)
-                    processor.process(context, key, current, null);
-            }
-
-            // Apply theming to views inside the view group if it's a view group
             if (current instanceof ViewGroup) {
+                // View group will apply theming to itself and then children inside
                 apply(context, (ViewGroup) current, key);
+            } else {
+                processor = getProcessor(current.getClass());
+                if (processor != null) {
+                    // Apply view theming using processors, if any match
+                    processor.process(context, key, current, null);
+                }
             }
         }
     }
@@ -147,8 +157,8 @@ public final class ATE extends ATEBase {
                     break;
             }
             if (lightStatusEnabled)
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            else decorView.setSystemUiVisibility(View.SYSTEM_UI_LAYOUT_FLAGS);
+                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            else decorView.setSystemUiVisibility(0);
         }
 
         // MD integration
@@ -183,11 +193,7 @@ public final class ATE extends ATEBase {
 
     @SuppressWarnings("unchecked")
     public static void apply(@NonNull Context context, @NonNull View view, @Nullable String key) {
-        if (view.getTag() != null && view.getTag() instanceof String) {
-            Processor defaultProcessor = getProcessor(null);
-            if (defaultProcessor != null)
-                defaultProcessor.process(context, key, view, null);
-        }
+        performDefaultProcessing(context, view, key);
         if (view instanceof ViewGroup)
             apply(context, (ViewGroup) view, key);
     }
@@ -244,9 +250,12 @@ public final class ATE extends ATEBase {
     public static void apply(@NonNull android.support.v4.app.Fragment fragment, @Nullable String key) {
         if (fragment.getActivity() == null)
             throw new IllegalStateException("Fragment is not attached to an Activity yet.");
-        else if (fragment.getView() == null)
+        final View fragmentView = fragment.getView();
+        if (fragmentView == null)
             throw new IllegalStateException("Fragment does not have a View yet.");
-        apply(fragment.getActivity(), (ViewGroup) fragment.getView(), key);
+        if (fragmentView instanceof ViewGroup)
+            apply(fragment.getActivity(), (ViewGroup) fragmentView, key);
+        else apply(fragment.getActivity(), fragmentView, key);
         if (fragment.getActivity() instanceof AppCompatActivity)
             apply(fragment.getActivity(), key);
     }

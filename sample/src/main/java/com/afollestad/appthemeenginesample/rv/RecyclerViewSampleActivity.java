@@ -19,6 +19,7 @@ public class RecyclerViewSampleActivity extends BaseThemedActivity implements AT
     @StyleRes
     @Override
     public int getActivityTheme() {
+        // Make sure we don't use the one set to the Config, since we want a non-toolbar-actionbar for this activity
         return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
                 R.style.AppThemeDark_ActionBar : R.style.AppTheme_ActionBar;
     }

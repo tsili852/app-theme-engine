@@ -20,20 +20,22 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:elevation="@dimen/toolbar_elevation"
-            android:tag="bg_primary_color"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetStart="@dimen/content_inset"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
+            android:id="@+id/appbar_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ScrollView
+                android:id="@+id/main_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/scroll_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -108,11 +110,12 @@
                         android:tag="tint_accent_color" />
 
                     <Button
+                        android:id="@+id/button"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="@dimen/content_inset"
                         android:tag="bg_tint_accent_color_selector_lighter"
-                        android:text="@string/button" />
+                        android:text="@string/see_tab_layout" />
 
                 </LinearLayout>
 

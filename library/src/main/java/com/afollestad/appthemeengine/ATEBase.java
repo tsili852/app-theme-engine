@@ -3,6 +3,7 @@ package com.afollestad.appthemeengine;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.afollestad.appthemeengine.processors.NavigationViewProcessor;
 import com.afollestad.appthemeengine.processors.Processor;
 import com.afollestad.appthemeengine.processors.RecyclerViewProcessor;
 import com.afollestad.appthemeengine.processors.ScrollViewProcessor;
+import com.afollestad.appthemeengine.processors.TabLayoutProcessor;
 import com.afollestad.appthemeengine.processors.ToolbarProcessor;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ class ATEBase {
         mProcessors.put(RecyclerView.class.getName(), new RecyclerViewProcessor());
         mProcessors.put(Toolbar.class.getName(), new ToolbarProcessor());
         mProcessors.put(NavigationView.class.getName(), new NavigationViewProcessor());
+        mProcessors.put(TabLayout.class.getName(), new TabLayoutProcessor());
     }
 
     @SuppressWarnings("unchecked")
@@ -46,10 +49,12 @@ class ATEBase {
         Processor processor = mProcessors.get(viewClass.getName());
         if (processor != null)
             return processor;
-        Class<?> current = viewClass.getSuperclass();
-        while (current != null && processor == null) {
-            processor = mProcessors.get(current.getName());
+        Class<?> current = viewClass;
+        while (true) {
             current = current.getSuperclass();
+            if (current == null) break;
+            processor = mProcessors.get(current.getName());
+            if (processor != null) break;
         }
         return processor;
     }

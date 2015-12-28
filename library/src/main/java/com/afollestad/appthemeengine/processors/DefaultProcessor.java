@@ -17,7 +17,8 @@ public class DefaultProcessor implements Processor<View, Void> {
 
     @Override
     public void process(@NonNull Context context, @Nullable String key, @Nullable View view, @Nullable Void extra) {
-        if (view == null || view.getTag() == null || !(view.getTag() instanceof String)) return;
+        if (view == null || view.getTag() == null || !(view.getTag() instanceof String))
+            return;
         final String tag = (String) view.getTag();
         if (tag.contains(",")) {
             final String[] splitTag = tag.split(",");

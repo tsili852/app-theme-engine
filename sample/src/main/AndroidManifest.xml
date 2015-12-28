@@ -26,6 +26,11 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
+            android:name=".tabs.TabSampleActivity"
+            android:label="@string/tabs_sample"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:windowSoftInputMode="stateAlwaysHidden" />

@@ -13,6 +13,7 @@ import android.view.View;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
 import com.afollestad.appthemeenginesample.rv.RecyclerViewSampleActivity;
+import com.afollestad.appthemeenginesample.tabs.TabSampleActivity;
 
 public class MainActivity extends BaseThemedActivity {
 
@@ -75,6 +76,13 @@ public class MainActivity extends BaseThemedActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, RecyclerViewSampleActivity.class));
+            }
+        });
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TabSampleActivity.class));
             }
         });
     }
