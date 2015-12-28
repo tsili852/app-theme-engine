@@ -157,9 +157,6 @@ public final class ATE extends ATEBase {
                     lightStatusEnabled = Util.isColorLight(Config.statusBarColor(activity, key));
                     break;
             }
-            if (lightStatusEnabled)
-                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            else decorView.setSystemUiVisibility(0);
 
             final int systemUiVisibility = decorView.getSystemUiVisibility();
             if (lightStatusEnabled) {
