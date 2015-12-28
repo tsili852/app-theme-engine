@@ -16,6 +16,10 @@ Only use this library if you intend to give the user the ability to change the c
 
 ---
 
+#### This document will be updated soon, some of the content is outdated, some of the content is for
+the next release. It wil probably be re-written mostly. See the sample project for current implementations.
+
+
 # Table of Contents
 
 1. [Gradle Dependency](https://github.com/afollestad/app-theme-engine#gradle-dependency)
@@ -36,12 +40,14 @@ Only use this library if you intend to give the user the ability to change the c
     4. [Individual Views and Lists](https://github.com/afollestad/app-theme-engine#individual-views-and-lists)
     5. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
     6. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
+    7. [Tab Layouts](https://github.com/afollestad/app-theme-engine#tab-layouts)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
     2. [Text Colors](https://github.com/afollestad/app-theme-engine#text-colors)
     3. [Text Link Colors](https://github.com/afollestad/app-theme-engine#text-link-colors)
-    3. [Text Shadow Colors](https://github.com/afollestad/app-theme-engine#text-shadow-colors)
-    3. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
+    4. [Text Shadow Colors](https://github.com/afollestad/app-theme-engine#text-shadow-colors)
+    5. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
+    6. [Tab Layouts - Continued](https://github.com/afollestad/app-theme-engine#tab-layouts-continued)
 5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
 6. [Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration)
 7. [Preference UI](https://github.com/afollestad/app-theme-engine#preference-ui)
@@ -482,6 +488,16 @@ be themed to your primary color automatically.
 
 There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Customizers](https://github.com/afollestad/app-theme-engine#customizers)
  section.
+ 
+ 
+#### Tab Layouts
+
+ATE will automatically theme your `TabLayout`'s. By default, it will make the selected tab indicator
+and tab text white if your TabLayout background is dark. If the TabLayout background is light, it will 
+make the indicator and text black. 
+
+However, there are tag values you can set to easily modify these colors. They are discussed in 
+[Tab Layouts - Continued](https://github.com/afollestad/app-theme-engine#tab-layouts-continued).
 
 ---
 
@@ -596,6 +612,31 @@ You can even use background tint selectors:
 10. `bg_tint_text_primary_inverse_selector_darker` - tints the view background with a inverse primary text color selector, which is lighter when pressed.
 11. `bg_tint_text_secondary_selector_darker` - tints the view background with a secondary text color selector, which is lighter when pressed.
 12. `bg_tint_text_secondary_inverse_selector_darker` - tints the view background with a inverse secondary text color selector, which is lighter when pressed.
+
+#### Tab Layouts - Continued
+
+There are tag values to modify the color of TabLayout tab text:
+
+1. `tab_text_primary_color` - uses the primary color for for the tab text color.
+2. `tab_text_primary_color_dark` - uses the primary dark color for for the tab text color.
+3. `tab_text_accent_color` - uses the accent color for for the tab text color.
+4. `tab_text_primary` - uses the primary text color for for the tab text color.
+5. `tab_text_primary_inverse` - uses the inverse primary text color for for the tab text color.
+6. `tab_text_secondary` - uses the secondary text color for for the tab text color.
+7. `tab_text_secondary_inverse` - uses the inverse secondary color for for the tab text color.
+
+Note that the selected tab text will be fully opaque; non-selected tabs will have 25% transparency in 
+their text color.
+
+---
+
+1. `tab_indicator_primary_color` - uses the primary color for for the selected tab indicator color.
+2. `tab_indicator_primary_color_dark` - uses the primary dark color for for the selected tab indicator color.
+3. `tab_indicator_accent_color` - uses the accent color for for the selected tab indicator color.
+4. `tab_indicator_text_primary` - uses the primary text color for for the selected tab indicator color.
+5. `tab_indicator_text_primary_inverse` - uses the inverse primary text color for for the selected tab indicator color.
+6. `tab_indicator_text_secondary` - uses the secondary text color for for the selected tab indicator color.
+7. `tab_indicator_text_secondary_inverse` - uses the inverse secondary text color for for the selected tab indicator color.
 
 ---
 
