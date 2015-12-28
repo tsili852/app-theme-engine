@@ -147,7 +147,8 @@ public final class ATE extends ATEBase {
             final int lightStatusMode = Config.lightStatusBarMode(activity, key);
             boolean lightStatusEnabled = false;
             switch (lightStatusMode) {
-                default: // OFF
+                case Config.LIGHT_STATUS_BAR_OFF:
+                default:
                     break;
                 case Config.LIGHT_STATUS_BAR_ON:
                     lightStatusEnabled = true;
@@ -159,6 +160,13 @@ public final class ATE extends ATEBase {
             if (lightStatusEnabled)
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             else decorView.setSystemUiVisibility(0);
+
+            final int systemUiVisibility = decorView.getSystemUiVisibility();
+            if (lightStatusEnabled) {
+                decorView.setSystemUiVisibility(systemUiVisibility | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decorView.setSystemUiVisibility(systemUiVisibility & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
         }
 
         // MD integration
