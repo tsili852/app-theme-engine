@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 
 import com.afollestad.appthemeengine.Config;
@@ -39,7 +41,13 @@ public class TabLayoutProcessor implements Processor<TabLayout, Void> {
     private static void processTagPart(@NonNull Context context, @NonNull TabLayout view, @Nullable String tag, @Nullable String key) {
         int tabTextColorSelected = Color.WHITE, tabIndicatorColorSelected = Color.WHITE;
 
-        if (view.getBackground() != null && view.getBackground() instanceof ColorDrawable) {
+        Drawable bg = view.getBackground();
+        if (view.getParent() != null && view.getParent() instanceof AppBarLayout &&
+                ((AppBarLayout) view.getParent()).getBackground() instanceof ColorDrawable) {
+            bg = ((AppBarLayout) view.getParent()).getBackground();
+        }
+
+        if (bg != null && bg instanceof ColorDrawable) {
             final ColorDrawable cd = (ColorDrawable) view.getBackground();
             if (Util.isColorLight(cd.getColor()))
                 tabTextColorSelected = tabIndicatorColorSelected = Color.BLACK;

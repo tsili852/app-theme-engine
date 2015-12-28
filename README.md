@@ -496,6 +496,9 @@ ATE will automatically theme your `TabLayout`'s. By default, it will make the se
 and tab text white if your TabLayout background is dark. If the TabLayout background is light, it will 
 make the indicator and text black. 
 
+If you wrap your `TabLayout` with an `AppBarLayout` and set a background to the `AppBarLayout`, ATE 
+will base the default tab indicator/text colors on its background instead.
+
 However, there are tag values you can set to easily modify these colors. They are discussed in 
 [Tab Layouts - Continued](https://github.com/afollestad/app-theme-engine#tab-layouts-continued).
 
