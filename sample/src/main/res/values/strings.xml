@@ -34,7 +34,7 @@
 
     <string name="about">About</string>
     <string name="about_body"><![CDATA[
-        app-theme-engine, a library  designed by <b>Aidan Follestad</b>.<br/>
+        app-theme-engine, a library  designed by <b>Aidan Follestad</b> along with various contributors on GitHub.<br/>
         <a href=\'http://aidanfollestad.com\'>Website</a>&nbsp;&nbsp;
         <a href=\'https://twitter.com/afollestad\'>Twitter</a>&nbsp;&nbsp;
         <a href=\'https://google.com/+AidanFollestad\'>Google+</a>&nbsp;&nbsp;
