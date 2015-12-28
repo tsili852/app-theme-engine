@@ -37,16 +37,16 @@ Only use this library if you intend to give the user the ability to change the c
     3. [Fragments](https://github.com/afollestad/app-theme-engine#fragments)
     3. [Toolbars, Menus and Overflows](https://github.com/afollestad/app-theme-engine#toolbars-menus-and-overflows)
     4. [Individual Views and Lists](https://github.com/afollestad/app-theme-engine#individual-views-and-lists)
-    5. [Navigation Drawers](https://github.com/afollestad/app-theme-engine#navigation-drawers)
+    5. [DrawerLayout and NavigationViews](https://github.com/afollestad/app-theme-engine#drawerlayout-and-navigationviews)
     6. [Task Description (Recents)](https://github.com/afollestad/app-theme-engine#task-description-recents)
-    7. [Tab Layouts](https://github.com/afollestad/app-theme-engine#tab-layouts)
+    7. [TabLayouts](https://github.com/afollestad/app-theme-engine#tablayouts)
 4. [Tags](https://github.com/afollestad/app-theme-engine#tags)
     1. [Background Colors](https://github.com/afollestad/app-theme-engine#background-colors) 
     2. [Text Colors](https://github.com/afollestad/app-theme-engine#text-colors)
     3. [Text Link Colors](https://github.com/afollestad/app-theme-engine#text-link-colors)
     4. [Text Shadow Colors](https://github.com/afollestad/app-theme-engine#text-shadow-colors)
     5. [Tint Colors](https://github.com/afollestad/app-theme-engine#tint-colors)
-    6. [Tab Layouts - Continued](https://github.com/afollestad/app-theme-engine#tab-layouts-continued)
+    6. [TabLayouts - Continued](https://github.com/afollestad/app-theme-engine#tablayouts-continued)
 5. [Pre-made Views](https://github.com/afollestad/app-theme-engine#pre-made-views)
 6. [Material Dialogs Integration](https://github.com/afollestad/app-theme-engine#material-dialogs-integration)
 7. [Preference UI](https://github.com/afollestad/app-theme-engine#preference-ui)
@@ -100,37 +100,53 @@ to set them again unless you want the value to be changed from what it was previ
 Here are a few configuration methods that can be used:
 
 ```java
-// 0 to disable, sets a default theme for all Activities which use this config key
+// Context and optional Config key as parameters to config()
 ATE.config(this, null) 
     // 0 to disable, sets a default theme for all Activities which use this config key
-    .activityTheme(R.style.my_theme) 
+    .activityTheme(R.style.my_theme)
+    // true by default, colors support action bars and toolbars
     .coloredActionBar(true)
+    // defaults to colorPrimary attribute value
     .primaryColor(color)
     // when true, primaryColorDark is auto generated from primaryColor
     .autoGeneratePrimaryDark(true) 
+    // defaults to colorPrimaryDark attribute value
     .primaryColorDark(color)
+    // defaults to colorAccent attribute value
     .accentColor(color)
-    .coloredStatusBar(true)
-    // by default, is equal to primaryColorDark unless coloredStatusBar is false
+    // by default, is equal to primaryColorDark's value
     .statusBarColor(color)
+    // true by default, setting to false disables coloring even if statusBarColor is set
+    .coloredStatusBar(true)
     // dark status bar icons on Marshmallow (API 23)+
     .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
     // when on, makes the toolbar navigation icon, title, and menu icons black  
     lightToolbarMode(Config.LIGHT_TOOLBAR_AUTO)
-    .coloredNavigationBar(false)
     // by default, is equal to primaryColor unless coloredNavigationBar is false
     .navigationBarColor(color)
+    // false by default, setting to false disables coloring even if navigationBarColor is set
+    .coloredNavigationBar(false)
+    // defaults to ?android:textColorPrimary attribute value
     .textColorPrimary(color)
+    // defaults to ?android:textColorPrimaryInverse attribute value
     .textColorPrimaryInverse(color)
+    // defaults to ?android:textColorSecondary attribute value
     .textColorSecondary(color)
+    // defaults to ?android:textColorSecondaryInverse attribute value
     .textColorSecondaryInverse(color)
-    // enables or disables the next 4 values
+    // true by default, setting to false disables the automatic use of the next 4 modifiers.
     .navigationViewThemed(true) 
+    // Color of selected NavigationView item icon. Defaults to your accent color.
     .navigationViewSelectedIcon(color)
+    // Color of selected NavigationView item text. Defaults to your accent color.
     .navigationViewSelectedText(color)
+    // Color of non-selected NavigationView item icon. Defaults to Material Design guideline color.
     .navigationViewNormalIcon(color)
+    // Color of non-selected NavigationView item text. Defaults to Material Design guideline color.
     .navigationViewNormalText(color)
-    // activity, fragment, or view
+    // Background of selected NavigationView item. Defaults to Material Design guideline color.
+    .navigationViewSelectedBg(color)
+    // application target as parameter, accepts different parameter types/counts
     .apply(this);
 ```
 
@@ -209,18 +225,24 @@ public class MyActivity extends AppCompatActivity
         return Color.RED;
     }
     
+    @Config.LightStatusBarMode
+    @Override
+    public int getLightStatusBarMode() {
+        return Config.LIGHT_STATUS_BAR_AUTO;
+    }
+    
     @ColorInt
     @Override
     public int getTaskDescriptionColor() {
         // Task description is the color of your Activity's entry in Android's recents screen
-        return Color.BLUE;
+        return Color.GREEN;
     }
     
     @ColorInt
     @Override
     public int getNavigationBarColor() {
         // Navigation bar is usually either black, or equal to the primary theme colro
-        return Color.GREEN;
+        return Color.BLUE;
     }
 }
 ```
@@ -469,16 +491,18 @@ public static class MyAdapter extends BaseAdapter {
 }
 ```
 
-#### Navigation Drawers
+#### DrawerLayout and NavigationViews
 
 ATE will automatically adapt when your Activity has a `DrawerLayout` at its root. When `coloredStatusBar()` 
 is set to true, the primary dark theme color will be applied to the `DrawerLayout` rather than directly to 
 the Window status bar. Thus, the status bar will be transparent when the drawer is open, and your theme
 color when it's closed. You don't have to manually do anything.
 
-If you use `NavigationView` from the design support library, ATE will by default theme it. There are 
-navigation view theming configuration methods discussed in the next section. If your drawer uses a `Fragment`
-or plain `ListView`/`RecyclerView`, you have to do what's discussed in the previous section.
+---
+
+If you use `NavigationView` from the Design Support Library, ATE will by default theme it. There are 
+NavigationView theming configuration methods discussed in the [Modifiers](https://github.com/afollestad/app-theme-engine#modifiers) 
+section. But the default values match the [Material Design Guidelines](https://www.google.com/design/spec/patterns/navigation-drawer.html).
 
 #### Task Description (Recents)
 
@@ -489,7 +513,7 @@ There is however an `ATETaskDescriptionCustomizer` that's discussed in the [Cust
  section.
  
  
-#### Tab Layouts
+#### TabLayouts
 
 ATE will automatically theme your `TabLayout`'s. By default, it will make the selected tab indicator
 and tab text white if your TabLayout background is dark. If the TabLayout background is light, it will 
@@ -499,7 +523,7 @@ If you wrap your `TabLayout` with an `AppBarLayout` and set a background to the 
 will base the default tab indicator/text colors on its background instead.
 
 However, there are tag values you can set to easily modify these colors. They are discussed in 
-[Tab Layouts - Continued](https://github.com/afollestad/app-theme-engine#tab-layouts-continued).
+[TabLayouts - Continued](https://github.com/afollestad/app-theme-engine#tablayouts-continued).
 
 ---
 
@@ -615,7 +639,7 @@ You can even use background tint selectors:
 11. `bg_tint_text_secondary_selector_darker` - tints the view background with a secondary text color selector, which is lighter when pressed.
 12. `bg_tint_text_secondary_inverse_selector_darker` - tints the view background with a inverse secondary text color selector, which is lighter when pressed.
 
-#### Tab Layouts - Continued
+#### TabLayouts - Continued
 
 There are tag values to modify the color of TabLayout tab text:
 

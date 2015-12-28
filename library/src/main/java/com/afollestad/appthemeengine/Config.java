@@ -23,6 +23,7 @@ import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
 import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.appthemeengine.util.Util;
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
+import com.afollestad.materialdialogs.util.DialogUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -290,6 +291,22 @@ public final class Config extends ConfigBase {
         return navigationViewNormalText(Util.resolveColor(mContext, colorAttr));
     }
 
+    @Override
+    public Config navigationViewSelectedBg(@ColorInt int color) {
+        mEditor.putInt(KEY_NAVIGATIONVIEW_SELECTED_BG, color);
+        return this;
+    }
+
+    @Override
+    public Config navigationViewSelectedBgRes(@ColorRes int colorRes) {
+        return navigationViewSelectedBg(ContextCompat.getColor(mContext, colorRes));
+    }
+
+    @Override
+    public Config navigationViewSelectedBgAttr(@AttrRes int colorAttr) {
+        return navigationViewSelectedBg(DialogUtils.resolveColor(mContext, colorAttr));
+    }
+
     // Misc
 
     @Override
@@ -370,24 +387,10 @@ public final class Config extends ConfigBase {
         return null;
     }
 
-    @Deprecated
-    @CheckResult
-    @StyleRes
-    public static int activityTheme(@NonNull Context context) {
-        return activityTheme(context, getKey(context));
-    }
-
     @CheckResult
     @StyleRes
     public static int activityTheme(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_ACTIVITY_THEME, 0);
-    }
-
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int primaryColor(@NonNull Context context) {
-        return prefs(context, getKey(context)).getInt(KEY_PRIMARY_COLOR, Util.resolveColor(context, R.attr.colorPrimary, Color.parseColor("#455A64")));
     }
 
     @CheckResult
@@ -396,37 +399,16 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_PRIMARY_COLOR, Util.resolveColor(context, R.attr.colorPrimary, Color.parseColor("#455A64")));
     }
 
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int primaryColorDark(@NonNull Context context) {
-        return primaryColorDark(context, getKey(context));
-    }
-
     @CheckResult
     @ColorInt
     public static int primaryColorDark(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_PRIMARY_COLOR_DARK, Util.resolveColor(context, R.attr.colorPrimaryDark, Color.parseColor("#37474F")));
     }
 
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int accentColor(@NonNull Context context) {
-        return accentColor(context, getKey(context));
-    }
-
     @CheckResult
     @ColorInt
     public static int accentColor(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_ACCENT_COLOR, Util.resolveColor(context, R.attr.colorAccent, Color.parseColor("#263238")));
-    }
-
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int statusBarColor(@NonNull Context context) {
-        return statusBarColor(context, getKey(context));
     }
 
     @CheckResult
@@ -439,26 +421,12 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
     }
 
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int navigationBarColor(@NonNull Context context) {
-        return navigationBarColor(context, getKey(context));
-    }
-
     @CheckResult
     @ColorInt
     public static int navigationBarColor(@NonNull Context context, @Nullable String key) {
         if (context instanceof ATENavigationBarCustomizer)
             return ((ATENavigationBarCustomizer) context).getNavigationBarColor();
         return prefs(context, key).getInt(KEY_NAVIGATION_BAR_COLOR, primaryColor(context, key));
-    }
-
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int textColorPrimary(@NonNull Context context) {
-        return textColorPrimary(context, getKey(context));
     }
 
     @CheckResult
@@ -473,13 +441,6 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_PRIMARY_INVERSE, Util.resolveColor(context, android.R.attr.textColorPrimaryInverse));
     }
 
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int textColorSecondary(@NonNull Context context) {
-        return textColorSecondary(context, getKey(context));
-    }
-
     @CheckResult
     @ColorInt
     public static int textColorSecondary(@NonNull Context context, @Nullable String key) {
@@ -492,32 +453,14 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_TEXT_COLOR_SECONDARY_INVERSE, Util.resolveColor(context, android.R.attr.textColorSecondaryInverse));
     }
 
-    @Deprecated
-    @CheckResult
-    public static boolean coloredStatusBar(@NonNull Context context) {
-        return coloredStatusBar(context, getKey(context));
-    }
-
     @CheckResult
     public static boolean coloredStatusBar(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARYDARK_STATUSBAR, true);
     }
 
-    @Deprecated
-    @CheckResult
-    public static boolean coloredActionBar(@NonNull Context context) {
-        return coloredActionBar(context, getKey(context));
-    }
-
     @CheckResult
     public static boolean coloredActionBar(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_APPLY_PRIMARY_SUPPORTAB, true);
-    }
-
-    @Deprecated
-    @CheckResult
-    public static boolean coloredNavigationBar(@NonNull Context context) {
-        return coloredNavigationBar(context, getKey(context));
     }
 
     @CheckResult
@@ -543,33 +486,14 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_LIGHT_TOOLBAR_MODE, Config.LIGHT_TOOLBAR_AUTO);
     }
 
-    @Deprecated
-    @CheckResult
-    public static boolean autoGeneratePrimaryDark(@NonNull Context context) {
-        return autoGeneratePrimaryDark(context, getKey(context));
-    }
-
     @CheckResult
     public static boolean autoGeneratePrimaryDark(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_AUTO_GENERATE_PRIMARYDARK, true);
     }
 
-    @Deprecated
-    @CheckResult
-    public static boolean navigationViewThemed(@NonNull Context context) {
-        return navigationViewThemed(context, getKey(context));
-    }
-
     @CheckResult
     public static boolean navigationViewThemed(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getBoolean(KEY_THEMED_NAVIGATION_VIEW, true);
-    }
-
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int navigationViewSelectedIcon(@NonNull Context context) {
-        return navigationViewSelectedIcon(context, getKey(context));
     }
 
     @CheckResult
@@ -578,43 +502,31 @@ public final class Config extends ConfigBase {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_SELECTED_ICON, accentColor(context, key));
     }
 
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int navigationViewSelectedText(@NonNull Context context) {
-        return navigationViewSelectedText(context, getKey(context));
-    }
-
     @CheckResult
     @ColorInt
     public static int navigationViewSelectedText(@NonNull Context context, @Nullable String key) {
         return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_SELECTED_TEXT, accentColor(context, key));
     }
 
-    @Deprecated
     @CheckResult
     @ColorInt
-    public static int navigationViewNormalIcon(@NonNull Context context) {
-        return navigationViewNormalIcon(context, getKey(context));
+    public static int navigationViewNormalIcon(@NonNull Context context, @Nullable String key, boolean darkTheme) {
+        int defaultColor = darkTheme ? Color.parseColor("#9F9F9F") : Color.parseColor("#606060");
+        return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_ICON, defaultColor);
     }
 
     @CheckResult
     @ColorInt
-    public static int navigationViewNormalIcon(@NonNull Context context, @Nullable String key) {
-        return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_ICON, textColorSecondary(context, key));
-    }
-
-    @Deprecated
-    @CheckResult
-    @ColorInt
-    public static int navigationViewNormalText(@NonNull Context context) {
-        return navigationViewNormalText(context, getKey(context));
+    public static int navigationViewNormalText(@NonNull Context context, @Nullable String key, boolean darkTheme) {
+        int defaultColor = darkTheme ? Color.parseColor("#E6E6E6") : Color.parseColor("#191919");
+        return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_TEXT, defaultColor);
     }
 
     @CheckResult
     @ColorInt
-    public static int navigationViewNormalText(@NonNull Context context, @Nullable String key) {
-        return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_NORMAL_TEXT, textColorPrimary(context, key));
+    public static int navigationViewSelectedBg(@NonNull Context context, @Nullable String key, boolean darkTheme) {
+        int defaultColor = darkTheme ? Color.parseColor("#1D1D1D") : Color.parseColor("#e2e2e2");
+        return prefs(context, key).getInt(KEY_NAVIGATIONVIEW_SELECTED_BG, defaultColor);
     }
 
     @CheckResult

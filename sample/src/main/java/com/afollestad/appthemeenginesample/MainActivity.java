@@ -70,7 +70,13 @@ public class MainActivity extends BaseThemedActivity {
                 return true;
             }
         });
-        navView.getMenu().findItem(R.id.home).setChecked(true);
+        navView.post(new Runnable() {
+            @Override
+            public void run() {
+                navView.setCheckedItem(R.id.home);
+                navView.getMenu().findItem(R.id.home).setChecked(true);
+            }
+        });
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override

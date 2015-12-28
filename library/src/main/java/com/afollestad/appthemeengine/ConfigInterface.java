@@ -121,6 +121,12 @@ interface ConfigInterface {
 
     Config navigationViewNormalTextAttr(@AttrRes int colorAttr);
 
+    Config navigationViewSelectedBg(@ColorInt int color);
+
+    Config navigationViewSelectedBgRes(@ColorRes int colorRes);
+
+    Config navigationViewSelectedBgAttr(@AttrRes int colorAttr);
+
     // Misc
 
     Config usingMaterialDialogs(boolean enabled);
