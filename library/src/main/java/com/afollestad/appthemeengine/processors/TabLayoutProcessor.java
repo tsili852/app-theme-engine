@@ -1,6 +1,7 @@
 package com.afollestad.appthemeengine.processors;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 
 import com.afollestad.appthemeengine.Config;
+import com.afollestad.appthemeengine.util.TintHelper;
 import com.afollestad.appthemeengine.util.Util;
 
 /**
@@ -93,6 +95,21 @@ public class TabLayoutProcessor implements Processor<TabLayout, Void> {
 
         view.setTabTextColors(Util.adjustAlpha(tabTextColorSelected, 0.25f), tabTextColorSelected);
         view.setSelectedTabIndicatorColor(tabIndicatorColorSelected);
+
+        final ColorStateList sl = new ColorStateList(new int[][]{
+                new int[]{-android.R.attr.state_selected},
+                new int[]{android.R.attr.state_selected}
+        },
+                new int[]{
+                        Util.adjustAlpha(tabIndicatorColorSelected, 0.25f),
+                        tabIndicatorColorSelected
+                });
+        for (int i = 0; i < view.getTabCount(); i++) {
+            final TabLayout.Tab tab = view.getTabAt(i);
+            if (tab != null && tab.getIcon() != null) {
+                TintHelper.tintDrawable(tab.getIcon(), sl);
+            }
+        }
     }
 
     private final static String KEY_TAB_TEXT_PRIMARY_COLOR = "tab_text_primary_color";

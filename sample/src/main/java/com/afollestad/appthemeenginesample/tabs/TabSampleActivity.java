@@ -20,15 +20,16 @@ public class TabSampleActivity extends BaseThemedActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablayout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.appbar_toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ViewPager mPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new TabsAdapter(getSupportFragmentManager()));
         mPager.setOffscreenPageLimit(2);
-        ((TabLayout) findViewById(R.id.tabs)).setupWithViewPager(mPager);
+        final TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setupWithViewPager(mPager);
     }
 
     @Override

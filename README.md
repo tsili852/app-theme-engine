@@ -625,7 +625,7 @@ There are tag values to modify the color of TabLayout tab text:
 6. `tab_text_secondary` - uses the secondary text color for for the tab text color.
 7. `tab_text_secondary_inverse` - uses the inverse secondary color for for the tab text color.
 
-Note that the selected tab text will be fully opaque; non-selected tabs will have 25% transparency in 
+**Note** that the selected tab text will be fully opaque; non-selected tabs will have 25% transparency in 
 their text color.
 
 ---
@@ -637,6 +637,8 @@ their text color.
 5. `tab_indicator_text_primary_inverse` - uses the inverse primary text color for for the selected tab indicator color.
 6. `tab_indicator_text_secondary` - uses the secondary text color for for the selected tab indicator color.
 7. `tab_indicator_text_secondary_inverse` - uses the inverse secondary text color for for the selected tab indicator color.
+
+**Note** that the indicator color is used for the color of tab icons, if they are used.
 
 ---
 
