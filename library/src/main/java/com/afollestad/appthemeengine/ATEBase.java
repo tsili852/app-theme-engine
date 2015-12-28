@@ -1,5 +1,6 @@
 package com.afollestad.appthemeengine;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.RecyclerView;
@@ -46,11 +47,17 @@ class ATEBase {
         if (processor != null)
             return processor;
         Class<?> current = viewClass.getSuperclass();
-        do {
-            current = current.getSuperclass();
+        while (current != null && processor == null) {
             processor = mProcessors.get(current.getName());
-        } while (processor == null && current.getSuperclass() != null);
+            current = current.getSuperclass();
+        }
         return processor;
+    }
+
+    public static <T extends View> void registerProcessor(@NonNull Class<T> viewCls, @NonNull Processor<T, ?> processor) {
+        if (mProcessors == null)
+            initProcessors();
+        mProcessors.put(viewCls.getName(), processor);
     }
 
     protected static Class<?> didPreApply = null;
