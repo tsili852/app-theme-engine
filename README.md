@@ -16,7 +16,7 @@ Only use this library if you intend to give the user the ability to change the c
 
 ---
 
-#### This document will be updated soon, some of the content is outdated, some of the content is for the next release. It wil probably be re-written mostly. See the sample project for current implementations.
+#### It's possible some content is missing from this document, or outdated. Please let me know if that's the case. The sample project represents the latest.
 
 
 # Table of Contents
