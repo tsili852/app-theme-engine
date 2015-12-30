@@ -19,10 +19,32 @@ import com.afollestad.appthemeengine.util.Util;
  */
 public class TabLayoutProcessor implements Processor<TabLayout, Void> {
 
+    private int mTabTextColorSelected;
+    private int mTabIndicatorColorSelected;
+
+    public TabLayoutProcessor() {
+    }
+
     @Override
     public void process(@NonNull Context context, @Nullable String key, @Nullable TabLayout view, @Nullable Void extra) {
         if (view == null)
             return;
+
+        mTabTextColorSelected = Color.WHITE;
+        mTabIndicatorColorSelected = Color.WHITE;
+
+        Drawable bg = view.getBackground();
+        if (view.getParent() != null && view.getParent() instanceof AppBarLayout &&
+                ((AppBarLayout) view.getParent()).getBackground() instanceof ColorDrawable) {
+            bg = ((AppBarLayout) view.getParent()).getBackground();
+        }
+
+        if (bg != null && bg instanceof ColorDrawable) {
+            final ColorDrawable cd = (ColorDrawable) view.getBackground();
+            if (Util.isColorLight(cd.getColor()))
+                mTabTextColorSelected = mTabIndicatorColorSelected = Color.BLACK;
+        }
+
         if (view.getTag() == null || !(view.getTag() instanceof String)) {
             processTagPart(context, view, null, key);
             return;
@@ -36,86 +58,72 @@ public class TabLayoutProcessor implements Processor<TabLayout, Void> {
         } else {
             processTagPart(context, view, tag, key);
         }
-    }
 
-    private static void processTagPart(@NonNull Context context, @NonNull TabLayout view, @Nullable String tag, @Nullable String key) {
-        int tabTextColorSelected = Color.WHITE, tabIndicatorColorSelected = Color.WHITE;
-
-        Drawable bg = view.getBackground();
-        if (view.getParent() != null && view.getParent() instanceof AppBarLayout &&
-                ((AppBarLayout) view.getParent()).getBackground() instanceof ColorDrawable) {
-            bg = ((AppBarLayout) view.getParent()).getBackground();
-        }
-
-        if (bg != null && bg instanceof ColorDrawable) {
-            final ColorDrawable cd = (ColorDrawable) view.getBackground();
-            if (Util.isColorLight(cd.getColor()))
-                tabTextColorSelected = tabIndicatorColorSelected = Color.BLACK;
-        }
-
-        if (tag != null) {
-            switch (tag) {
-                case KEY_TAB_TEXT_PRIMARY_COLOR:
-                    tabTextColorSelected = Config.primaryColor(context, key);
-                    break;
-                case KEY_TAB_TEXT_PRIMARY_COLOR_DARK:
-                    tabTextColorSelected = Config.primaryColorDark(context, key);
-                    break;
-                case KEY_TAB_TEXT_ACCENT_COLOR:
-                    tabTextColorSelected = Config.accentColor(context, key);
-                    break;
-                case KEY_TAB_TEXT_PRIMARY:
-                    tabTextColorSelected = Config.textColorPrimary(context, key);
-                    break;
-                case KEY_TAB_TEXT_PRIMARY_INVERSE:
-                    tabTextColorSelected = Config.textColorPrimaryInverse(context, key);
-                    break;
-                case KEY_TAB_TEXT_SECONDARY:
-                    tabTextColorSelected = Config.textColorSecondary(context, key);
-                    break;
-                case KEY_TAB_TEXT_SECONDARY_INVERSE:
-                    tabTextColorSelected = Config.textColorSecondaryInverse(context, key);
-                    break;
-
-                case KEY_TAB_INDICATOR_PRIMARY_COLOR:
-                    tabIndicatorColorSelected = Config.primaryColor(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_PRIMARY_COLOR_DARK:
-                    tabIndicatorColorSelected = Config.primaryColorDark(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_ACCENT_COLOR:
-                    tabIndicatorColorSelected = Config.accentColor(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_TEXT_PRIMARY:
-                    tabIndicatorColorSelected = Config.textColorPrimary(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_TEXT_PRIMARY_INVERSE:
-                    tabIndicatorColorSelected = Config.textColorPrimaryInverse(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_TEXT_SECONDARY:
-                    tabIndicatorColorSelected = Config.textColorSecondary(context, key);
-                    break;
-                case KEY_TAB_INDICATOR_TEXT_SECONDARY_INVERSE:
-                    tabIndicatorColorSelected = Config.textColorSecondaryInverse(context, key);
-                    break;
-            }
-        }
-
-        view.setTabTextColors(Util.adjustAlpha(tabTextColorSelected, 0.35f), tabTextColorSelected);
-        view.setSelectedTabIndicatorColor(tabIndicatorColorSelected);
+        view.setTabTextColors(Util.adjustAlpha(mTabTextColorSelected, 0.5f), mTabTextColorSelected);
+        view.setSelectedTabIndicatorColor(mTabIndicatorColorSelected);
 
         final ColorStateList sl = new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.state_selected},
                 new int[]{android.R.attr.state_selected}
         },
                 new int[]{
-                        Util.adjustAlpha(tabIndicatorColorSelected, 0.35f),
-                        tabIndicatorColorSelected
+                        Util.adjustAlpha(mTabIndicatorColorSelected, 0.5f),
+                        mTabIndicatorColorSelected
                 });
         for (int i = 0; i < view.getTabCount(); i++) {
             final TabLayout.Tab tab = view.getTabAt(i);
             if (tab != null && tab.getIcon() != null) {
                 TintHelper.tintDrawable(tab.getIcon(), sl);
+            }
+        }
+    }
+
+    private void processTagPart(@NonNull Context context, @NonNull TabLayout view, @Nullable String tag, @Nullable String key) {
+        if (tag != null) {
+            switch (tag) {
+                case KEY_TAB_TEXT_PRIMARY_COLOR:
+                    mTabTextColorSelected = Config.primaryColor(context, key);
+                    break;
+                case KEY_TAB_TEXT_PRIMARY_COLOR_DARK:
+                    mTabTextColorSelected = Config.primaryColorDark(context, key);
+                    break;
+                case KEY_TAB_TEXT_ACCENT_COLOR:
+                    mTabTextColorSelected = Config.accentColor(context, key);
+                    break;
+                case KEY_TAB_TEXT_PRIMARY:
+                    mTabTextColorSelected = Config.textColorPrimary(context, key);
+                    break;
+                case KEY_TAB_TEXT_PRIMARY_INVERSE:
+                    mTabTextColorSelected = Config.textColorPrimaryInverse(context, key);
+                    break;
+                case KEY_TAB_TEXT_SECONDARY:
+                    mTabTextColorSelected = Config.textColorSecondary(context, key);
+                    break;
+                case KEY_TAB_TEXT_SECONDARY_INVERSE:
+                    mTabTextColorSelected = Config.textColorSecondaryInverse(context, key);
+                    break;
+
+                case KEY_TAB_INDICATOR_PRIMARY_COLOR:
+                    mTabIndicatorColorSelected = Config.primaryColor(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_PRIMARY_COLOR_DARK:
+                    mTabIndicatorColorSelected = Config.primaryColorDark(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_ACCENT_COLOR:
+                    mTabIndicatorColorSelected = Config.accentColor(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_TEXT_PRIMARY:
+                    mTabIndicatorColorSelected = Config.textColorPrimary(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_TEXT_PRIMARY_INVERSE:
+                    mTabIndicatorColorSelected = Config.textColorPrimaryInverse(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_TEXT_SECONDARY:
+                    mTabIndicatorColorSelected = Config.textColorSecondary(context, key);
+                    break;
+                case KEY_TAB_INDICATOR_TEXT_SECONDARY_INVERSE:
+                    mTabIndicatorColorSelected = Config.textColorSecondaryInverse(context, key);
+                    break;
             }
         }
     }
