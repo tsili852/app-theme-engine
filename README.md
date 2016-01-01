@@ -120,6 +120,8 @@ ATE.config(this, null)
     .coloredStatusBar(true)
     // dark status bar icons on Marshmallow (API 23)+
     .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
+    // sets a color for all toolbars, defaults to primaryColor() value
+    .toolbarColor(color)
     // when on, makes the toolbar navigation icon, title, and menu icons black  
     lightToolbarMode(Config.LIGHT_TOOLBAR_AUTO)
     // by default, is equal to primaryColor unless coloredNavigationBar is false
@@ -209,13 +211,27 @@ in your Configuration (if you don't want to use separate keys for different scre
 
 ```java
 public class MyActivity extends AppCompatActivity 
-        implements ATEActivityThemeCustomizer, ATEStatusBarCustomizer, ATETaskDescriptionCustomizer, ATENavigationBarCustomizer {
+        implements ATEActivityThemeCustomizer, ATEToolbarCustomizer, ATEStatusBarCustomizer, ATETaskDescriptionCustomizer, ATENavigationBarCustomizer {
     
     @StyleRes
     @Override
     public int getActivityTheme() {
         // Self explanatory. Can be used to override activityTheme() config value if set.
         return R.style.my_activity_theme;
+    }
+    
+    @Config.LightToolbarMode
+    @Override
+    public int getLightToolbarMode() {
+        // When on, toolbar icons and text are made black when the toolbar background is light 
+        return Config.LIGHT_TOOLBAR_AUTO;
+    }
+    
+    @ColorInt
+    @Override
+    public int getToolbarColor() {
+        // Normally toolbars are the primary theme color
+        return Color.BLACK;
     }
     
     @ColorInt
@@ -228,6 +244,7 @@ public class MyActivity extends AppCompatActivity
     @Config.LightStatusBarMode
     @Override
     public int getLightStatusBarMode() {
+        // When on, status bar icons and text are made black when the status bar background is light (API 23+)
         return Config.LIGHT_STATUS_BAR_AUTO;
     }
     
