@@ -234,14 +234,22 @@ public class MyActivity extends AppCompatActivity
     @ColorInt
     @Override
     public int getTaskDescriptionColor() {
-        // Task description is the color of your Activity's entry in Android's recents screen
+        // Task description is the color of your Activity's entry in Android's recents screen.
+        // Alpha component of returned color is always stripped.
         return Color.GREEN;
+    }
+    
+    @Nullable
+    @Override
+    public Bitmap getTaskDescriptionIcon() {
+        // Returning null falls back to the default (app's launcher icon)
+        return null;
     }
     
     @ColorInt
     @Override
     public int getNavigationBarColor() {
-        // Navigation bar is usually either black, or equal to the primary theme colro
+        // Navigation bar is usually either black, or equal to the primary theme color
         return Color.BLUE;
     }
 }

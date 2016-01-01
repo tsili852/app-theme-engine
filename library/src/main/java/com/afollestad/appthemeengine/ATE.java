@@ -286,7 +286,7 @@ public final class ATE extends ATEBase {
         int color;
         Bitmap icon = null;
         if (activity instanceof ATETaskDescriptionCustomizer) {
-            ATETaskDescriptionCustomizer customizer = (ATETaskDescriptionCustomizer) activity;
+            final ATETaskDescriptionCustomizer customizer = (ATETaskDescriptionCustomizer) activity;
             color = customizer.getTaskDescriptionColor();
             icon = customizer.getTaskDescriptionIcon();
         } else {
