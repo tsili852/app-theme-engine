@@ -17,6 +17,7 @@ abstract class ConfigBase implements ConfigInterface {
     protected final static String KEY_PRIMARY_COLOR_DARK = "primary_color_dark";
     protected final static String KEY_ACCENT_COLOR = "accent_color";
     protected final static String KEY_STATUS_BAR_COLOR = "status_bar_color";
+    protected final static String KEY_TOOLBAR_COLOR = "toolbar_color";
     protected final static String KEY_NAVIGATION_BAR_COLOR = "navigation_bar_color";
 
     protected final static String KEY_LIGHT_STATUS_BAR_MODE = "light_status_bar_mode";

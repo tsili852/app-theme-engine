@@ -138,6 +138,22 @@ public final class Config extends ConfigBase {
     }
 
     @Override
+    public Config toolbarColor(@ColorInt int color) {
+        mEditor.putInt(KEY_TOOLBAR_COLOR, color);
+        return this;
+    }
+
+    @Override
+    public Config toolbarColorRes(@ColorRes int colorRes) {
+        return toolbarColor(ContextCompat.getColor(mContext, colorRes));
+    }
+
+    @Override
+    public Config toolbarColorAttr(@AttrRes int colorAttr) {
+        return toolbarColor(Util.resolveColor(mContext, colorAttr));
+    }
+
+    @Override
     public Config navigationBarColor(@ColorInt int color) {
         mEditor.putInt(KEY_NAVIGATION_BAR_COLOR, color);
         return this;
@@ -419,6 +435,14 @@ public final class Config extends ConfigBase {
         else if (!coloredStatusBar(context, key))
             return Color.BLACK;
         return prefs(context, key).getInt(KEY_STATUS_BAR_COLOR, primaryColorDark(context, key));
+    }
+
+    @CheckResult
+    @ColorInt
+    public static int toolbarColor(@NonNull Context context, @Nullable String key) {
+        if (context instanceof ATEToolbarCustomizer)
+            return ((ATEToolbarCustomizer) context).getToolbarColor();
+        return prefs(context, key).getInt(KEY_TOOLBAR_COLOR, primaryColor(context, key));
     }
 
     @CheckResult
