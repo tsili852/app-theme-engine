@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -282,14 +283,25 @@ public final class ATE extends ATEBase {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void applyTaskDescription(@NonNull Activity activity, @Nullable String key) {
-        final int color = activity instanceof ATETaskDescriptionCustomizer ?
-                ((ATETaskDescriptionCustomizer) activity).getTaskDescriptionColor() :
-                Config.primaryColor(activity, key);
+        int color;
+        Bitmap icon = null;
+        if (activity instanceof ATETaskDescriptionCustomizer) {
+            ATETaskDescriptionCustomizer customizer = (ATETaskDescriptionCustomizer) activity;
+            color = customizer.getTaskDescriptionColor();
+            icon = customizer.getTaskDescriptionIcon();
+        } else {
+            color = Config.primaryColor(activity, key);
+        }
+
+        // Task description requires fully opaque color
+        color = Util.stripAlpha(color);
+        // Default is app's launcher icon
+        if (icon == null)
+            icon = ((BitmapDrawable) activity.getApplicationInfo().loadIcon(activity.getPackageManager())).getBitmap();
+
         // Sets color of entry in the system recents page
         ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(
-                (String) activity.getTitle(),
-                ((BitmapDrawable) activity.getApplicationInfo().loadIcon(activity.getPackageManager())).getBitmap(),
-                color);
+                (String) activity.getTitle(), icon, color);
         activity.setTaskDescription(td);
     }
 

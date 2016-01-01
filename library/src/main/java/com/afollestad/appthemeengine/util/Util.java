@@ -120,6 +120,10 @@ public final class Util {
         else view.setBackgroundDrawable(drawable);
     }
 
+    public static int stripAlpha(@ColorInt int color) {
+        return Color.rgb(Color.red(color), Color.green(color), Color.blue(color));
+    }
+
     private Util() {
     }
 }
