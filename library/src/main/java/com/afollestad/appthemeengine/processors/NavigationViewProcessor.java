@@ -51,12 +51,6 @@ public class NavigationViewProcessor implements Processor<NavigationView, Void> 
         view.setItemTextColor(textSl);
         view.setItemIconTintList(iconSl);
 
-        final Menu menu = view.getMenu();
-        if (menu != null) {
-            for (int i = 0; i < menu.size(); i++)
-                menu.getItem(i).setCheckable(true);
-        }
-
         StateListDrawable bgDrawable = new StateListDrawable();
         bgDrawable.addState(new int[]{android.R.attr.state_checked}, new ColorDrawable(
                 Config.navigationViewSelectedBg(context, key, darkTheme)));
