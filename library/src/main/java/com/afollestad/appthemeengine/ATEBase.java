@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import com.afollestad.appthemeengine.processors.NestedScrollViewProcessor;
 import com.afollestad.appthemeengine.processors.Processor;
 import com.afollestad.appthemeengine.processors.RecyclerViewProcessor;
 import com.afollestad.appthemeengine.processors.ScrollViewProcessor;
+import com.afollestad.appthemeengine.processors.SearchViewProcessor;
 import com.afollestad.appthemeengine.processors.TabLayoutProcessor;
 import com.afollestad.appthemeengine.processors.ToolbarProcessor;
 
@@ -42,11 +44,12 @@ class ATEBase {
         mProcessors.put(Toolbar.class.getName(), new ToolbarProcessor());
         mProcessors.put(NavigationView.class.getName(), new NavigationViewProcessor());
         mProcessors.put(TabLayout.class.getName(), new TabLayoutProcessor());
+        mProcessors.put(SearchView.class.getName(), new SearchViewProcessor());
     }
 
     @SuppressWarnings("unchecked")
     @Nullable
-    protected static <T extends View> Processor<T, ?> getProcessor(@Nullable Class<T> viewClass) {
+    public static <T extends View> Processor<T, ?> getProcessor(@Nullable Class<T> viewClass) {
         if (mProcessors == null)
             initProcessors();
         if (viewClass == null)

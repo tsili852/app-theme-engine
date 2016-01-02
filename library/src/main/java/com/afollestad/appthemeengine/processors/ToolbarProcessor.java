@@ -14,13 +14,11 @@ import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.ATEMenuPresenterCallback;
 import com.afollestad.appthemeengine.ATEOnMenuItemClickListener;
 import com.afollestad.appthemeengine.Config;
-import com.afollestad.appthemeengine.R;
 import com.afollestad.appthemeengine.util.TintHelper;
 import com.afollestad.appthemeengine.util.Util;
 
@@ -31,6 +29,7 @@ import java.lang.reflect.Field;
  */
 public class ToolbarProcessor implements Processor<Toolbar, Menu> {
 
+    @SuppressWarnings("unchecked")
     @Override
     public void process(@NonNull Context context, @Nullable String key, @Nullable Toolbar toolbar, @Nullable Menu menu) {
         if (toolbar == null && context instanceof AppCompatActivity)
@@ -85,42 +84,12 @@ public class ToolbarProcessor implements Processor<Toolbar, Menu> {
                     item.setIcon(TintHelper.tintDrawable(item.getIcon(), tintColor));
 
                 // Search view theming
-                if (item.getActionView() != null) {
-                    if (item.getActionView() instanceof android.widget.SearchView) {
-                        final android.widget.SearchView searchView = (android.widget.SearchView) item.getActionView();
-                        try {
-                            final Field mSearchSrcTextViewField = android.widget.SearchView.class.getDeclaredField("mSearchSrcTextView");
-                            mSearchSrcTextViewField.setAccessible(true);
-                            final TextView mSearchSrcTextView = (TextView) mSearchSrcTextViewField.get(searchView);
-                            mSearchSrcTextView.setTextColor(tintColor);
-                            mSearchSrcTextView.setHintTextColor(Util.adjustAlpha(tintColor, 0.5f));
-
-                            final Field mCloseButtonField = android.widget.SearchView.class.getDeclaredField("mCloseButton");
-                            mCloseButtonField.setAccessible(true);
-                            final ImageView mCloseButton = (ImageView) mCloseButtonField.get(searchView);
-                            if (mCloseButton.getDrawable() != null)
-                                mCloseButton.setImageDrawable(TintHelper.tintDrawable(mCloseButton.getDrawable(), tintColor));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else if (item.getActionView() instanceof android.support.v7.widget.SearchView) {
-                        final android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) item.getActionView();
-                        try {
-                            final Field mSearchSrcTextViewField = android.support.v7.widget.SearchView.class.getDeclaredField("mSearchSrcTextView");
-                            mSearchSrcTextViewField.setAccessible(true);
-                            final TextView mSearchSrcTextView = (TextView) mSearchSrcTextViewField.get(searchView);
-                            mSearchSrcTextView.setTextColor(tintColor);
-                            mSearchSrcTextView.setHintTextColor(Util.adjustAlpha(tintColor, 0.5f));
-
-                            final Field mCloseButtonField = android.support.v7.widget.SearchView.class.getDeclaredField("mCloseButton");
-                            mCloseButtonField.setAccessible(true);
-                            final ImageView mCloseButton = (ImageView) mCloseButtonField.get(searchView);
-                            if (mCloseButton.getDrawable() != null)
-                                mCloseButton.setImageDrawable(TintHelper.tintDrawable(mCloseButton.getDrawable(), tintColor));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if (item.getActionView() != null &&
+                        (item.getActionView() instanceof android.widget.SearchView ||
+                                item.getActionView() instanceof android.support.v7.widget.SearchView)) {
+                    Processor processor = ATE.getProcessor(android.support.v7.widget.SearchView.class);
+                    if (processor != null)
+                        processor.process(context, key, item.getActionView(), tintColor);
                 }
             }
         }
