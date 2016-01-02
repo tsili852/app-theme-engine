@@ -65,8 +65,11 @@ public final class TintHelper {
 
         if (view instanceof FloatingActionButton) {
             final FloatingActionButton fab = (FloatingActionButton) view;
-            fab.setRippleColor(Util.isColorLight(color) ? Color.BLACK : Color.WHITE);
+            final int tintColor = Util.isColorLight(color) ? Color.BLACK : Color.WHITE;
+            fab.setRippleColor(tintColor);
             fab.setBackgroundTintList(sl);
+            if (fab.getDrawable() != null)
+                fab.getDrawable().setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP);
             return;
         }
 

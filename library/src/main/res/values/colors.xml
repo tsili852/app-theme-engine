@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ate_navigationview_normalicon_light">#606060</color>
+    <color name="ate_navigationview_normalicon_dark">#9F9F9F</color>
+
+    <color name="ate_navigationview_normaltext_light">#191919</color>
+    <color name="ate_navigationview_normaltext_dark">#E6E6E6</color>
+
+    <color name="ate_navigationview_selectedbg_light">#e2e2e2</color>
+    <color name="ate_navigationview_selectedbg_dark">#474747</color>
+
+</resources>
