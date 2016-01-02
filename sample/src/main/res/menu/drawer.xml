@@ -36,6 +36,12 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/drawer_settings"
+            android:checkable="false"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/drawer_settings" />
+
+        <item
             android:id="@+id/drawer_about"
             android:checkable="false"
             android:icon="@drawable/ic_info"

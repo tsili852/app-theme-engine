@@ -1,5 +1,6 @@
 package com.afollestad.appthemeengine.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -34,17 +35,25 @@ import com.afollestad.appthemeengine.R;
  */
 public final class TintHelper {
 
+    @SuppressLint("PrivateResource")
+    @ColorInt
+    private static int getDefaultRippleColor(@NonNull Context context, boolean useDarkRipple) {
+        return ContextCompat.getColor(context, useDarkRipple ?
+                R.color.ripple_material_dark : R.color.ripple_material_light);
+    }
+
     @SuppressWarnings("deprecation")
     public static void setTintSelector(@NonNull View view, @ColorInt int color, boolean darker) {
         final int pressed = Util.shiftColor(color, darker ? 0.9f : 1.1f);
         final int activated = Util.shiftColor(color, darker ? 1.1f : 0.9f);
+        final int rippleColor = getDefaultRippleColor(view.getContext(), Util.isColorLight(color));
 
         final ColorStateList sl;
         if (view instanceof Button && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             sl = ColorStateList.valueOf(color);
             if (view.getBackground() instanceof RippleDrawable) {
                 RippleDrawable rd = (RippleDrawable) view.getBackground();
-                rd.setColor(ColorStateList.valueOf(Util.isColorLight(color) ? Color.BLACK : Color.WHITE));
+                rd.setColor(ColorStateList.valueOf(rippleColor));
             }
         } else {
             sl = new ColorStateList(
@@ -63,13 +72,15 @@ public final class TintHelper {
             );
         }
 
+        // TODO use other theme values in place of these?
+        final int tintColor = Util.isColorLight(color) ? Color.BLACK : Color.WHITE;
+
         if (view instanceof FloatingActionButton) {
             final FloatingActionButton fab = (FloatingActionButton) view;
-            final int tintColor = Util.isColorLight(color) ? Color.BLACK : Color.WHITE;
-            fab.setRippleColor(tintColor);
+            fab.setRippleColor(rippleColor);
             fab.setBackgroundTintList(sl);
             if (fab.getDrawable() != null)
-                fab.getDrawable().setColorFilter(tintColor, PorterDuff.Mode.SRC_ATOP);
+                fab.setImageDrawable(tintDrawable(fab.getDrawable(), tintColor));
             return;
         }
 
@@ -82,10 +93,7 @@ public final class TintHelper {
 
         if (view instanceof TextView) {
             final TextView tv = (TextView) view;
-            // TODO use other theme values in place of these?
-            if (Util.isColorLight(color))
-                tv.setTextColor(Color.BLACK);
-            else tv.setTextColor(Color.WHITE);
+            tv.setTextColor(tintColor);
         }
     }
 

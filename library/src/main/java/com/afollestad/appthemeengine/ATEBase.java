@@ -28,11 +28,13 @@ import java.util.HashMap;
  */
 class ATEBase {
 
+    protected final static String DEFAULT_PROCESSOR = "[default]";
+
     private static HashMap<String, Processor> mProcessors;
 
     private static void initProcessors() {
         mProcessors = new HashMap<>();
-        mProcessors.put("[default]", new DefaultProcessor());
+        mProcessors.put(DEFAULT_PROCESSOR, new DefaultProcessor());
         mProcessors.put(ScrollView.class.getName(), new ScrollViewProcessor());
         mProcessors.put(NestedScrollView.class.getName(), new NestedScrollViewProcessor());
         mProcessors.put(ListView.class.getName(), new ListViewProcessor());
@@ -48,7 +50,7 @@ class ATEBase {
         if (mProcessors == null)
             initProcessors();
         if (viewClass == null)
-            return mProcessors.get("[default]");
+            return mProcessors.get(DEFAULT_PROCESSOR);
         Processor processor = mProcessors.get(viewClass.getName());
         if (processor != null)
             return processor;

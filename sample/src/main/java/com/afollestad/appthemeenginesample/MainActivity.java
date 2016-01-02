@@ -3,8 +3,10 @@ package com.afollestad.appthemeenginesample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,16 +68,13 @@ public class MainActivity extends BaseThemedActivity implements NavigationView.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        final MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getString(R.string.search_view_example));
+        searchView.setIconifiedByDefault(true);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -86,9 +85,6 @@ public class MainActivity extends BaseThemedActivity implements NavigationView.O
             @Override
             public void run() {
                 switch (mItemId) {
-                    case R.id.drawer_about:
-                        AboutDialog.show(MainActivity.this);
-                        break;
                     case R.id.drawer_tabs:
                         startActivity(new Intent(MainActivity.this, TabSampleActivity.class));
                         break;
@@ -98,9 +94,15 @@ public class MainActivity extends BaseThemedActivity implements NavigationView.O
                     case R.id.drawer_collapsingtoolbar:
                         startActivity(new Intent(MainActivity.this, CollapsingToolbarActivity.class));
                         break;
+                    case R.id.drawer_settings:
+                        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                        break;
+                    case R.id.drawer_about:
+                        AboutDialog.show(MainActivity.this);
+                        break;
                 }
             }
-        }, 100);
+        }, 75);
         return true;
     }
 }

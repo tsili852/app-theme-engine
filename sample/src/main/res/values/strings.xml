@@ -56,6 +56,9 @@
     <string name="drawer_recyclerview">RecyclerView</string>
     <string name="button">Button</string>
     <string name="drawer_collapsingtoolbar">Collapsing Toolbar</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="search_view_example">SearchView example…</string>
 
     <string-array name="light_status_mode_entries">
         <item>Off, status bar icons will be white</item>
