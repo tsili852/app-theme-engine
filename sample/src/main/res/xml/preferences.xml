@@ -66,10 +66,13 @@
         app:ateKey_pref_list="?ate_key" />
 
     <com.afollestad.appthemeengine.prefs.ATEPreferenceCategory
-        app:ateKey_prefCategory_textColor="?ate_key"
-        android:title="ATEPreferenceCategory">
+        android:title="ATEPreferenceCategory"
+        app:ateKey_prefCategory_textColor="?ate_key">
 
-        <Preference android:title="Dummy Preference"/>
+        <Preference
+            android:enabled="false"
+            android:summary="Dummy Preference Summary"
+            android:title="Dummy Preference" />
 
     </com.afollestad.appthemeengine.prefs.ATEPreferenceCategory>
 
