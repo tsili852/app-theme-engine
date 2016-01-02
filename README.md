@@ -76,7 +76,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile('com.github.afollestad:app-theme-engine:0.5.1@aar') {
+	compile('com.github.afollestad:app-theme-engine:0.6.0@aar') {
 		transitive = true
 	}
 }
@@ -117,7 +117,8 @@ ATE.config(this, null)
     .coloredStatusBar(true)
     // dark status bar icons on Marshmallow (API 23)+
     .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
-    // sets a color for all toolbars, defaults to primaryColor() value
+    // sets a color for all toolbars, defaults to primaryColor() value.
+    // this also gets correctly applied to CollapsingToolbarLayouts.
     .toolbarColor(color)
     // when on, makes the toolbar navigation icon, title, and menu icons black  
     lightToolbarMode(Config.LIGHT_TOOLBAR_AUTO)
@@ -426,7 +427,8 @@ If `lightToolbarMode` is set to `Config.LIGHT_TOOLBAR_ON`, or if it's set to *au
 background is light: the navigation icon (e.g. back or drawer), title, and menu icons will be tinted 
 black. Otherwise they will be white as normal. 
 
-ATE will also automatically theme widgets in your overflow menu, such as checkboxes and radio buttons.
+ATE will automatically theme widgets in your overflow menu, such as checkboxes and radio buttons. It 
+will also correctly theme `CollapsingToolbarLayout`'s.
 
 #### Individual Views and Lists
 
