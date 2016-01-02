@@ -29,8 +29,16 @@ public class EdgeGlowUtil {
                 edgeGlowBottom.setAccessible(true);
 
                 EdgeEffect ee = (EdgeEffect) edgeGlowTop.get(listView);
+                if (ee == null) {
+                    ee = new EdgeEffect(listView.getContext());
+                    edgeGlowTop.set(listView, ee);
+                }
                 ee.setColor(color);
                 ee = (EdgeEffect) edgeGlowBottom.get(listView);
+                if (ee == null) {
+                    ee = new EdgeEffect(listView.getContext());
+                    edgeGlowBottom.set(listView, ee);
+                }
                 ee.setColor(color);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -48,8 +56,16 @@ public class EdgeGlowUtil {
                 edgeGlowBottom.setAccessible(true);
 
                 EdgeEffect ee = (EdgeEffect) edgeGlowTop.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffect(scrollView.getContext());
+                    edgeGlowTop.set(scrollView, ee);
+                }
                 ee.setColor(color);
                 ee = (EdgeEffect) edgeGlowBottom.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffect(scrollView.getContext());
+                    edgeGlowBottom.set(scrollView, ee);
+                }
                 ee.setColor(color);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -67,8 +83,16 @@ public class EdgeGlowUtil {
                 edgeGlowBottom.setAccessible(true);
 
                 EdgeEffectCompat ee = (EdgeEffectCompat) edgeGlowTop.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowTop.set(scrollView, ee);
+                }
                 setEdgeGlowColor(ee, color);
                 ee = (EdgeEffectCompat) edgeGlowBottom.get(scrollView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(scrollView.getContext());
+                    edgeGlowBottom.set(scrollView, ee);
+                }
                 setEdgeGlowColor(ee, color);
             } catch (Exception ex) {
                 ex.printStackTrace();
