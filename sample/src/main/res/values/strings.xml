@@ -48,9 +48,14 @@
     <string name="light_status_bar_mode">Light Status Bar Mode</string>
     <string name="not_available_below_m">Not available below 6.0 Marshmallow.</string>
     <string name="not_available_below_lollipop">Not available below 5.0 Lollipop.</string>
-    <string name="see_tab_layout">See TabLayout</string>
     <string name="rv_sample">RV Sample</string>
     <string name="tabs_sample">Tabs Sample</string>
+    <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed magna et dolor luctus mollis. Sed suscipit quam enim, in iaculis turpis finibus quis. Morbi fermentum ante quis magna tempus suscipit. Sed rhoncus sed felis non elementum. Morbi porttitor molestie mauris, eget maximus ante sagittis eget. Donec id congue mauris, quis pulvinar erat. Sed cursus est eu erat malesuada vehicula. Fusce est dui, tempus a leo a, finibus accumsan tellus. Duis vitae sem ullamcorper, hendrerit odio ac, vestibulum orci. Nunc et dui nec ligula semper congue eget in sapien. Vestibulum consectetur vel lacus sed hendrerit. Interdum et malesuada fames ac ante ipsum primis in faucibus. In justo mi, mollis eu leo non, malesuada consequat nisi. Vestibulum euismod mauris dui, in volutpat est placerat et. In hac habitasse platea dictumst.  Cras vitae suscipit quam. Ut orci enim, laoreet non mi in, convallis pretium quam. Donec lobortis nisi ut malesuada auctor. Aenean vel porttitor velit. Cras tincidunt, purus ut volutpat mattis, magna lectus sodales arcu, eget pretium nisi ex et nisi. Vivamus vel euismod nulla. Vivamus eget metus sit amet lacus tempor faucibus.</string>
+    <string name="collapsing_toolbar">Collapsing Toolbar</string>
+    <string name="drawer_tablayout">Tab Layout</string>
+    <string name="drawer_recyclerview">RecyclerView</string>
+    <string name="button">Button</string>
+    <string name="drawer_collapsingtoolbar">Collapsing Toolbar</string>
 
     <string-array name="light_status_mode_entries">
         <item>Off, status bar icons will be white</item>

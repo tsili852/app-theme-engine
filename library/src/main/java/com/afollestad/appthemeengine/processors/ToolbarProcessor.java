@@ -6,12 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,6 +33,17 @@ public class ToolbarProcessor implements Processor<Toolbar, Menu> {
         if (toolbar == null && context instanceof AppCompatActivity)
             toolbar = Util.getSupportActionBarView(((AppCompatActivity) context).getSupportActionBar());
         if (toolbar == null) return;
+        final int toolbarColor = Config.toolbarColor(context, key);
+
+        CollapsingToolbarLayout collapsingToolbar = null;
+        if (toolbar.getParent() instanceof CollapsingToolbarLayout) {
+            collapsingToolbar = (CollapsingToolbarLayout) toolbar.getParent();
+            collapsingToolbar.setStatusBarScrimColor(Config.statusBarColor(context, key));
+            collapsingToolbar.setContentScrim(new ColorDrawable(toolbarColor));
+        } else {
+            Util.setBackgroundCompat(toolbar, new ColorDrawable(toolbarColor));
+        }
+
 
         boolean isLightMode;
         @Config.LightToolbarMode
@@ -46,22 +57,21 @@ public class ToolbarProcessor implements Processor<Toolbar, Menu> {
                 break;
             default:
             case Config.LIGHT_TOOLBAR_AUTO:
-                if (toolbar.getBackground() != null && toolbar.getBackground() instanceof ColorDrawable) {
-                    final ColorDrawable toolbarBg = (ColorDrawable) toolbar.getBackground();
-                    isLightMode = Util.isColorLight(toolbarBg.getColor());
-                } else {
-                    Log.d("ATE", "Toolbar does not use a ColorDrawable for its background, can't determine its color.");
-                    isLightMode = false;
-                }
+                isLightMode = Util.isColorLight(toolbarColor);
                 break;
         }
 
-        final int color = isLightMode ? Color.BLACK : Color.WHITE;
+        final int tintColor = isLightMode ? Color.BLACK : Color.WHITE;
 
-        // Tint the toolbar title and navigation icon (e.g. back, drawer, etc.)
-        toolbar.setTitleTextColor(color);
+        // Tint the toolbar title
+        if (collapsingToolbar != null)
+            collapsingToolbar.setCollapsedTitleTextColor(tintColor);
+        else
+            toolbar.setTitleTextColor(tintColor);
+
+        // Tint the toolbar navigation icon (e.g. back, drawer, etc.)
         if (toolbar.getNavigationIcon() != null)
-            toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), color));
+            toolbar.setNavigationIcon(TintHelper.tintDrawable(toolbar.getNavigationIcon(), tintColor));
 
         // Tint visible action button icons on the toolbar
         if (menu == null) menu = toolbar.getMenu();
@@ -69,13 +79,13 @@ public class ToolbarProcessor implements Processor<Toolbar, Menu> {
             for (int i = 0; i < menu.size(); i++) {
                 final MenuItem item = menu.getItem(i);
                 if (item.getIcon() != null)
-                    item.setIcon(TintHelper.tintDrawable(item.getIcon(), color));
+                    item.setIcon(TintHelper.tintDrawable(item.getIcon(), tintColor));
             }
         }
 
         if (context instanceof Activity) {
             // Set color of the overflow icon
-            Util.setOverflowButtonColor((Activity) context, color);
+            Util.setOverflowButtonColor((Activity) context, tintColor);
 
             try {
                 // Tint immediate overflow menu items

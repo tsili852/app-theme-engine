@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/home"
-        android:checkable="true"
-        android:icon="@drawable/ic_home"
-        android:title="@string/drawer_home" />
+    <group
+        android:id="@+id/topGroup"
+        android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/about"
-        android:icon="@drawable/ic_info"
-        android:title="@string/drawer_about" />
+        <item
+            android:id="@+id/drawer_home"
+            android:checkable="true"
+            android:icon="@drawable/ic_home"
+            android:title="@string/drawer_home" />
+
+        <item
+            android:id="@+id/drawer_tabs"
+            android:checkable="false"
+            android:icon="@drawable/ic_tabs"
+            android:title="@string/drawer_tablayout" />
+
+        <item
+            android:id="@+id/drawer_recyclerview"
+            android:checkable="false"
+            android:icon="@drawable/ic_list"
+            android:title="@string/drawer_recyclerview" />
+
+        <item
+            android:id="@+id/drawer_collapsingtoolbar"
+            android:checkable="false"
+            android:icon="@drawable/ic_collapsingtoolbar"
+            android:title="@string/drawer_collapsingtoolbar" />
+
+    </group>
+
+    <group
+        android:id="@+id/bottomGroup"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_about"
+            android:checkable="false"
+            android:icon="@drawable/ic_info"
+            android:title="@string/drawer_about" />
+
+    </group>
 
 </menu>

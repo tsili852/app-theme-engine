@@ -8,14 +8,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
+import com.afollestad.appthemeenginesample.collapsingtb.CollapsingToolbarActivity;
 import com.afollestad.appthemeenginesample.rv.RecyclerViewSampleActivity;
 import com.afollestad.appthemeenginesample.tabs.TabSampleActivity;
 
-public class MainActivity extends BaseThemedActivity {
+public class MainActivity extends BaseThemedActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
 
@@ -54,41 +54,11 @@ public class MainActivity extends BaseThemedActivity {
         mDrawer.setDrawerListener(new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close));
 
         final NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                mDrawer.closeDrawers();
-                if (item.getItemId() == R.id.about) {
-                    mDrawer.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            AboutDialog.show(MainActivity.this);
-                        }
-                    }, 200);
-                    return false;
-                }
-                return true;
-            }
-        });
+        navView.setNavigationItemSelectedListener(this);
         navView.post(new Runnable() {
             @Override
             public void run() {
-                navView.setCheckedItem(R.id.home);
-                navView.getMenu().findItem(R.id.home).setChecked(true);
-            }
-        });
-
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RecyclerViewSampleActivity.class));
-            }
-        });
-
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TabSampleActivity.class));
+                navView.setCheckedItem(R.id.drawer_home);
             }
         });
     }
@@ -106,5 +76,31 @@ public class MainActivity extends BaseThemedActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        mDrawer.closeDrawers();
+        final int mItemId = item.getItemId();
+        mDrawer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switch (mItemId) {
+                    case R.id.drawer_about:
+                        AboutDialog.show(MainActivity.this);
+                        break;
+                    case R.id.drawer_tabs:
+                        startActivity(new Intent(MainActivity.this, TabSampleActivity.class));
+                        break;
+                    case R.id.drawer_recyclerview:
+                        startActivity(new Intent(MainActivity.this, RecyclerViewSampleActivity.class));
+                        break;
+                    case R.id.drawer_collapsingtoolbar:
+                        startActivity(new Intent(MainActivity.this, CollapsingToolbarActivity.class));
+                        break;
+                }
+            }
+        }, 100);
+        return true;
     }
 }

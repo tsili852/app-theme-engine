@@ -114,8 +114,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_marginTop="@dimen/content_inset"
+                        android:clickable="true"
                         android:tag="bg_tint_accent_color_selector_lighter"
-                        android:text="@string/see_tab_layout" />
+                        android:text="@string/button" />
 
                 </LinearLayout>
 

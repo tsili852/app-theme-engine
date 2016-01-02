@@ -10,5 +10,6 @@
 
     <dimen name="circle_view_border">1dp</dimen>
     <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="collapsing_toolbar_appbarheight">272dp</dimen>
 
 </resources>
