@@ -125,13 +125,32 @@ public class EdgeGlowUtil {
             bottomGlow.setAccessible(true);
 
             EdgeEffectCompat ee = (EdgeEffectCompat) topGlow.get(recyclerView);
-            if (ee != null) setEdgeGlowColor(ee, color);
+            if (ee == null) {
+                ee = new EdgeEffectCompat(recyclerView.getContext());
+                topGlow.set(recyclerView, ee);
+            }
+            setEdgeGlowColor(ee, color);
+
             ee = (EdgeEffectCompat) bottomGlow.get(recyclerView);
-            if (ee != null) setEdgeGlowColor(ee, color);
+            if (ee == null) {
+                ee = new EdgeEffectCompat(recyclerView.getContext());
+                bottomGlow.set(recyclerView, ee);
+            }
+            setEdgeGlowColor(ee, color);
+
             ee = (EdgeEffectCompat) rightGlow.get(recyclerView);
-            if (ee != null) setEdgeGlowColor(ee, color);
+            if (ee == null) {
+                ee = new EdgeEffectCompat(recyclerView.getContext());
+                rightGlow.set(recyclerView, ee);
+            }
+            setEdgeGlowColor(ee, color);
+
             ee = (EdgeEffectCompat) leftGlow.get(recyclerView);
-            if (ee != null) setEdgeGlowColor(ee, color);
+            if (ee == null) {
+                ee = new EdgeEffectCompat(recyclerView.getContext());
+                leftGlow.set(recyclerView, ee);
+            }
+            setEdgeGlowColor(ee, color);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
