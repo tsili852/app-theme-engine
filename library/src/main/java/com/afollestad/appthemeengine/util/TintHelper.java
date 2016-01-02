@@ -47,7 +47,7 @@ public final class TintHelper {
     private static ColorStateList getDisabledColorStateList(@ColorInt int normal, @ColorInt int disabled) {
         return new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.state_enabled},
-                new int[]{}
+                new int[]{android.R.attr.state_enabled}
         }, new int[]{
                 disabled,
                 normal
@@ -73,7 +73,7 @@ public final class TintHelper {
             sl = new ColorStateList(
                     new int[][]{
                             new int[]{-android.R.attr.state_enabled},
-                            new int[]{},
+                            new int[]{android.R.attr.state_enabled},
                             new int[]{android.R.attr.state_pressed},
                             new int[]{android.R.attr.state_activated},
                             new int[]{android.R.attr.state_checked}
@@ -176,8 +176,8 @@ public final class TintHelper {
     public static void setTint(@NonNull RadioButton radioButton, @ColorInt int color, boolean useDarker) {
         ColorStateList sl = new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.enabled},
-                new int[]{-android.R.attr.state_checked},
-                new int[]{android.R.attr.state_checked}
+                new int[]{android.R.attr.enabled, -android.R.attr.state_checked},
+                new int[]{android.R.attr.enabled, android.R.attr.state_checked}
         }, new int[]{
                 ContextCompat.getColor(radioButton.getContext(), useDarker ? R.color.ate_disabled_radiobutton_dark : R.color.ate_disabled_radiobutton_light),
                 Util.resolveColor(radioButton.getContext(), R.attr.colorControlNormal),
@@ -245,7 +245,7 @@ public final class TintHelper {
     public static void setTint(@NonNull EditText editText, @ColorInt int color, boolean useDarker) {
         final ColorStateList editTextColorStateList = new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.state_enabled},
-                new int[]{-android.R.attr.state_pressed, -android.R.attr.state_focused},
+                new int[]{android.R.attr.state_enabled, -android.R.attr.state_pressed, -android.R.attr.state_focused},
                 new int[]{}
         }, new int[]{
                 ContextCompat.getColor(editText.getContext(), useDarker ? R.color.ate_disabled_edittext_dark : R.color.ate_disabled_edittext_light),
@@ -262,8 +262,8 @@ public final class TintHelper {
     public static void setTint(@NonNull CheckBox box, @ColorInt int color, boolean useDarker) {
         ColorStateList sl = new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.state_enabled},
-                new int[]{-android.R.attr.state_checked},
-                new int[]{android.R.attr.state_checked}
+                new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked},
+                new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}
         }, new int[]{
                 ContextCompat.getColor(box.getContext(), useDarker ? R.color.ate_disabled_checkbox_dark : R.color.ate_disabled_checkbox_light),
                 Util.resolveColor(box.getContext(), R.attr.colorControlNormal),
@@ -293,9 +293,9 @@ public final class TintHelper {
         final ColorStateList sl = new ColorStateList(
                 new int[][]{
                         new int[]{-android.R.attr.state_enabled},
-                        new int[]{-android.R.attr.state_activated, -android.R.attr.state_checked},
-                        new int[]{android.R.attr.state_activated},
-                        new int[]{android.R.attr.state_checked}
+                        new int[]{android.R.attr.state_enabled, -android.R.attr.state_activated, -android.R.attr.state_checked},
+                        new int[]{android.R.attr.state_enabled, android.R.attr.state_activated},
+                        new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}
                 },
                 new int[]{
                         disabled,
