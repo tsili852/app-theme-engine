@@ -145,7 +145,7 @@ public final class ATE extends ATEBase {
                     lightStatusEnabled = true;
                     break;
                 case Config.LIGHT_STATUS_BAR_AUTO:
-                    lightStatusEnabled = Util.isColorLight(Config.statusBarColor(activity, key));
+                    lightStatusEnabled = Util.isColorLight(Config.primaryColor(activity, key));
                     break;
             }
 

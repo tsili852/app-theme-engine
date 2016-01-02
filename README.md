@@ -115,7 +115,7 @@ ATE.config(this, null)
     .statusBarColor(color)
     // true by default, setting to false disables coloring even if statusBarColor is set
     .coloredStatusBar(true)
-    // dark status bar icons on Marshmallow (API 23)+
+    // dark status bar icons on Marshmallow (API 23)+, auto uses light status bar mode when primaryColor is light
     .lightStatusBarMode(Config.LIGHT_STATUS_BAR_AUTO)
     // sets a color for all toolbars, defaults to primaryColor() value.
     // this also gets correctly applied to CollapsingToolbarLayouts.
@@ -242,7 +242,7 @@ public class MyActivity extends AppCompatActivity
     @Config.LightStatusBarMode
     @Override
     public int getLightStatusBarMode() {
-        // When on, status bar icons and text are made black when the status bar background is light (API 23+)
+        // When on, status bar icons and text are made black when the primary theme color is light (API 23+)
         return Config.LIGHT_STATUS_BAR_AUTO;
     }
     
