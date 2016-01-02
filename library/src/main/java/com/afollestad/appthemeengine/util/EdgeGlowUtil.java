@@ -61,9 +61,9 @@ public class EdgeGlowUtil {
     public static void setEdgeGlowColor(@NonNull NestedScrollView scrollView, @ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             try {
-                Field edgeGlowTop = ScrollView.class.getDeclaredField("mEdgeGlowTop");
+                Field edgeGlowTop = NestedScrollView.class.getDeclaredField("mEdgeGlowTop");
                 edgeGlowTop.setAccessible(true);
-                Field edgeGlowBottom = ScrollView.class.getDeclaredField("mEdgeGlowBottom");
+                Field edgeGlowBottom = NestedScrollView.class.getDeclaredField("mEdgeGlowBottom");
                 edgeGlowBottom.setAccessible(true);
 
                 EdgeEffectCompat ee = (EdgeEffectCompat) edgeGlowTop.get(scrollView);
