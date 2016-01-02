@@ -65,4 +65,12 @@
         android:title="@string/light_status_bar_mode"
         app:ateKey_pref_list="?ate_key" />
 
+    <com.afollestad.appthemeengine.prefs.ATEPreferenceCategory
+        app:ateKey_prefCategory_textColor="?ate_key"
+        android:title="ATEPreferenceCategory">
+
+        <Preference android:title="Dummy Preference"/>
+
+    </com.afollestad.appthemeengine.prefs.ATEPreferenceCategory>
+
 </PreferenceScreen>
