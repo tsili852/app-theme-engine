@@ -38,8 +38,9 @@ public final class TintHelper {
     @SuppressLint("PrivateResource")
     @ColorInt
     private static int getDefaultRippleColor(@NonNull Context context, boolean useDarkRipple) {
+        // Light ripple is actually translucent black, and vice versa
         return ContextCompat.getColor(context, useDarkRipple ?
-                R.color.ripple_material_dark : R.color.ripple_material_light);
+                R.color.ripple_material_light : R.color.ripple_material_dark);
     }
 
     @SuppressWarnings("deprecation")
