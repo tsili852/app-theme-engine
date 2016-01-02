@@ -322,6 +322,8 @@ public final class ATE extends ATEBase {
                         Field radioButtonField = ListMenuItemView.class.getDeclaredField("mRadioButton");
                         radioButtonField.setAccessible(true);
 
+                        final boolean isDark = !Util.isColorLight(Util.resolveColor(context, android.R.attr.windowBackground));
+
                         for (int i = 0; i < listView.getChildCount(); i++) {
                             View v = listView.getChildAt(i);
                             if (!(v instanceof ListMenuItemView)) continue;
@@ -329,14 +331,14 @@ public final class ATE extends ATEBase {
 
                             CheckBox check = (CheckBox) checkboxField.get(iv);
                             if (check != null) {
-                                TintHelper.setTint(check, Config.accentColor(context, key));
+                                TintHelper.setTint(check, Config.accentColor(context, key), isDark);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                     check.setBackground(null);
                             }
 
                             RadioButton radioButton = (RadioButton) radioButtonField.get(iv);
                             if (radioButton != null) {
-                                TintHelper.setTint(radioButton, Config.accentColor(context, key));
+                                TintHelper.setTint(radioButton, Config.accentColor(context, key), isDark);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                                     radioButton.setBackground(null);
                             }

@@ -1,7 +1,9 @@
 package com.afollestad.appthemeengine.processors;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,16 +11,20 @@ import android.widget.TextView;
 
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.util.TintHelper;
+import com.afollestad.appthemeengine.util.Util;
 
 /**
  * @author Aidan Follestad (afollestad)
  */
 public class DefaultProcessor implements Processor<View, Void> {
 
+    private boolean isDark;
+
     @Override
     public void process(@NonNull Context context, @Nullable String key, @Nullable View view, @Nullable Void extra) {
         if (view == null || view.getTag() == null || !(view.getTag() instanceof String))
             return;
+        isDark = !Util.isColorLight(Util.resolveColor(view.getContext(), android.R.attr.windowBackground));
         final String tag = (String) view.getTag();
         if (tag.contains(",")) {
             final String[] splitTag = tag.split(",");
@@ -29,7 +35,7 @@ public class DefaultProcessor implements Processor<View, Void> {
         }
     }
 
-    private static void processTagPart(@NonNull Context context, @NonNull View current, @NonNull String tag, @Nullable String key) {
+    private void processTagPart(@NonNull Context context, @NonNull View current, @NonNull String tag, @Nullable String key) {
         switch (tag) {
             case KEY_BG_PRIMARY_COLOR:
                 current.setBackgroundColor(Config.primaryColor(context, key));
@@ -54,47 +60,47 @@ public class DefaultProcessor implements Processor<View, Void> {
                 break;
 
             case KEY_TEXT_PRIMARY_COLOR:
-                ((TextView) current).setTextColor(Config.primaryColor(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.primaryColor(context, key)));
                 break;
             case KEY_TEXT_PRIMARY_COLOR_DARK:
-                ((TextView) current).setTextColor(Config.primaryColorDark(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.primaryColorDark(context, key)));
                 break;
             case KEY_TEXT_ACCENT_COLOR:
-                ((TextView) current).setTextColor(Config.accentColor(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.accentColor(context, key)));
                 break;
             case KEY_TEXT_PRIMARY:
-                ((TextView) current).setTextColor(Config.textColorPrimary(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimary(context, key)));
                 break;
             case KEY_TEXT_PRIMARY_INVERSE:
-                ((TextView) current).setTextColor(Config.textColorPrimaryInverse(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key)));
                 break;
             case KEY_TEXT_SECONDARY:
-                ((TextView) current).setTextColor(Config.textColorSecondary(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondary(context, key)));
                 break;
             case KEY_TEXT_SECONDARY_INVERSE:
-                ((TextView) current).setTextColor(Config.textColorSecondaryInverse(context, key));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key)));
                 break;
 
             case KEY_TEXTLINK_PRIMARY_COLOR:
-                ((TextView) current).setLinkTextColor(Config.primaryColor(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColor(context, key)));
                 break;
             case KEY_TEXTLINK_PRIMARY_COLOR_DARK:
-                ((TextView) current).setLinkTextColor(Config.primaryColorDark(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColorDark(context, key)));
                 break;
             case KEY_TEXTLINK_ACCENT_COLOR:
-                ((TextView) current).setLinkTextColor(Config.accentColor(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.accentColor(context, key)));
                 break;
             case KEY_TEXTLINK_PRIMARY:
-                ((TextView) current).setLinkTextColor(Config.textColorPrimary(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimary(context, key)));
                 break;
             case KEY_TEXTLINK_PRIMARY_INVERSE:
-                ((TextView) current).setLinkTextColor(Config.textColorPrimaryInverse(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key)));
                 break;
             case KEY_TEXTLINK_SECONDARY:
-                ((TextView) current).setLinkTextColor(Config.textColorSecondary(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondary(context, key)));
                 break;
             case KEY_TEXTLINK_SECONDARY_INVERSE:
-                ((TextView) current).setLinkTextColor(Config.textColorSecondaryInverse(context, key));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key)));
                 break;
 
             case KEY_TEXTSHADOW_PRIMARY_COLOR: {
@@ -192,49 +198,59 @@ public class DefaultProcessor implements Processor<View, Void> {
                 break;
 
             case KEY_BG_TINT_PRIMARY_COLOR_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.primaryColor(context, key), false);
+                TintHelper.setTintSelector(current, Config.primaryColor(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_PRIMARY_COLOR_DARK_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), false);
+                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_ACCENT_COLOR_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.accentColor(context, key), false);
+                TintHelper.setTintSelector(current, Config.accentColor(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_TEXT_PRIMARY_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), false);
+                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_TEXT_PRIMARY_INVERSE_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), false);
+                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_TEXT_SECONDARY_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), false);
+                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), false, isDark);
                 break;
             case KEY_BG_TINT_TEXT_SECONDARY_INVERSE_SELECTOR_LIGHTER:
-                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), false);
+                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), false, isDark);
                 break;
 
             case KEY_BG_TINT_PRIMARY_COLOR_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.primaryColor(context, key), true);
+                TintHelper.setTintSelector(current, Config.primaryColor(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_PRIMARY_COLOR_DARK_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), true);
+                TintHelper.setTintSelector(current, Config.primaryColorDark(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_ACCENT_COLOR_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.accentColor(context, key), true);
+                TintHelper.setTintSelector(current, Config.accentColor(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_TEXT_PRIMARY_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), true);
+                TintHelper.setTintSelector(current, Config.textColorPrimary(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_TEXT_PRIMARY_INVERSE_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), true);
+                TintHelper.setTintSelector(current, Config.textColorPrimaryInverse(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_TEXT_SECONDARY_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), true);
+                TintHelper.setTintSelector(current, Config.textColorSecondary(context, key), true, isDark);
                 break;
             case KEY_BG_TINT_TEXT_SECONDARY_INVERSE_SELECTOR_DARKER:
-                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), true);
+                TintHelper.setTintSelector(current, Config.textColorSecondaryInverse(context, key), true, isDark);
                 break;
         }
+    }
+
+    private static ColorStateList getTextSelector(@ColorInt int color) {
+        return new ColorStateList(new int[][]{
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_enabled}
+        }, new int[]{
+                Util.adjustAlpha(color, 0.15f),
+                color
+        });
     }
 
     private final static String KEY_BG_PRIMARY_COLOR = "bg_primary_color";

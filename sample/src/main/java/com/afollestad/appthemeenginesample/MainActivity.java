@@ -57,12 +57,6 @@ public class MainActivity extends BaseThemedActivity implements NavigationView.O
 
         final NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
         navView.setNavigationItemSelectedListener(this);
-        navView.post(new Runnable() {
-            @Override
-            public void run() {
-                navView.setCheckedItem(R.id.drawer_home);
-            }
-        });
     }
 
     @Override
