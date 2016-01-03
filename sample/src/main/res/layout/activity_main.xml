@@ -84,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/content_inset"
                         android:checked="true"
+                        android:enabled="true"
                         android:tag="tint_accent_color,text_primary"
                         android:text="@string/radiobutton" />
 

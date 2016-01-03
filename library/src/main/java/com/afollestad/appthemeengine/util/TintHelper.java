@@ -63,20 +63,36 @@ public final class TintHelper {
         final int rippleColor = getDefaultRippleColor(view.getContext(), Util.isColorLight(color));
 
         final ColorStateList sl;
-        if (view instanceof Button && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (view instanceof Button) {
             sl = getDisabledColorStateList(color, disabled);
-            if (view.getBackground() instanceof RippleDrawable) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                    view.getBackground() instanceof RippleDrawable) {
                 RippleDrawable rd = (RippleDrawable) view.getBackground();
                 rd.setColor(ColorStateList.valueOf(rippleColor));
             }
+
+            // Disabled text color state for buttons, may get overridden later by ATE tags
+            final Button button = (Button) view;
+            final int defaultTextColor = Util.isColorLight(color) ?
+                    Color.BLACK : Color.WHITE;
+            button.setTextColor(getDisabledColorStateList(defaultTextColor, Color.BLACK));
+        } else if (view instanceof FloatingActionButton) {
+            // FloatingActionButton doesn't support disabled state?
+            sl = new ColorStateList(new int[][]{
+                    new int[]{-android.R.attr.state_pressed},
+                    new int[]{android.R.attr.state_pressed}
+            }, new int[]{
+                    color,
+                    pressed
+            });
         } else {
             sl = new ColorStateList(
                     new int[][]{
                             new int[]{-android.R.attr.state_enabled},
                             new int[]{android.R.attr.state_enabled},
-                            new int[]{android.R.attr.state_pressed},
-                            new int[]{android.R.attr.state_activated},
-                            new int[]{android.R.attr.state_checked}
+                            new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed},
+                            new int[]{android.R.attr.state_enabled, android.R.attr.state_activated},
+                            new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}
                     },
                     new int[]{
                             disabled,
@@ -107,7 +123,7 @@ public final class TintHelper {
             Util.setBackgroundCompat(view, drawable);
         }
 
-        if (view instanceof TextView) {
+        if (view instanceof TextView && !(view instanceof Button)) {
             final TextView tv = (TextView) view;
             tv.setTextColor(getDisabledColorStateList(tintColor, Util.adjustAlpha(tintColor, 0.4f)));
         }
@@ -175,9 +191,9 @@ public final class TintHelper {
 
     public static void setTint(@NonNull RadioButton radioButton, @ColorInt int color, boolean useDarker) {
         ColorStateList sl = new ColorStateList(new int[][]{
-                new int[]{-android.R.attr.enabled},
-                new int[]{android.R.attr.enabled, -android.R.attr.state_checked},
-                new int[]{android.R.attr.enabled, android.R.attr.state_checked}
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked},
+                new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}
         }, new int[]{
                 ContextCompat.getColor(radioButton.getContext(), useDarker ? R.color.ate_disabled_radiobutton_dark : R.color.ate_disabled_radiobutton_light),
                 Util.resolveColor(radioButton.getContext(), R.attr.colorControlNormal),

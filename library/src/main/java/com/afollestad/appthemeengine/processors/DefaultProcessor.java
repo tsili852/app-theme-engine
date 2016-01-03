@@ -2,11 +2,13 @@ package com.afollestad.appthemeengine.processors;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.Config;
@@ -60,47 +62,47 @@ public class DefaultProcessor implements Processor<View, Void> {
                 break;
 
             case KEY_TEXT_PRIMARY_COLOR:
-                ((TextView) current).setTextColor(getTextSelector(Config.primaryColor(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.primaryColor(context, key), current));
                 break;
             case KEY_TEXT_PRIMARY_COLOR_DARK:
-                ((TextView) current).setTextColor(getTextSelector(Config.primaryColorDark(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.primaryColorDark(context, key), current));
                 break;
             case KEY_TEXT_ACCENT_COLOR:
-                ((TextView) current).setTextColor(getTextSelector(Config.accentColor(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.accentColor(context, key), current));
                 break;
             case KEY_TEXT_PRIMARY:
-                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimary(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimary(context, key), current));
                 break;
             case KEY_TEXT_PRIMARY_INVERSE:
-                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key), current));
                 break;
             case KEY_TEXT_SECONDARY:
-                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondary(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondary(context, key), current));
                 break;
             case KEY_TEXT_SECONDARY_INVERSE:
-                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key)));
+                ((TextView) current).setTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key), current));
                 break;
 
             case KEY_TEXTLINK_PRIMARY_COLOR:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColor(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColor(context, key), current));
                 break;
             case KEY_TEXTLINK_PRIMARY_COLOR_DARK:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColorDark(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.primaryColorDark(context, key), current));
                 break;
             case KEY_TEXTLINK_ACCENT_COLOR:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.accentColor(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.accentColor(context, key), current));
                 break;
             case KEY_TEXTLINK_PRIMARY:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimary(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimary(context, key), current));
                 break;
             case KEY_TEXTLINK_PRIMARY_INVERSE:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorPrimaryInverse(context, key), current));
                 break;
             case KEY_TEXTLINK_SECONDARY:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondary(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondary(context, key), current));
                 break;
             case KEY_TEXTLINK_SECONDARY_INVERSE:
-                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key)));
+                ((TextView) current).setLinkTextColor(getTextSelector(Config.textColorSecondaryInverse(context, key), current));
                 break;
 
             case KEY_TEXTSHADOW_PRIMARY_COLOR: {
@@ -243,12 +245,12 @@ public class DefaultProcessor implements Processor<View, Void> {
         }
     }
 
-    private static ColorStateList getTextSelector(@ColorInt int color) {
+    private static ColorStateList getTextSelector(@ColorInt int color, View view) {
         return new ColorStateList(new int[][]{
                 new int[]{-android.R.attr.state_enabled},
                 new int[]{android.R.attr.state_enabled}
         }, new int[]{
-                Util.adjustAlpha(color, 0.15f),
+                view instanceof Button ? Color.BLACK : Util.adjustAlpha(color, 0.15f),
                 color
         });
     }
