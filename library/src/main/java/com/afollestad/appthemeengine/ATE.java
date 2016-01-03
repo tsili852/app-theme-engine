@@ -135,18 +135,20 @@ public final class ATE extends ATEBase {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final View decorView = activity.getWindow().getDecorView();
-            final int lightStatusMode = Config.lightStatusBarMode(activity, key);
             boolean lightStatusEnabled = false;
-            switch (lightStatusMode) {
-                case Config.LIGHT_STATUS_BAR_OFF:
-                default:
-                    break;
-                case Config.LIGHT_STATUS_BAR_ON:
-                    lightStatusEnabled = true;
-                    break;
-                case Config.LIGHT_STATUS_BAR_AUTO:
-                    lightStatusEnabled = Util.isColorLight(Config.primaryColor(activity, key));
-                    break;
+            if (Config.coloredStatusBar(activity, key)) {
+                final int lightStatusMode = Config.lightStatusBarMode(activity, key);
+                switch (lightStatusMode) {
+                    case Config.LIGHT_STATUS_BAR_OFF:
+                    default:
+                        break;
+                    case Config.LIGHT_STATUS_BAR_ON:
+                        lightStatusEnabled = true;
+                        break;
+                    case Config.LIGHT_STATUS_BAR_AUTO:
+                        lightStatusEnabled = Util.isColorLight(Config.primaryColor(activity, key));
+                        break;
+                }
             }
 
             final int systemUiVisibility = decorView.getSystemUiVisibility();
