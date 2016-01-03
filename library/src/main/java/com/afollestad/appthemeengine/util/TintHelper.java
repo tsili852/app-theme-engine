@@ -109,7 +109,7 @@ public final class TintHelper {
 
         if (view instanceof TextView) {
             final TextView tv = (TextView) view;
-            tv.setTextColor(tintColor);
+            tv.setTextColor(getDisabledColorStateList(tintColor, Util.adjustAlpha(tintColor, 0.4f)));
         }
     }
 
@@ -120,7 +120,7 @@ public final class TintHelper {
             if (view instanceof RadioButton)
                 setTint((RadioButton) view, color, isDark);
             else if (view instanceof SeekBar)
-                setTint((SeekBar) view, color);
+                setTint((SeekBar) view, color, isDark);
             else if (view instanceof ProgressBar)
                 setTint((ProgressBar) view, color);
             else if (view instanceof EditText)
