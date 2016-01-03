@@ -18,9 +18,9 @@ import android.view.View;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
-import com.afollestad.appthemeengine.prefs.ATECheckBoxPreference;
-import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
 import com.afollestad.appthemeengine.prefs.ATEColorPreference;
+import com.afollestad.appthemeengine.prefs.ATESwitchPreference;
+import com.afollestad.appthemeenginesample.base.BaseThemedActivity;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.afollestad.materialdialogs.prefs.MaterialListPreference;
 
@@ -160,8 +160,8 @@ public class SettingsActivity extends BaseThemedActivity
                 lightStatusMode.setSummary(R.string.not_available_below_m);
             }
 
-            final ATECheckBoxPreference statusBarPref = (ATECheckBoxPreference) findPreference("colored_status_bar");
-            final ATECheckBoxPreference navBarPref = (ATECheckBoxPreference) findPreference("colored_nav_bar");
+            final ATESwitchPreference statusBarPref = (ATESwitchPreference) findPreference("colored_status_bar");
+            final ATESwitchPreference navBarPref = (ATESwitchPreference) findPreference("colored_nav_bar");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 statusBarPref.setChecked(Config.coloredStatusBar(getActivity(), mAteKey));
