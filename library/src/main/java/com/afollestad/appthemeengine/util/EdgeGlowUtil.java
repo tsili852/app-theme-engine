@@ -102,57 +102,59 @@ public class EdgeGlowUtil {
 
     public static void setEdgeGlowColor(@NonNull RecyclerView recyclerView, final @ColorInt int color,
                                         @Nullable RecyclerView.OnScrollListener scrollListener) {
-        if (scrollListener == null) {
-            scrollListener = new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    EdgeGlowUtil.setEdgeGlowColor(recyclerView, color, this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (scrollListener == null) {
+                scrollListener = new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        EdgeGlowUtil.setEdgeGlowColor(recyclerView, color, this);
+                    }
+                };
+                recyclerView.addOnScrollListener(scrollListener);
+                return;
+            }
+
+            try {
+                Field leftGlow = RecyclerView.class.getDeclaredField("mLeftGlow");
+                leftGlow.setAccessible(true);
+                Field topGlow = RecyclerView.class.getDeclaredField("mTopGlow");
+                topGlow.setAccessible(true);
+                Field rightGlow = RecyclerView.class.getDeclaredField("mRightGlow");
+                rightGlow.setAccessible(true);
+                Field bottomGlow = RecyclerView.class.getDeclaredField("mBottomGlow");
+                bottomGlow.setAccessible(true);
+
+                EdgeEffectCompat ee = (EdgeEffectCompat) topGlow.get(recyclerView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(recyclerView.getContext());
+                    topGlow.set(recyclerView, ee);
                 }
-            };
-            recyclerView.addOnScrollListener(scrollListener);
-            return;
-        }
+                setEdgeGlowColor(ee, color);
 
-        try {
-            Field leftGlow = RecyclerView.class.getDeclaredField("mLeftGlow");
-            leftGlow.setAccessible(true);
-            Field topGlow = RecyclerView.class.getDeclaredField("mTopGlow");
-            topGlow.setAccessible(true);
-            Field rightGlow = RecyclerView.class.getDeclaredField("mRightGlow");
-            rightGlow.setAccessible(true);
-            Field bottomGlow = RecyclerView.class.getDeclaredField("mBottomGlow");
-            bottomGlow.setAccessible(true);
+                ee = (EdgeEffectCompat) bottomGlow.get(recyclerView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(recyclerView.getContext());
+                    bottomGlow.set(recyclerView, ee);
+                }
+                setEdgeGlowColor(ee, color);
 
-            EdgeEffectCompat ee = (EdgeEffectCompat) topGlow.get(recyclerView);
-            if (ee == null) {
-                ee = new EdgeEffectCompat(recyclerView.getContext());
-                topGlow.set(recyclerView, ee);
+                ee = (EdgeEffectCompat) rightGlow.get(recyclerView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(recyclerView.getContext());
+                    rightGlow.set(recyclerView, ee);
+                }
+                setEdgeGlowColor(ee, color);
+
+                ee = (EdgeEffectCompat) leftGlow.get(recyclerView);
+                if (ee == null) {
+                    ee = new EdgeEffectCompat(recyclerView.getContext());
+                    leftGlow.set(recyclerView, ee);
+                }
+                setEdgeGlowColor(ee, color);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            setEdgeGlowColor(ee, color);
-
-            ee = (EdgeEffectCompat) bottomGlow.get(recyclerView);
-            if (ee == null) {
-                ee = new EdgeEffectCompat(recyclerView.getContext());
-                bottomGlow.set(recyclerView, ee);
-            }
-            setEdgeGlowColor(ee, color);
-
-            ee = (EdgeEffectCompat) rightGlow.get(recyclerView);
-            if (ee == null) {
-                ee = new EdgeEffectCompat(recyclerView.getContext());
-                rightGlow.set(recyclerView, ee);
-            }
-            setEdgeGlowColor(ee, color);
-
-            ee = (EdgeEffectCompat) leftGlow.get(recyclerView);
-            if (ee == null) {
-                ee = new EdgeEffectCompat(recyclerView.getContext());
-                leftGlow.set(recyclerView, ee);
-            }
-            setEdgeGlowColor(ee, color);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
