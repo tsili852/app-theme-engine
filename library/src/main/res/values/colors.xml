@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="ate_unchecked_switch_track">#9f9f9f</color>
+    <color name="ate_unchecked_switch_thumb">#e7e7e7</color>
+
+    <color name="ate_disabled_checkbox_light">#cecece</color>
+    <color name="ate_disabled_switch_track_light">#dadada</color>
+    <color name="ate_disabled_switch_thumb_light">#ababab</color>
+    <color name="ate_disabled_radiobutton_light">#cecece</color>
+    <color name="ate_disabled_edittext_light">#ededed</color>
+    <color name="ate_disabled_seekbar_light">#ededed</color>
+    <color name="ate_disabled_button_light">#cecece</color>
+
+    <color name="ate_disabled_checkbox_dark">#4a4a4a</color>
+    <color name="ate_disabled_switch_track_dark">#353535</color>
+    <color name="ate_disabled_switch_thumb_dark">#4c4c4c</color>
+    <color name="ate_disabled_radiobutton_dark">#4a4a4a</color>
+    <color name="ate_disabled_edittext_dark">#2e2e2e</color>
+    <color name="ate_disabled_seekbar_dark">#2e2e2e</color>
+    <color name="ate_disabled_button_dark">#4a4a4a</color>
+
+    <color name="ate_navigationview_normalicon_light">#606060</color>
+    <color name="ate_navigationview_normalicon_dark">#9F9F9F</color>
+    <color name="ate_navigationview_normaltext_light">#191919</color>
+    <color name="ate_navigationview_normaltext_dark">#E6E6E6</color>
+    <color name="ate_navigationview_selectedbg_light">#e2e2e2</color>
+    <color name="ate_navigationview_selectedbg_dark">#474747</color>
+
+</resources>

@@ -1,46 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.afollestad.appthemeenginesample.prefs.ATEColorPreference
+    <com.afollestad.appthemeengine.prefs.ATESwitchPreference
+        android:defaultValue="false"
+        android:key="dark_theme"
+        android:persistent="true"
+        android:summary="@string/dark_theme_summary"
+        android:title="@string/dark_theme"
+        android:widgetLayout="@layout/ate_preference_checkbox"
+        app:ateKey_pref_switch="?ate_key" />
+
+    <com.afollestad.appthemeengine.prefs.ATEColorPreference
         android:key="primary_color"
         android:persistent="false"
         android:summary="@string/primary_color_summary"
-        android:title="@string/primary_color" />
+        android:title="@string/primary_color"
+        app:ateKey_pref_color="?ate_key" />
 
-    <com.afollestad.appthemeenginesample.prefs.ATEColorPreference
+    <com.afollestad.appthemeengine.prefs.ATEColorPreference
         android:key="accent_color"
         android:persistent="false"
         android:summary="@string/accent_color_summary"
-        android:title="@string/accent_color" />
+        android:title="@string/accent_color"
+        app:ateKey_pref_color="?ate_key" />
 
-    <com.afollestad.appthemeenginesample.prefs.ATEColorPreference
+    <com.afollestad.appthemeengine.prefs.ATEColorPreference
         android:key="text_primary"
         android:persistent="false"
         android:summary="@string/primary_text_color_summary"
-        android:title="@string/primary_text_color" />
+        android:title="@string/primary_text_color"
+        app:ateKey_pref_color="?ate_key" />
 
-    <com.afollestad.appthemeenginesample.prefs.ATEColorPreference
+    <com.afollestad.appthemeengine.prefs.ATEColorPreference
         android:key="text_secondary"
         android:persistent="false"
         android:summary="@string/secondary_text_color_summary"
-        android:title="@string/secondary_text_color" />
+        android:title="@string/secondary_text_color"
+        app:ateKey_pref_color="?ate_key" />
 
-    <com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference
+    <com.afollestad.appthemeengine.prefs.ATESwitchPreference
         android:defaultValue="true"
         android:key="colored_status_bar"
-        android:layout="@layout/preference_custom"
-        android:persistent="true"
+        android:persistent="false"
         android:summary="@string/colored_status_bar_summary"
         android:title="@string/colored_status_bar"
-        android:widgetLayout="@layout/preference_dynamiccheckbox" />
+        app:ateKey_pref_switch="?ate_key" />
 
-    <com.afollestad.appthemeenginesample.prefs.ATECheckBoxPreference
+    <com.afollestad.appthemeengine.prefs.ATESwitchPreference
         android:defaultValue="true"
         android:key="colored_nav_bar"
-        android:layout="@layout/preference_custom"
-        android:persistent="true"
+        android:persistent="false"
         android:summary="@string/colored_nav_bar_summary"
         android:title="@string/colored_nav_bar"
-        android:widgetLayout="@layout/preference_dynamiccheckbox" />
+        app:ateKey_pref_switch="?ate_key" />
+
+    <com.afollestad.appthemeengine.prefs.ATEListPreference
+        android:defaultValue="2"
+        android:entries="@array/light_status_mode_entries"
+        android:entryValues="@array/light_status_mode_values"
+        android:key="light_status_bar_mode"
+        android:persistent="true"
+        android:summary="@string/light_status_bar_mode"
+        android:title="@string/light_status_bar_mode"
+        app:ateKey_pref_list="?ate_key" />
+
+    <com.afollestad.appthemeengine.prefs.ATEPreferenceCategory
+        android:title="ATEPreferenceCategory"
+        app:ateKey_prefCategory_textColor="?ate_key">
+
+        <Preference
+            android:enabled="false"
+            android:summary="Dummy Preference Summary"
+            android:title="Dummy Preference" />
+
+    </com.afollestad.appthemeengine.prefs.ATEPreferenceCategory>
 
 </PreferenceScreen>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ATECheckBox">
+        <attr name="ateKey_checkBox" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEEditText">
+        <attr name="ateKey_editText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEPrimaryTextView">
+        <attr name="ateKey_primaryTextView" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEProgressBar">
+        <attr name="ateKey_progressBar" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATERadioButton">
+        <attr name="ateKey_radioButton" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESecondaryTextView">
+        <attr name="ateKey_secondaryTextView" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESeekBar">
+        <attr name="ateKey_seekBar" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESwitch">
+        <attr name="ateKey_switch" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATECheckBoxPreference">
+        <attr name="ateKey_pref_checkBox" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATESwitchPreference">
+        <attr name="ateKey_pref_switch" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEColorPreference">
+        <attr name="ateKey_pref_color" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEDialogPreference">
+        <attr name="ateKey_pref_dialog" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEEditTextPreference">
+        <attr name="ateKey_pref_editText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEListPreference">
+        <attr name="ateKey_pref_list" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEMultiSelectPreference">
+        <attr name="ateKey_pref_multiSelect" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ATEPreferenceCategory">
+        <attr name="ateKey_prefCategory_textColor" format="string" />
+    </declare-styleable>
+
+</resources>

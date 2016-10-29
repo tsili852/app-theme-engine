@@ -1,21 +1,21 @@
-package com.afollestad.appthemeenginesample.prefs;
+package com.afollestad.appthemeengine.prefs;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.afollestad.appthemeenginesample.R;
+import com.afollestad.appthemeengine.R;
 
 public class BorderCircleView extends FrameLayout {
 
-    private final Bitmap mCheck;
+    private final Drawable mCheck;
     private final Paint paint;
     private final Paint paintBorder;
     private final int borderWidth;
@@ -34,8 +34,8 @@ public class BorderCircleView extends FrameLayout {
 
     public BorderCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mCheck = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_check);
-        borderWidth = (int) getResources().getDimension(R.dimen.circle_view_border);
+        mCheck = ContextCompat.getDrawable(context, R.drawable.ate_check);
+        borderWidth = (int) getResources().getDimension(R.dimen.ate_circleview_border);
 
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -91,7 +91,7 @@ public class BorderCircleView extends FrameLayout {
         canvas.drawCircle(circleCenter + borderWidth, circleCenter + borderWidth, ((canvasSize - (borderWidth * 2)) / 2) - 4.0f, paint);
 
         if (isActivated()) {
-            final int offset = (canvasSize / 2) - (mCheck.getWidth() / 2);
+            final int offset = (canvasSize / 2) - (mCheck.getIntrinsicWidth() / 2);
             if (paintCheck == null) {
                 paintCheck = new Paint();
                 paintCheck.setAntiAlias(true);
@@ -105,7 +105,8 @@ public class BorderCircleView extends FrameLayout {
             } else {
                 paintCheck.setColorFilter(whiteFilter);
             }
-            canvas.drawBitmap(mCheck, offset, offset, paintCheck);
+            mCheck.setBounds(offset, offset, mCheck.getIntrinsicWidth() - offset, mCheck.getIntrinsicHeight() - offset);
+            mCheck.draw(canvas);
         }
     }
 }

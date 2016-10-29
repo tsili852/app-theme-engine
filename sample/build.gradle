@@ -21,7 +21,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "0.2.1"
+        versionName "0.6.0"
     }
     buildTypes {
         release {
@@ -33,12 +33,8 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
-        transitive = true
-    }
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.3@aar') {
-        transitive = true
-    }
+    compile 'com.afollestad.material-dialogs:core:0.9.0.2'
+    compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
     compile 'com.android.support:design:23.1.1'
     compile project(path: ':library')
 }

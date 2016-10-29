@@ -1,10 +1,9 @@
 package com.afollestad.appthemeengine;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
 
 /**
  * @author Aidan Follestad (afollestad)
@@ -13,39 +12,41 @@ public class ATEActivity extends AppCompatActivity {
 
     private long updateTime = -1;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ATE.preApply(this);
-        super.onCreate(savedInstanceState);
+    @Nullable
+    protected String getATEKey() {
+        return null;
     }
 
-    private void apply() {
-        ATE.apply(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ATE.preApply(this, getATEKey());
+        super.onCreate(savedInstanceState);
         updateTime = System.currentTimeMillis();
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        apply();
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        apply();
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        super.setContentView(view, params);
-        apply();
+    protected void onStart() {
+        super.onStart();
+        ATE.apply(this, getATEKey());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (ATE.didValuesChange(this, updateTime))
+        if (ATE.didValuesChange(this, updateTime, getATEKey()))
             recreate();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (menu.size() > 0)
+            ATE.applyMenu(this, getATEKey(), menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        ATE.applyOverflow(this, getATEKey());
+        return super.onPrepareOptionsMenu(menu);
     }
 }
